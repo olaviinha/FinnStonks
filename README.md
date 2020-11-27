@@ -23,9 +23,9 @@ Finnstonks PEPM also includes a simple alarm feature: if any of your stocks drop
 
 ## API access
 
-The API used to fetch stock prices requires an API key. 
+**The API used to fetch stock prices requires an API key.**
 
-Register to [RapidAPI](https://rapidapi.com)
+Register for a [RapidAPI](https://rapidapi.com) account
 and subscribe to [Bloomberg Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) to 
 obtain required API key.
 
