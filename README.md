@@ -30,7 +30,7 @@ Register to [RapidAPI](https://rapidapi.com)
 and subscribe to [Bloomberg Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) to 
 obtain required API key.
 
-Copy and paste API key to the beginning of `stocks.js`:
+Copy and paste API key to the beginning of `pepm.js`:
 ```
 // rapidapi.com API key
 rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
