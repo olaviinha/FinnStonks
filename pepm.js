@@ -53,7 +53,7 @@ var truncateTo = 10;
 // Include liquidation turnovers in totals. I.e. when you have sold stocks, add the
 // profits or losses of those trades in the numbers displayed on page.
 // false = stock liquidations will only correct the amounts and values of your current holdings.
-// true = profits/losses will be calculated in all changes and totals.
+// true = profits/losses through liquidations will be included in all changes and totals.
 var includeLiquidations = true;
 
 //---------------------------------------------------------------------------------------------
@@ -364,9 +364,9 @@ $(document).ready(function(){
 
     // Theme
     if(theme=='light'){
-        $('.stocks').addClass('light');
+        $('body, .stocks').addClass('light');
     } else {
-        $('.stocks').removeClass('dark');
+        $('body, .stocks').removeClass('dark');
     }
     if(bgImage==true){
         $('body').prepend('<div class="bgs"></div>');
