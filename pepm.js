@@ -56,6 +56,9 @@ var truncateTo = 10;
 // true = profits/losses through liquidations will be included in all changes and totals.
 var includeLiquidations = true;
 
+// Refresh every n hours.
+var refreshInterval = 3;
+
 //---------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -75,6 +78,8 @@ var currency = {
     url: 'https://api.exchangeratesapi.io/latest?base=USD&symbols=USD,EUR',
     method: 'GET'
 };
+
+refreshInterval = 1000 * 60 * 60 * refreshInterval;
 
 $.ajax(currency).done(function (response) {
     eur = response.rates.EUR
@@ -120,44 +125,46 @@ function addRow(i, details){
 }
 
 var sold = false;
-$.get({
-    url: 'stocks.txt',
-    async: false,
-    success: function(data) {
-        events = data.split('\n\n');
-        buys = events[0].split('\n').filter(function(line){return line.indexOf('#') != 0});
-        sells = events[1].split('\n').filter(function(line){return line.indexOf('#') != 0});
-        buys.forEach(function(line, i){
-            sold = false;
-            var itm = line.split(';');
-            var details = {
-                symbol: itm[0],
-                date: itm[1],
-                pcs: Number(itm[2]),
-                price: Number(itm[3]),
-                turnover: ''
-            };
-            sells.forEach(function(sline, i){
-                if(sline.split(';')[0] == details.symbol){
-                    var sitm = sline.split(';');
-                    sold = {
-                        symbol: sitm[0],
-                        date: sitm[1],
-                        pcs: Number(sitm[2]),
-                        price: Number(sitm[3])
-                    };  
+function initProcess(){
+    $.get({
+        url: 'stocks.txt',
+        async: false,
+        success: function(data) {
+            events = data.split('\n\n');
+            buys = events[0].split('\n').filter(function(line){return line.indexOf('#') != 0});
+            sells = events[1].split('\n').filter(function(line){return line.indexOf('#') != 0});
+            buys.forEach(function(line, i){
+                sold = false;
+                var itm = line.split(';');
+                var details = {
+                    symbol: itm[0],
+                    date: itm[1],
+                    pcs: Number(itm[2]),
+                    price: Number(itm[3]),
+                    turnover: ''
+                };
+                sells.forEach(function(sline, i){
+                    if(sline.split(';')[0] == details.symbol){
+                        var sitm = sline.split(';');
+                        sold = {
+                            symbol: sitm[0],
+                            date: sitm[1],
+                            pcs: Number(sitm[2]),
+                            price: Number(sitm[3])
+                        };  
+                    }
+                });
+                if(sold && includeSales){
+                    paid = sold.pcs * details.price;
+                    details.pcs = details.pcs-sold.pcs;
+                    details.turnover = sold.pcs * sold.price - paid;
                 }
+                addRow(i, details);
             });
-            if(sold && includeSales){
-                paid = sold.pcs * details.price;
-                details.pcs = details.pcs-sold.pcs;
-                details.turnover = sold.pcs * sold.price - paid;
-            }
-            addRow(i, details);
-        });
-        parseBuys(buys);
-    }
-});
+            parseBuys(buys);
+        }
+    });
+}
 
 
 function processStocks(data){
@@ -263,6 +270,7 @@ function processTrends(data){
         }
     });
     if(showTrend){ $('.trend').removeClass('hidden'); }
+    initClicks();
 }
 
 function parseBuys(buys){
@@ -328,8 +336,6 @@ function calcTotals(){
         }
     });
 
-    console.log('liqTOT', liquidationsTotal);
-    
     var xpercentageTotal = xmarketDiff/xpurchaseTotal*100;
     var xmarketTotal = xpurchaseTotal+xmarketDiff;
     var totalWithLiquidations = xmarketTotal+liquidationsTotal;
@@ -360,21 +366,7 @@ function calcTotals(){
 
 }
 
-$(document).ready(function(){
-
-    // Theme
-    if(theme=='light'){
-        $('body, .stocks').addClass('light');
-    } else {
-        $('body, .stocks').removeClass('dark');
-    }
-    if(bgImage==true){
-        $('body').prepend('<div class="bgs"></div>');
-    }
-    if(bgBox==true){
-        $('.stocks').addClass('box');
-    }
-
+function initClicks(){
     // Clicks
     $('.base').click(function(){
         $(this).removeClass('alarm');
@@ -395,5 +387,28 @@ $(document).ready(function(){
     $('.tops.values .value').click(function(){
         $('.tops .value').toggleClass('hidden');
     });
+}
+
+$(document).ready(function(){
+
+    initProcess();
+    fetchLoop = setInterval(function(){
+        initProcess();
+    }, refreshInterval);
+
+    // Theme
+    if(theme=='light'){
+        $('body, .stocks').addClass('light');
+    } else {
+        $('body, .stocks').removeClass('dark');
+    }
+    if(bgImage==true){
+        $('body').prepend('<div class="bgs"></div>');
+    }
+    if(bgBox==true){
+        $('.stocks').addClass('box');
+    }
+
+
 
 });
