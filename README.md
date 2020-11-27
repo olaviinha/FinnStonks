@@ -19,7 +19,7 @@ Bloomberg's API was chosen for stock data for two reasons probably worth mention
 - It contains multiple exchanges worldwide, most importantly Nasdaq Helsinki and Nasdaq First North.
 - It supports fetching market information of multiple companies with a single call, which is pretty neat when your usage is limited to 500 monthly API calls.
 
-Finnstonks PEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) for 3 consecutive days (now being 12 % lower than 3 days ago, even if still positive), it is highlighted on page with an alarm.
+Finnstonks PEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) every day for 3 consecutive days (now being 12 % lower than 3 days ago, even if still positive), it is highlighted on page with an alarm.
 
 ## API access
 
@@ -84,8 +84,8 @@ modifying it should be pretty straight-forward.
 
 `pepm.js` contains a number of settings at the beginning of the file. Most should be pretty self-explanatory.
 
-- `var effectiveDate = 'first'|'last'`: which date is used when you have purchased shares of the same company on multiple occasions.
-- `var alarmLimit = -1;`: Alarm styling is triggered if any of the stocks has dropped this much for 3 consecutive days.
+- `var effectiveDate = 'first'|'last'`: date to display if you have purchased shares of the same company on multiple occasions.
+- `var alarmLimit = -1;`: limit used to determine how many percent a stock can drop every day for 3 consecutive days before alarm styling is triggered.
 - `var includeLiquidations = true|false;`: Include or exclude any profits or losses through previous liquidations of stocks in the _change_ and _total_ values. If set to `false`, liquidation events (lines under `# SELLS` in `stocks.txt`) will only correct the numbers and values of your holdings.
 - **Below** settings, you can find `var mockData = falsee;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
 When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development.
