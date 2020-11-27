@@ -112,4 +112,4 @@ a specific _starting point_. Even fewer an entire equity portfolio containing mu
 account any further trading events or doing any calculations.
 
 Excel spreadsheet is a good friend of many stock investors. The purpose of PEPM is to replace all that hassle with an automated,
-clean, browser-accessible screen.
+clean, browser-accessible screen. All you do is add the event to the bottom of the list when you've purchased or sold some stocks.
