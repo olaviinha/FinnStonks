@@ -3,7 +3,7 @@
 Personal Equity Portfolio Monitor provides a web-based, customizable, simple, compact, clean textual overview of the current situation 
 of your equity portfolio for monitoring on a daily basis.
 
-This is quite literally _my personal_ equity portfolio monitor. Probably best suited for other _European sunday microinvestors_, who don't 
+Made this quite literally as _my personal_ equity portfolio monitor. Probably best suited for other _European sunday microinvestors_, who don't 
 do daily/weekly trading, but are still interested in monitoring their finances on a daily/weekly basis. 
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
