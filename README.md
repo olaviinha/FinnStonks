@@ -19,8 +19,7 @@ Bloomberg's API was chosen for stock data for two reasons probably worth mention
 - It contains multiple exchanges worldwide, most importantly Nasdaq Helsinki and Nasdaq First North.
 - It supports fetching market information of multiple companies with a single call, which is pretty neat when your usage is limited to 500 monthly API calls.
 
-Finnstonks PEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) for 3 consecutive days (now being at -12 %), 
-it is highlighted on page with an alarm.
+Finnstonks PEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) for 3 consecutive days (now being 12 % lower than 3 days ago, even if still positive), it is highlighted on page with an alarm.
 
 ## API access
 
