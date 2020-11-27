@@ -1,0 +1,59 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>PEPM</title>
+        <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous" />
+        <link rel="stylesheet/less" type="text/css" href="pepm.less" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" ></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+	</head>
+<body>
+
+    <!-- PEPM uses the id="STOCK" element as a row template -->
+    <div class="hidden template">
+        <div id="STOCK" class="base">
+            <div class="stock">
+                <div class="title">
+                    <div class="inline symbol hidden"></div>
+                    <div class="inline name hidden"></div>
+                </div>
+                <div class="meta">
+                    <div class="inline date hidden"></div>
+                    <div class="inline exchange hidden"></div>
+                    <div class="inline pcs hidden"></div>
+                </div>
+            </div>
+            <div class="purchase">
+                <div class="price hidden"></div>
+                <div class="pcs hidden"></div>
+            </div>
+            <div class="market">
+                <div class="price eur hidden"></div>
+                <div class="price percent hidden"></div>
+            </div>
+            <div class="percents">
+                <div class="eur hidden"></div>
+                <div class="percent"></div>
+            </div>
+            <div class="trend hidden">
+                <div class="d1"></div>
+                <div class="d2"></div>
+                <div class="d3"></div>
+            </div>
+        </div>
+    </div>
+    <!-- //End PEPM template -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="stocks"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="stocks.js"></script>
+</body>
+</html>
