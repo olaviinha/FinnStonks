@@ -39,12 +39,13 @@ rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 #### API limitations
 
 At the time of writing this, the API is available for a freemium plan allowing 500 monthly API calls free of charge. 
-Each pageload of PEPM consumes 1 API call to fetch market information of your shares. An additional API call is consumed every
-time the day has changed since last API call: this is when the 3 day price history is fetched.
+Each refresh or pageload of PEPM consumes 2 API calls to fetch the current market information and 3 day price histories.
 
-**This means you can refresh PEPM about 15 times a day, or, about once every 2 hours, providing that your copy of PEPM is 
+**This means you can refresh PEPM about 8 times a day, or, about once every 3 hours, providing that your copy of PEPM is 
 open on a single device 24/7.** If your copy of PEPM is open on multiple devices (e.g. more than one person has access to it), it
 will naturally reflect on the number of consumed API calls.
+
+TODO: fetch price history only when day has changed since last pageload to save API calls.
 
 ## Your trading data
 
