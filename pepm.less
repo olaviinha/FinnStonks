@@ -16,6 +16,7 @@
 @col2:               20%;
 @padd:                 0;
 
+@base-color:        #888;
 @positive:        #273;
 @negative:        #932;
 @negative-highlight:#d54;
@@ -44,8 +45,11 @@ html {
 body {
     font-family: 'Signika Negative', sans-serif;
     font-weight: 600;
-    overflow: visible !important;
-    background: #222 !important;
+    overflow: visible;
+    background: #222;
+    &.light {
+        background: #fff;
+    }
     .bgs {
         position: fixed !important;
         top: 0;
@@ -80,20 +84,7 @@ body {
 
 .stocks {
 
-    color: #888;
-
-    &.box {
-        background: rgba(0,0,0,.4);
-        border-radius: 5px;
-    }
-
-    &.light {
-        color: #000;
-        &.box {
-            background: rgba(255,255,255,.4);
-        }
-    }
-
+    color: @base-color;
     display: block;
     width: 50%;
     max-width: 560px;
@@ -108,6 +99,27 @@ body {
     .neg {
         color: @negative;
     }
+
+    &.box {
+        background: rgba(0,0,0,.4);
+        border-radius: 5px;
+    }
+
+    &.light {
+        color: darken(@base-color, 15%);
+        .pos {
+            color: lighten(@positive, 15%);
+        }
+        .neg {
+            color: lighten(@negative, 15%);
+        }
+        &.box {
+            background: rgba(255,255,255,.4);
+        }
+    }
+
+
+
     .secondary {
         opacity: .5;
         font-size: @base-size-xs;
