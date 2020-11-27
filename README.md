@@ -27,7 +27,7 @@ it is highlighted on page with an alarm.
 The API used to fetch stock prices requires an API key. 
 
 Register to [RapidAPI](https://rapidapi.com)
-and subscribe for [Bloomberg Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) to 
+and subscribe to [Bloomberg Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) to 
 obtain required API key.
 
 Copy and paste API key to the beginning of `stocks.js`:
