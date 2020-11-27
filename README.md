@@ -105,5 +105,5 @@ platform you've used to purchase your assets, very few seem to provide any abili
 (_number of stocks_, _starting point_). Even fewer an entire equity portfolio containing multiple companies, not to mention taking into 
 account any further trading events or doing any calculations.
 
-Excel spreadsheet is a good friend of many stock investors. The purpose of PEPM is to replace all that hassle with an automated,
+Hence an Excel spreadsheet is a good friend of any stock investor. The purpose of PEPM is to replace all that hassle with an automated,
 clean, browser-accessible screen. All you do is add the event to the bottom of the list when you've purchased or sold some stocks.
