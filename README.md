@@ -1,6 +1,6 @@
 # FINNSTONKS Personal Equity Portfolio Monitor
 
-FPEPM provides a web-based, customizable, simple, compact, clean textual overview of the current situation 
+FPEPM provides a web-based, customizable, simple, compact, clean textual overview of the current state
 of your equity portfolio for monitoring on a daily basis.
 
 Made for my own purposes, so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for other _European sunday micro-investors_, who don't 
