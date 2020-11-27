@@ -51,7 +51,7 @@ TODO: fetch price history only when day has changed since last pageload to save 
 
 Finnstonks PEPM uses a simple `stocks.txt` file that should contain all your purchase and liquidation events in a simple delimiter-separated format.
 Each line should read `<symbol:exchange>;<date purchased/sold>;<number of shares purchased/sold>;<purchase/sale price of 1 stock>`.
-All additional fees from the purchase should be already calculated in `<purchase price of 1 stock>` in this file.
+All additional fees regarding purchase or liquidation events should be calculated in the price per stock value.
 
 Purchases and sales are separated by one empty line. Lines beginning with character `#` will be ignored, in case you want to play around with the data or ignore certain events for whatever reasons.
 
