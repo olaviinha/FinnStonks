@@ -1,6 +1,6 @@
 # FINNSTONKS Personal Equity Portfolio Monitor
 
-Finnstonks PEPM provides a web-based, customizable, simple, compact, clean textual overview of the current situation 
+FPEPM provides a web-based, customizable, simple, compact, clean textual overview of the current situation 
 of your equity portfolio for monitoring on a daily basis.
 
 Made for my own purposes, so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for other _European sunday micro-investors_, who don't 
@@ -8,7 +8,7 @@ do daily/weekly trading, but are still interested in monitoring their assets on 
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
 
-Finnstonks PEPM uses two APIs:
+FPEPM uses two APIs:
 - European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
 USD to EUR conversion.
 - Bloomberg's
@@ -19,7 +19,7 @@ Bloomberg's API was chosen for stock data for two reasons probably worth mention
 - It contains multiple exchanges worldwide, most importantly Nasdaq Helsinki and Nasdaq First North.
 - It supports fetching market information of multiple companies with a single call, which is pretty neat when your usage is limited to 500 monthly API calls.
 
-Finnstonks PEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) every day for 3 consecutive days (now being 12 % lower than 3 days ago, even if still positive), it is highlighted on page with an alarm.
+FPEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) every day for 3 consecutive days (now being 12 % lower than 3 days ago, even if still positive), it is highlighted on page with an alarm.
 
 ## API access
 
@@ -38,17 +38,17 @@ rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 #### API limitations
 
 At the time of writing this, the API is available for a freemium plan allowing 500 monthly API calls free of charge. 
-Each refresh or pageload of PEPM consumes 2 API calls to fetch the current market information and 3 day price histories.
+Each refresh or pageload of FPEPM consumes 2 API calls to fetch the current market information and 3 day price histories.
 
-**This means you can refresh PEPM about 8 times a day, or, about once every 3 hours, providing that your copy of PEPM is 
-open on a single device 24/7.** If your copy of PEPM is open on multiple devices (e.g. more than one person has access to it), it
+**This means you can refresh FPEPM about 8 times a day, or, about once every 3 hours, providing that your copy of FPEPM is 
+open on a single device 24/7.** If your copy of FPEPM is open on multiple devices (e.g. more than one person has access to it), it
 will naturally reflect on the number of consumed API calls.
 
 TODO: fetch price history only when day has changed since last pageload to save API calls.
 
 ## Your trading data
 
-Finnstonks PEPM uses a simple `stocks.txt` file that should contain all your purchase and liquidation events in a simple delimiter-separated format.
+FPEPM uses a simple `stocks.txt` file that should contain all your purchase and liquidation events in a simple delimiter-separated format.
 Each line should read `<symbol:exchange>;<date purchased/sold>;<number of shares purchased/sold>;<purchase/sale price of 1 stock>`.
 All additional fees regarding purchase or liquidation events should be calculated in the price per stock value.
 
@@ -105,5 +105,5 @@ platform you've used to purchase your assets, very few seem to provide any abili
 (_number of stocks_, _starting point_). Even fewer an entire equity portfolio containing multiple companies, not to mention taking into 
 account any further trading events or doing any calculations.
 
-Hence an Excel spreadsheet is a good friend of any stock investor. The purpose of PEPM is to replace all that hassle with an automated,
+Hence an Excel spreadsheet is a good friend of any stock investor. The purpose of FPEPM is to replace all that hassle with an automated,
 clean, browser-accessible screen. All you do is add the event to the bottom of the list when you've purchased or sold some stocks.
