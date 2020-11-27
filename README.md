@@ -84,7 +84,7 @@ modifying it should be pretty straight-forward.
 
 `pepm.js` contains a number of settings at the beginning of the file. Most should be pretty self-explanatory.
 
-- `var effectiveDate = 'first'|'last'`: which date is used when you have purchased shares of the same company multiple time.
+- `var effectiveDate = 'first'|'last'`: which date is used when you have purchased shares of the same company on multiple occasions.
 - `var alarmLimit = -1;`: Alarm styling is triggered if any of the stocks has dropped this much for 3 consecutive days.
 - `var includeLiquidations = true|false;`: Include or exclude any profits or losses through previous liquidations of stocks in the _change_ and _total_ values. If set to `false`, liquidation events (lines under `# SELLS` in `stocks.txt`) will only correct the numbers and values of your holdings.
 - **Below** settings, you can find `var mockData = falsee;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
