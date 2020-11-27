@@ -1,6 +1,6 @@
-# Personal Equity Portfolio Monitor
+# FINNSTONKS Personal Equity Portfolio Monitor
 
-Personal Equity Portfolio Monitor provides a web-based, customizable, simple, compact, clean textual overview of the current situation 
+Finnstonks PEPM provides a web-based, customizable, simple, compact, clean textual overview of the current situation 
 of your equity portfolio for monitoring on a daily basis.
 
 Made this quite literally as _my personal_ equity portfolio monitor. Probably best suited for other _European sunday microinvestors_, who don't 
@@ -8,7 +8,7 @@ do daily/weekly trading, but are still interested in monitoring their finances o
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
 
-PEPM uses two APIs:
+Finnstonks PEPM uses two APIs:
 - European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
 USD to EUR conversion.
 - Bloomberg's
@@ -19,7 +19,7 @@ Bloomberg's API was chosen for stock data for two reasons probably worth mention
 - It contains multiple exchanges worldwide, most importantly Nasdaq Helsinki and Nasdaq First North.
 - It supports fetching market information of multiple companies with a single call, which is pretty neat when your usage is limited to 500 monthly API calls.
 
-PEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) for 3 consecutive days (now being at -12 %), 
+Finnstonks PEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) for 3 consecutive days (now being at -12 %), 
 it is highlighted on page with an alarm.
 
 ## API access
@@ -49,7 +49,7 @@ TODO: fetch price history only when day has changed since last pageload to save 
 
 ## Your trading data
 
-PEPM uses a simple `stocks.txt` file that should contain all your purchase and liquidation events in a simple delimiter-separated format.
+Finnstonks PEPM uses a simple `stocks.txt` file that should contain all your purchase and liquidation events in a simple delimiter-separated format.
 Each line should read `<symbol:exchange>;<date purchased/sold>;<number of shares purchased/sold>;<purchase/sale price of 1 stock>`.
 All additional fees from the purchase should be already calculated in `<purchase price of 1 stock>` in this file.
 
