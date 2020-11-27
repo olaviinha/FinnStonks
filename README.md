@@ -4,7 +4,7 @@ Finnstonks PEPM provides a web-based, customizable, simple, compact, clean textu
 of your equity portfolio for monitoring on a daily basis.
 
 Made for my own purposes, so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for other _European sunday micro-investors_, who don't 
-do daily/weekly trading, but are still interested in monitoring their finances on a daily/weekly basis. 
+do daily/weekly trading, but are still interested in monitoring their assets on a daily/weekly basis. 
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
 
