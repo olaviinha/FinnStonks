@@ -101,8 +101,8 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 
 ## Motivation
 There are countless stock market monitors out there that enable you to follow stock prices of your choosing. However, apart from the
-platform you've used to purchase your shares, very few seem to provide any ability to follow the change easily from
-a specific _starting point_. Even fewer an entire equity portfolio containing multiple companies, not to even mention taking into
+platform you've used to purchase your shares, very few seem to provide any ability to follow prices even _as if_ of existing assets
+(_number of stocks_, _starting point_). Even fewer an entire equity portfolio containing multiple companies, not to mention taking into 
 account any further trading events or doing any calculations.
 
 Excel spreadsheet is a good friend of many stock investors. The purpose of PEPM is to replace all that hassle with an automated,
