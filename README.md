@@ -15,7 +15,7 @@ FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase
 1. [Used APIs and how to obtain required API key](#used-apis-and-how-to-obtain-required-api-key)
 2. [Your trading data](#your-trading-data)
 3. [User interface and how to use it](#user-interface-and-how-to-use-it)
-4. [How to set it all up (how to host your trading data in Dropbox)](#how-to-set-it-all-up)
+4. [How to set it all up (and how to host your trading data in Dropbox)](#how-to-set-it-all-up)
 5. [Motivation](#motivation)
 
 ---
