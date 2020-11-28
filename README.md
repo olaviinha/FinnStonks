@@ -81,6 +81,8 @@ MSFT:US;2020-04-30;1;179.21
 
 ## User interface and how to use it
 
+You can safely ignore anything under this title, if you don't know what it means.
+
 ### Prerequisites
 
 - jQuery
@@ -116,8 +118,9 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 1. Clone or download this repository.
 2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and liquidation events: [instructions](#your-trading-data).
 3. Obtain required API keys: [instructions](#obtain-api-key).
-4. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
-5. Whenever you perform a purchase or a liquidation, just add it to the corresponding list in `stocks.txt`.
+4. Open `pepm.js` in a text editor, paste your API key in there and change any of the settings you wish.
+5. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
+6. Whenever you perform a purchase or a liquidation, just add it to the corresponding list in `stocks.txt`.
 
 ### #protip: Host stocks.txt in Dropbox for easy updating.
 
