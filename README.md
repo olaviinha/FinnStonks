@@ -88,10 +88,10 @@ modifying it should be pretty straight-forward.
 `pepm.js` contains a number of settings at the beginning of the file. Most should be pretty self-explanatory.
 
 - `var effectiveDate = 'first'|'last'`: date to display if you have purchased shares of the same company on multiple occasions.
-- `var alarmLimit = -1;`: limit used to determine how many percent a stock can drop every day for 3 consecutive days before alarm styling is triggered.
-- `var includeLiquidations = true|false;`: Include or exclude any profits or losses through previous liquidations of stocks in the _change_ and _total_ values. If set to `false`, liquidation events (lines under `# SELLS` in `stocks.txt`) will only correct the numbers and values of your holdings.
+- `var alarmLimit = -1`: limit used to determine how many percent a stock can drop every day for 3 consecutive days before alarm styling is triggered.
+- `var includeLiquidations = true|false`: Include or exclude any profits or losses through previous liquidations of stocks in the _change_ and _total_ values. If set to `false`, liquidation events (lines under `# SELLS` in `stocks.txt`) will only correct the numbers and values of your holdings.
 - **Below** settings, you can find `var mockData = false;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
-When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development.
+When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
 
 ### User interactions
 
