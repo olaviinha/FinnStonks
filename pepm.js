@@ -3,10 +3,11 @@
 //---------------------------------------------------------------------------------------------
 
 // rapidapi.com API key
-rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
+var rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
 
-// Url to your stocks.txt file
-tradeEventsTxt = 'stocks.txt';
+// Url to your stocks.txt file.
+// If you host stocks.txt in Dropbox, value should look something like: 'https://dl.dropboxusercontent.com/s/q111x9sctk1cpwc/stocks.txt?raw=1';
+var tradeEventsTxt = 'stocks.txt';
 
 // Element in which to place the stock table
 var container = '.stocks';
