@@ -3,7 +3,7 @@
 FPEPM provides a web-based, customizable, simple, compact, clean textual overview of the current state
 of your equity portfolio for monitoring on a daily basis.
 
-Made for my own purposes, so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for other _European sunday micro-investors_, who don't 
+Made for my own purposes, so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't 
 do daily/weekly trading, but are still interested in monitoring their assets on a daily/weekly basis. 
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
