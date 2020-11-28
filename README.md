@@ -125,10 +125,16 @@ Once you have FPEPM up on a server, you may also keep `stocks.txt` in your Dropb
 
 1. Place stocks.txt somewhere in your Dropbox.
 2. Right-click it and select _Copy Dropbox Link_.
-3. Edit `pepm.js` and locate line `tradeEventsTxt = 'stocks.txt';`
+3. Edit `pepm.js` and locate line `var tradeEventsTxt = 'stocks.txt';`
 4. Replace `stocks.txt` on that line with the Dropbox Link from your clipboard.
-5. The link looks something like `https://www.dropbox.com/s/***************/stocks.txt?dl=0`. Edit it to 
-look like this: `https://dl.dropboxusercontent.com/s/***************/stocks.txt?raw=1';`
+5. The link looks something like `https://www.dropbox.com/s/xxxxxxxxxxxxxxx/stocks.txt?dl=0`. Edit it to 
+look like this: `https://dl.dropboxusercontent.com/s/xxxxxxxxxxxxxxx/stocks.txt?raw=1';`
+
+End result should look something like this:
+```
+var tradeEventsTxt = 'https://dl.dropboxusercontent.com/s/q111x9sctk1cpwc/stocks.txt?raw=1';
+```
+
 
 ## Motivation
 There are countless stock market monitors out there that enable you to follow stock prices of your choosing. However, apart from the
