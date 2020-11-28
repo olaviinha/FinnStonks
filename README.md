@@ -11,6 +11,12 @@ In short, it turns a simple [`stocks.txt` containing your asset purchases and sa
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
 FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
 
+1. [Used APIs and how to obtain required API key](#used-apis-and-how-to-obtain-required-api-key)
+2. [Your trading data](#your-trading-data)
+3. [User interface and how to use it](#user-interface-and-how-to-use-it)
+4. [How to set it all up (how to host your trading data in Dropbox)](#how-to-set-it-all-up)
+5. [Motivation](#motivation)
+
 ## Used APIs and how to obtain required API key
 
 FPEPM uses two APIs:
@@ -101,6 +107,25 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 4. Click on the fourth column to toggle between a) current market value in total, b) change in percentage.
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm3.gif)
+
+## How to set it all up
+
+1. Clone or download this repository.
+2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and liquidation events: [instructions](#your-trading-data).
+3. Obtain required API keys: [instructions](https://github.com/olaviinha/PEPM#used-apis-and-how-to-obtain-required-api-key).
+4. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
+5. Whenever you perform a purchase or a liquidation, just add it to the corresponding list in `stocks.txt`.
+
+### #Protip: Host stocks.txt in Dropbox for easy updating.
+
+Once you have FPEPM up on a server, you may also keep `stocks.txt` in your Dropbox, where it's possibly considerably easier to keep up to date than on a regular web server.
+
+1. Place stocks.txt somewhere in your Dropbox.
+2. Right-click it and select _Copy Dropbox Link_.
+3. Edit `pepm.js` and locate line `tradeEventsTxt = 'stocks.txt';`
+4. Replace `stocks.txt` on that line with the Dropbox Link from your clipboard.
+5. The link looks something like `https://www.dropbox.com/s/***************/stocks.txt?dl=0`. Edit it to 
+look like this: `https://dl.dropboxusercontent.com/s/***************/stocks.txt?raw=1';`
 
 ## Motivation
 There are countless stock market monitors out there that enable you to follow stock prices of your choosing. However, apart from the
