@@ -3,7 +3,10 @@
 //---------------------------------------------------------------------------------------------
 
 // rapidapi.com API key
-rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
+rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
+
+// Url to your stocks.txt file
+tradeEventsTxt = 'stocks.txt';
 
 // Element in which to place the stock table
 var container = '.stocks';
@@ -35,7 +38,7 @@ var effectiveDate = 'first';
 
 // Highlight row with an alarm if the closing price has dropped at least this many percent
 // consecutively for three days.
-var alarmLimit = -2;
+var alarmLimit = -1;
 
 // Shown change in EUR (buy vs. worth price omparison) in either:
 // a) 'total' = current market price of your holdings of the company in total.
@@ -127,7 +130,7 @@ function addRow(i, details){
 var sold = false;
 function initProcess(){
     $.get({
-        url: 'stocks.txt',
+        url: tradeEventsTxt,
         async: false,
         success: function(data) {
             events = data.split('\n\n');
@@ -414,5 +417,7 @@ $(document).ready(function(){
     if(bgBox==true){
         $('.stocks').addClass('box');
     }
+
+
 
 });
