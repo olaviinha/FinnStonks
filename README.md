@@ -107,9 +107,10 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 ### User interactions
 
 1. Click on _change_ value on top center to toggle between a) EUR value, b) percentage value.
-2. Click on the _portfolio value_ on top right corner to toggle between a) liquidations included, b) liquidations excluded.
+2. Click on the _portfolio value_ on top right corner to toggle between a) liquidations included, b) liquidations excluded. This works despite the value of `includeLiquidations` setting.
 3. Click on the third column to toggle between a) change in EUR, b) change in percentage.
 4. Click on the fourth column to toggle between a) current market value in total, b) change in percentage.
+5. Click on the last column to toggle between a) change in EUR, b) change in percentage.
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm3.gif)
 
