@@ -119,20 +119,18 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 4. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
 5. Whenever you perform a purchase or a liquidation, just add it to the corresponding list in `stocks.txt`.
 
-### #Protip: Host stocks.txt in Dropbox for easy updating.
+### #protip: Host stocks.txt in Dropbox for easy updating.
 
 Once you have FPEPM up on a server, you may also keep `stocks.txt` in your Dropbox, where it's possibly considerably easier to keep up to date than on a regular web server.
 
-1. Place stocks.txt somewhere in your Dropbox.
+1. Place `stocks.txt` somewhere in your Dropbox.
 2. Right-click it and select _Copy Dropbox Link_.
-3. Edit `pepm.js` and locate line `var tradeEventsTxt = 'stocks.txt';`
-4. Replace `stocks.txt` on that line with the Dropbox Link from your clipboard.
-5. The link looks something like `https://www.dropbox.com/s/xxxxxxxxxxxxxxx/stocks.txt?dl=0`. Edit it to 
-look like this: `https://dl.dropboxusercontent.com/s/xxxxxxxxxxxxxxx/stocks.txt?raw=1';`
+3. Edit `pepm.js` and locate line `var tradeEventsTxt = 'stocks.txt';` somewhere at the beginning.
+4. Replace `stocks.txt` on that line with the Dropbox Link from your clipboard and save.
 
 End result should look something like this:
 ```
-var tradeEventsTxt = 'https://dl.dropboxusercontent.com/s/q111x9sctk1cpwc/stocks.txt?raw=1';
+var tradeEventsTxt = 'https://www.dropbox.com/s/b666pwrytk1pepm/stocks.txt?dl=0';
 ```
 
 
