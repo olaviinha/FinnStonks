@@ -105,7 +105,7 @@ modifying it should be pretty straight-forward.
 When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
 
 ![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm5.png)
-`veryCompact` setting set to `true` and top right clicked to switch it from _portfolio value_ to _portfolio value + liquidations_
+`veryCompact` setting set to `true`, the top right corner, and two last columns from the right have been clicked to change what information they display.
 
 ### User interactions
 
