@@ -38,7 +38,7 @@ var viewChangeIn = 'difference';
 // b) 'percent' = percentage.
 var viewTrendIn = 'percent';
 
-// Truncate company name to this many characters (if narrow space)
+// Truncate company name to this many characters. Set to 0 for no truncation.
 var truncateTo = 10;
 
 // Include liquidation turnovers in totals. I.e. when you have sold stocks, add the
