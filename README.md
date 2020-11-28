@@ -14,13 +14,13 @@ FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase
 ## Used APIs and how to obtain required API key
 
 FPEPM uses two APIs:
-- European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
+1. European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
 USD to EUR conversion.
-- Bloomberg's
+2. Bloomberg's
 [Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) 
 for up-to-date real-time stock prices.
 
-Bloomberg's API was chosen for stock data for two reasons probably worth mentioning:
+Bloomberg's API was chosen for stock data for a few reasons probably worth mentioning:
 - It contains multiple exchanges worldwide, most importantly Nasdaq Helsinki and Nasdaq First North.
 - It supports fetching market information of multiple companies with a single call, which is pretty neat when your usage is limited to 500 monthly API calls.
 
