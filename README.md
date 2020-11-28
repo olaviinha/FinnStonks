@@ -104,7 +104,7 @@ modifying it should be pretty straight-forward.
 - **Below** settings, you can find `var mockData = false;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
 When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
 
-![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm5.png)
+![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm6.png)
 `veryCompact` set to `true`, `truncateTo` set to 0, two columns from the right and values on top center and top right corner have been clicked once to change what information they display.
 
 ### User interactions
