@@ -17,6 +17,7 @@ var container = '.stocks';
 var theme = 'dark';
 var bgImage = false;         // Show 'stock-bg.jpg' as page background.
 var bgBox = false;           // Show translucent box. May be useful with some background images.
+var veryCompact = true;     // Force-hide all secondary information, despite later settings.
 
 // Date to display in case you have purchased the same stock on multiple occasions. Either
 // a) 'first' = first purchase.
@@ -47,7 +48,7 @@ var truncateTo = 10;
 var includeLiquidations = false;
 
 // Refresh every n hours.
-var refreshInterval = 6;
+var refreshInterval = 3;
 
 // What to show on page
 var showSymbol = false;     // Symbol in front of company's long name.
@@ -220,14 +221,15 @@ function processStocks(data){
         paint($('#'+id).find('.percents'), percent);
 
         // Show stuff
-        if( showSymbol ){ $('#'+id).find('.symbol').removeClass('hidden'); }
+        if( showSymbol && !veryCompact ){ $('#'+id).find('.symbol').removeClass('hidden'); }
         if( showName ){ $('#'+id).find('.name').removeClass('hidden'); }
-        if( showExchange ){ $('#'+id).find('.exchange').removeClass('hidden'); }
-        if( showDate ){ $('#'+id).find('.meta .date').removeClass('hidden'); }
-        if( showQuantity ){ $('#'+id).find('.purchase .pcs').removeClass('hidden'); }
+        if( showExchange && !veryCompact ){ $('#'+id).find('.exchange').removeClass('hidden'); }
+        if( showDate && !veryCompact ){ $('#'+id).find('.meta .date').removeClass('hidden'); }
+        if( showQuantity && !veryCompact ){ $('#'+id).find('.purchase .pcs').removeClass('hidden'); }
         if( showPrice ){ $('#'+id).find('.purchase .price').removeClass('hidden'); }
         if( showChangeEur ){ $('#'+id).find('.market .price.eur').removeClass('hidden'); }
         if( showPercent ){ $('#'+id).find('.percents .percent').removeClass('hidden'); }
+        if( veryCompact ){ $('#'+id).addClass('very-compact'); }
         if( truncateTo > 0){
             var name = $('#'+id).find('.name').html();
             var firstWord = name.split(' ')[0];
@@ -285,7 +287,7 @@ function processTrends(data){
         }
     
     });
-    if(show3dHistory){ $('.trend, .trend .percent').removeClass('hidden'); }
+    if(show3dHistory && !veryCompact){ $('.trend, .trend .percent').removeClass('hidden'); }
     initClicks();
 }
 
@@ -437,7 +439,5 @@ $(document).ready(function(){
     if(bgBox==true){
         $('.stocks').addClass('box');
     }
-
-
 
 });
