@@ -6,25 +6,27 @@ of your equity portfolio for monitoring on a daily basis.
 Made for my own purposes, so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't 
 do daily/weekly trading, but are still interested in keeping an eye on their assets on a daily/weekly basis. 
 
+In short, it turns a simple `stocks.txt` containing your asset purchases and sales into this:
+
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
 FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
+
+## Used APIs and how to obtain required API key
 
 FPEPM uses two APIs:
 - European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
 USD to EUR conversion.
 - Bloomberg's
 [Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) 
-for up-to-date real-time stock prices. 
+for up-to-date real-time stock prices.
 
 Bloomberg's API was chosen for stock data for two reasons probably worth mentioning:
 - It contains multiple exchanges worldwide, most importantly Nasdaq Helsinki and Nasdaq First North.
 - It supports fetching market information of multiple companies with a single call, which is pretty neat when your usage is limited to 500 monthly API calls.
 
-FPEPM also includes a simple alarm feature: if any of your stocks drops below a set percentage limit (e.g. `-4`) every day for 3 consecutive days, it is highlighted on page with an alarm.
+### Obtain API key
 
-## API access
-
-**The API used to fetch stock prices requires an API key.**
+Bloomberg's Market and Financial News API requires an API key.
 
 Register for a [RapidAPI](https://rapidapi.com) account
 and subscribe to [Bloomberg Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) to 
@@ -36,9 +38,9 @@ Copy and paste API key to the beginning of `pepm.js`:
 rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 ```
 
-#### API limitations
+### API limitations
 
-At the time of writing this, the API is available for a freemium plan allowing 500 monthly API calls free of charge. 
+At the time of writing this, Bloomberg's API is available for a Freemium plan, allowing 500 monthly API calls free of charge. 
 Each refresh or pageload of FPEPM consumes 2 API calls to fetch the current market information and 3 day price histories.
 
 **This means you can refresh FPEPM about 8 times a day, or, about once every 3 hours, providing that your copy of FPEPM is 
@@ -68,7 +70,7 @@ YEINT:FH;2020-06-15;40;14.92
 MSFT:US;2020-04-30;1;179.21
 ```
 
-## User interface / HOWTO
+## User interface and how to use it
 
 ### Prerequisites
 
