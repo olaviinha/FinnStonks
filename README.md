@@ -6,7 +6,7 @@ of your equity portfolio for monitoring on a daily basis.
 Made for my own purposes, so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't 
 do daily/weekly trading, but are still interested in keeping an eye on their assets on a daily/weekly basis. 
 
-In short, it turns a simple `stocks.txt` containing your asset purchases and sales into this:
+In short, it turns a simple [`stocks.txt` containing your asset purchases and sales](#your-trading-data) into this:
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
 FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
