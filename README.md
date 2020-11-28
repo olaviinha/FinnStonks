@@ -7,7 +7,7 @@ Made for [my own purposes](#motivation), so it is quite literally a _personal_ e
 
 In short, it turns a simple [`stocks.txt` containing your asset purchases and sales](#your-trading-data) into this:
 
-![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
+![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm4.png)
 Imaginary portfolio viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent. In this example, the option to include liquidations in changes and totals is used.
 
 ### Table of contents
