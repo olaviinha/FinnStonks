@@ -26,7 +26,7 @@ var showChangeEur = true;   // Show all-time change in EUR.
 var showPercent = true;     // Show all-time change in percentage.
 var showTrend = true;       // Show day-by-day change for past 3 days.
 var showTotalsTop = true;   // Show totals on top. Note that this is different than below.
-var showTotalsBottom = false;// Show totals on bottom. Note that this is different than above.
+var showTotalsBottom = true;// Show totals on bottom. Note that this is different than above.
 
 // Date to display in case you have purchased the same stock on multiple occasions. Either
 // a) 'first' = first purchase.
@@ -35,7 +35,7 @@ var effectiveDate = 'first';
 
 // Highlight row with an alarm if the closing price has dropped at least this many percent
 // consecutively for three days.
-var alarmLimit = -1;
+var alarmLimit = -2;
 
 // Shown change in EUR (buy vs. worth price omparison) in either:
 // a) 'total' = current market price of your holdings of the company in total.
@@ -54,7 +54,7 @@ var truncateTo = 10;
 // profits or losses of those trades in the numbers displayed on page.
 // false = stock liquidations will only correct the amounts and values of your current holdings.
 // true = profits/losses through liquidations will be included in all changes and totals.
-var includeLiquidations = true;
+var includeLiquidations = false;
 
 // Refresh every n hours.
 var refreshInterval = 3;
@@ -326,7 +326,7 @@ function calcTotals(){
     });
 
     var xmarketDiff = 0;
-    $('.market .price').each(function(){
+    $('.market .price.eur').each(function(){
         xmarketDiff += Number($(this).html());
     });
 
@@ -340,6 +340,9 @@ function calcTotals(){
     var xmarketTotal = xpurchaseTotal+xmarketDiff;
     var totalWithLiquidations = xmarketTotal+liquidationsTotal;
     if( showTotalsTop == true ){
+        if( $(container).find('.tops').length ){
+            $(container).find('.tops').remove();
+        }
         $(container).prepend('<div class="tops values"><div class="paid"></div><div class="difference"><div class="eur"></div><div class="percent hidden"></div></div><div class="value without-liquid hidden"></div><div class="value with-liquid hidden"></div></div>');
         $('.tops.values .paid').html(xpurchaseTotal.toFixed(2));
         $('.tops.values .difference .eur').html(xmarketDiff.toFixed(2));
@@ -350,6 +353,9 @@ function calcTotals(){
         paint($('.tops.values .difference .eur, .tops.values .difference .percent, .tops.values .value'), xmarketDiff);
     }
     if( showTotalsBottom == true){
+        if( $(container).find('.totale').length ){
+            $(container).find('.totale').remove();
+        }
         $(container).append('<div id="totale" class="base"><div class="stock"></div><div class="purchase"></div><div class="market"></div><div class="percents"></div><div class="trend"></div></div>');
         // $('#totale .stock').html('TOTAL');
         $('#totale .purchase').html(xpurchaseTotal.toFixed(2));
@@ -408,7 +414,5 @@ $(document).ready(function(){
     if(bgBox==true){
         $('.stocks').addClass('box');
     }
-
-
 
 });
