@@ -5,7 +5,7 @@ of your equity portfolio for monitoring on a daily basis.
 
 Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do daily/weekly trading with large capitals, but are still interested in keeping an eye on their assets on a daily/weekly basis.
 
-In short, it turns this:
+In short, it takes your stock purchases and liquidations like this:
 ```
 # BUYS
 MSFT:US;2019-10-11;1;139.68
@@ -18,7 +18,7 @@ YEINT:FH;2020-06-15;40;14.92
 MSFT:US;2020-04-30;1;179.21
 ```
 
-into this:
+...and turns them into this:
 
 ![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm4.png)
 Imaginary portfolio viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
