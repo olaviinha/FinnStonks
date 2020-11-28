@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------
 
 // rapidapi.com API key
-var rapidApiKey = 'PASTER YOUR RAPIDAPI.COM API KEY HERE';
+var rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 
 // Url to your stocks.txt file, in case you want to host it in another location, e.g. Dropbox.
 var tradeEventsTxt = 'stocks.txt';
@@ -17,7 +17,7 @@ var container = '.stocks';
 var theme = 'dark';
 var bgImage = false;         // Show 'stock-bg.jpg' as page background.
 var bgBox = false;           // Show translucent box. May be useful with some background images.
-var veryCompact = true;     // Force-hide all secondary information, despite later settings.
+var veryCompact = false;     // Force-hide all secondary information, despite later settings.
 
 // Date to display in case you have purchased the same stock on multiple occasions. Either
 // a) 'first' = first purchase.
@@ -26,7 +26,7 @@ var effectiveDate = 'first';
 
 // Highlight row with an alarm if the closing price has dropped at least this many percent
 // consecutively for three days.
-var alarmLimit = -1;
+var alarmLimit = -2.5;
 
 // Shown change in EUR (buy vs. worth price omparison) in either:
 // a) 'total' = current market price of your holdings of the company in total.
@@ -69,7 +69,7 @@ var showTotalsBottom = false// Show totals at the bottom. Note that this is diff
 
 
 // For development purposes: when you don't want to do API calls, set mockData to true:
-var mockData = true;
+var mockData = false;
 var mockAlarm = false;
 var mockStocks = {"result":{"OR:FP":{"securityType":"Common Stock","symbol":"OR","exchange":"EN Paris","country":"France","currency":"EUR","resourceType":"Company","fundamentalDataCurrency":"EUR","resourceSubtype":"Public","region":"EMEA","ticker":"or:fp","tickerName":"OR:FP","template":"Stock","tinyName":"L'Oreal SA","name":"L'Oreal SA","watchlist":true,"resourceId":"OR:FP","last":"309.4","netChange":"3.6","lastPriceTime":1606480476,"pctChange1M":"7.8","yearHigh":"321.4","dayHigh":"309.8","volume":182769.0,"yearLow":"196.0","dayLow":"305.0","pctChangeYTD":"15.8","lastPriceAllSessions":"309.4","lastPriceTimeAllSessions":1606480476,"pctChange":"1.18"},"MSFT:US":{"securityType":"Common Stock","symbol":"MSFT","exchange":"NASDAQ GS","country":"United States","currency":"USD","resourceType":"Company","fundamentalDataCurrency":"USD","resourceSubtype":"Public","region":"AMERICAS","ticker":"msft:us","tickerName":"MSFT:US","template":"Stock","tinyName":"Microsoft Corp","name":"Microsoft Corp","watchlist":true,"resourceId":"MSFT:US","last":"213.87","netChange":"0.01","lastPriceTime":1606280400,"pctChange1M":"0.29","yearHigh":"232.86","dayHigh":"215.29","volume":21012887,"yearLow":"132.52","dayLow":"212.46","pctChangeYTD":"35.62","lastPriceAllSessions":"214.45","pctChange":"0.00"},"SAA1V:FH":{"securityType":"Common Stock","symbol":"SAA1V","exchange":"Helsinki","country":"Finland","currency":"EUR","resourceType":"Company","fundamentalDataCurrency":"EUR","resourceSubtype":"Public","region":"EMEA","ticker":"saa1v:fh","tickerName":"SAA1V:FH","template":"Stock","tinyName":"Sanoma Oyj","name":"Sanoma Oyj","watchlist":true,"resourceId":"SAA1V:FH","last":"12.32","netChange":"0.00","lastPriceTime":1606480305,"pctChange1M":"-0.48","yearHigh":"13.18","dayHigh":"12.38","volume":26020.0,"yearLow":"6.84","dayLow":"12.14","pctChangeYTD":"30.23","lastPriceAllSessions":"12.32","lastPriceTimeAllSessions":1606480305,"pctChange":"0.00"},"TSLA:US":{"securityType":"Common Stock","symbol":"TSLA","exchange":"NASDAQ GS","country":"United States","currency":"USD","resourceType":"Company","fundamentalDataCurrency":"USD","resourceSubtype":"Public","region":"AMERICAS","ticker":"tsla:us","tickerName":"TSLA:US","template":"Stock","tinyName":"Tesla Inc","name":"Tesla Inc","watchlist":true,"resourceId":"TSLA:US","last":"574.00","netChange":"18.62","lastPriceTime":1606280400,"pctChange1M":"35.16","yearHigh":"574.00","dayHigh":"574.00","volume":48930162,"yearLow":"65.45","dayLow":"545.37","pctChangeYTD":"586.06","lastPriceAllSessions":"572.25","pctChange":"3.35"},"YEINT:FH":{"securityType":"Common Stock","symbol":"YEINT","exchange":"Helsinki","country":"Finland","currency":"EUR","resourceType":"Company","fundamentalDataCurrency":"EUR","resourceSubtype":"Public","region":"EMEA","ticker":"yeint:fh","tickerName":"YEINT:FH","template":"Stock","tinyName":"Yleiselektroniikka Oyj","name":"Yleiselektroniikka Oyj","watchlist":true,"resourceId":"YEINT:FH","last":"33.2","netChange":"0.2","lastPriceTime":1606478954,"pctChange1M":"91.9","yearHigh":"34.0","dayHigh":"34.0","volume":1854.0,"yearLow":"9.9","dayLow":"32.2","pctChangeYTD":"217.0","lastPriceAllSessions":"33.2","lastPriceTimeAllSessions":1606478954,"pctChange":"0.61"}}};
 var mockTrends = {"result":{"OR:FP":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1603803600,"close":287.1},{"time":1603890000,"close":278.8},{"time":1603976400,"close":279.1},{"time":1604062800,"close":277.7},{"time":1604325600,"close":283.9},{"time":1604412000,"close":290.2},{"time":1604498400,"close":299.9},{"time":1604584800,"close":298.8},{"time":1604671200,"close":297.0},{"time":1604930400,"close":311.0},{"time":1605016800,"close":315.4},{"time":1605103200,"close":319.0},{"time":1605189600,"close":317.3},{"time":1605276000,"close":314.2},{"time":1605535200,"close":317.5},{"time":1605621600,"close":316.6},{"time":1605708000,"close":314.6},{"time":1605794400,"close":310.8},{"time":1605880800,"close":312.1},{"time":1606140000,"close":306.3},{"time":1606226400,"close":295.9},{"time":1606312800,"close":304.4},{"time":1606399200,"close":305.8}],"low":"277.7","high":"319.0","first":1603803600,"last":1606399200,"security":{"ticker":"OR:FP","open":"305.0","prevClose":"287.1"},"hasVolume":false},"MSFT:US":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1603803600,"close":213.25},{"time":1603890000,"close":202.68},{"time":1603976400,"close":204.72},{"time":1604062800,"close":202.47},{"time":1604325600,"close":202.33},{"time":1604412000,"close":206.43},{"time":1604498400,"close":216.39},{"time":1604584800,"close":223.29},{"time":1604671200,"close":223.72},{"time":1604930400,"close":218.39},{"time":1605016800,"close":211.01},{"time":1605103200,"close":216.55},{"time":1605189600,"close":215.44},{"time":1605276000,"close":216.51},{"time":1605535200,"close":217.23},{"time":1605621600,"close":214.46},{"time":1605708000,"close":211.08},{"time":1605794400,"close":212.42},{"time":1605880800,"close":210.39},{"time":1606140000,"close":210.11},{"time":1606226400,"close":213.86},{"time":1606312800,"close":213.87}],"low":"202.33","high":"223.72","first":1603803600,"last":1606312800,"security":{"ticker":"MSFT:US","open":"215.11","prevClose":"213.25"},"hasVolume":false},"SAA1V:FH":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1603717200,"close":12.32},{"time":1603803600,"close":12.38},{"time":1603890000,"close":12.0},{"time":1603976400,"close":12.48},{"time":1604062800,"close":12.64},{"time":1604325600,"close":12.14},{"time":1604412000,"close":12.56},{"time":1604498400,"close":12.66},{"time":1604584800,"close":12.46},{"time":1604671200,"close":12.28},{"time":1604930400,"close":12.14},{"time":1605016800,"close":11.7},{"time":1605103200,"close":11.96},{"time":1605189600,"close":11.78},{"time":1605276000,"close":12.1},{"time":1605535200,"close":12.16},{"time":1605621600,"close":12.26},{"time":1605708000,"close":12.28},{"time":1605794400,"close":12.06},{"time":1605880800,"close":11.96},{"time":1606140000,"close":12.36},{"time":1606226400,"close":12.52},{"time":1606312800,"close":12.56},{"time":1606399200,"close":12.32}],"low":"11.7","high":"12.66","first":1603717200,"last":1606399200,"security":{"ticker":"SAA1V:FH","open":"12.56","prevClose":"12.32"},"hasVolume":false},"TSLA:US":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1603803600,"close":424.68},{"time":1603890000,"close":406.02},{"time":1603976400,"close":410.83},{"time":1604062800,"close":388.04},{"time":1604325600,"close":400.51},{"time":1604412000,"close":423.9},{"time":1604498400,"close":420.98},{"time":1604584800,"close":438.09},{"time":1604671200,"close":429.95},{"time":1604930400,"close":421.26},{"time":1605016800,"close":410.36},{"time":1605103200,"close":417.13},{"time":1605189600,"close":411.76},{"time":1605276000,"close":408.5},{"time":1605535200,"close":408.09},{"time":1605621600,"close":441.61},{"time":1605708000,"close":486.64},{"time":1605794400,"close":499.27},{"time":1605880800,"close":489.61},{"time":1606140000,"close":521.85},{"time":1606226400,"close":555.38},{"time":1606312800,"close":574.0}],"low":"388.04","high":"574.0","first":1603803600,"last":1606312800,"security":{"ticker":"TSLA:US","open":"550.06","prevClose":"424.68"},"hasVolume":false},"YEINT:FH":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1603803600,"close":17.3},{"time":1603890000,"close":16.7},{"time":1603976400,"close":17.5},{"time":1604062800,"close":17.4},{"time":1604325600,"close":17.1},{"time":1604412000,"close":17.3},{"time":1604498400,"close":17.3},{"time":1604584800,"close":18.6},{"time":1604671200,"close":18.5},{"time":1604930400,"close":18.9},{"time":1605016800,"close":19.0},{"time":1605103200,"close":19.0},{"time":1605189600,"close":19.8},{"time":1605276000,"close":20.4},{"time":1605535200,"close":22.2},{"time":1605621600,"close":25.2},{"time":1605708000,"close":24.4},{"time":1605794400,"close":24.2},{"time":1605880800,"close":25.6},{"time":1606140000,"close":27.8},{"time":1606226400,"close":27.8},{"time":1606312800,"close":29.0},{"time":1606399200,"close":33.0},{"time":1606485600,"close":33.0}],"low":"16.7","high":"33.0","first":1603803600,"last":1606485600,"security":{"ticker":"YEINT:FH","open":"33.0","prevClose":"17.3"},"hasVolume":false}}};
@@ -109,26 +109,27 @@ function truncateString(str, num) {
 }
 
 function addRow(i, details){
-    symbol = details.symbol.split(':')[0];
-    id = symbol;
-    total = details.pcs * details.price;
+    var symbol = details.symbol.split(':')[0];
+    var id = symbol;
+    var total = details.pcs * details.price;
     if( $('#'+id).length ){
         if(effectiveDate=='last'){
             $('#'+id).find('.date').html(details.date);
         }
-        prevPcs = Number($('#'+id).find('.pcs').html());
-        prevTotal = Number($('#'+id).find('.price').html());
-        newPcs = details.pcs + prevPcs;
-        newTotal = total + prevTotal;
+        var prevPcs = Number($('#'+id).find('.pcs').html());
+        var prevTotal = Number($('#'+id).find('.price').html());
+        var newPcs = details.pcs + prevPcs;
+        var newTotal = total + prevTotal;
         $('#'+id).find('.pcs').html(newPcs);
-        $('#'+id).find('.price').html(newTotal);
+        $('#'+id).find('.price').html(newTotal.toFixed(2));
         if( $('#'+id).data('turnover') != ''){
             $('#'+id).attr('data-turnover', details.turnover + Number($('#'+id).data('turnover')));
         }
     } else {
-        tpl = $('.template').html();
+        var tpl = $('.template').html();
         tpl = tpl.replace('STOCK', symbol);
         $(container).append(tpl);
+        
         $('#'+id).attr('data-turnover', details.turnover);
         $('#'+id).find('.date').html(details.date);
         $('#'+id).find('.pcs').html(details.pcs);
@@ -142,12 +143,15 @@ function initProcess(){
         url: tradeEventsTxt,
         async: false,
         success: function(data) {
-            events = data.split('\n\n');
-            buys = events[0].split('\n').filter(function(line){return line.indexOf('#') != 0});
-            sells = events[1].split('\n').filter(function(line){return line.indexOf('#') != 0});
+            var events = data.split('\n\n');
+            var buys = events[0].split('\n').filter(function(line){return line.indexOf('#') != 0});
+            var sells = events[1].split('\n').filter(function(line){return line.indexOf('#') != 0});
+            console.log('buys', buys);
             buys.forEach(function(line, i){
                 sold = false;
                 var itm = line.split(';');
+                console.log( 'itm2', itm[2] );
+                console.log( 'itm2 nro', Number(itm[2]) );
                 var details = {
                     symbol: itm[0],
                     date: itm[1],
@@ -163,15 +167,18 @@ function initProcess(){
                             date: sitm[1],
                             pcs: Number(sitm[2]),
                             price: Number(sitm[3])
-                        };  
+                        };
                     }
                 });
-                if(sold && includeSales){
+                if(sold && includeSales && details.pcs > 1){
                     paid = sold.pcs * details.price;
                     details.pcs = details.pcs-sold.pcs;
                     details.turnover = sold.pcs * sold.price - paid;
                 }
                 addRow(i, details);
+            });
+            buys.forEach(function(line, i){
+
             });
             parseBuys(buys);
         }
@@ -439,5 +446,7 @@ $(document).ready(function(){
     if(bgBox==true){
         $('.stocks').addClass('box');
     }
+
+
 
 });
