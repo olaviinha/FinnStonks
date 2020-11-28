@@ -7,7 +7,7 @@ Made for [my own purposes](#motivation), so it is quite literally a _personal_ e
 
 In short, it turns a simple [`stocks.txt` containing your asset purchases and sales](#your-trading-data) into this:
 
-![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm4.png)
+![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm4.png)
 Imaginary portfolio viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
 
 ### Table of contents
@@ -95,7 +95,7 @@ modifying it should be pretty straight-forward.
 
 ### Settings
 
-`pepm.js` contains a number of settings at the beginning of the file. Most should be pretty self-explanatory. Some settings that may not be:
+`pepm.js` contains a number of settings at the beginning of the file. Most should be pretty self-explanatory. Some settings that may not be self-explanatory:
 
 - `var effectiveDate = 'first'|'last'`: date to display if you have purchased shares of the same company on multiple occasions.
 - `var alarmLimit = -1`: limit used to determine how many percent a stock can drop every day for 3 consecutive days before alarm styling is triggered.
@@ -103,6 +103,9 @@ modifying it should be pretty straight-forward.
 - `var refreshInterval = 3`: interval in hours in which everything on page is auto-refreshed using real-time market prices. Set to `999999` or so if you don't want the page to auto-refresh at all.
 - **Below** settings, you can find `var mockData = false;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
 When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
+
+![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm5.png)
+`veryCompact` setting set to `true` and top right clicked to switch it from _portfolio value_ to _portfolio value + liquidations_
 
 ### User interactions
 
