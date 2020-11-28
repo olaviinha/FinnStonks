@@ -17,8 +17,8 @@
 @padd:                 0;
 
 @base-color:        #888;
-@positive:        #273;
-@negative:        #932;
+@positive:          #696;
+@negative:          #a66;
 @negative-highlight:#d54;
 
 @hline: 1px solid rgba(250,250,250,.1);
@@ -146,10 +146,11 @@ body {
             padding: 0 .5em;
             margin-left: -.5em;
             width: calc(100% + 1em);
+            border-radius: 5px;
             .title {
                 color: @negative-highlight;
             }
-            .market, .percents, .trend {
+            .trend .neg {
                 color: @negative-highlight;
             }
         }
@@ -211,15 +212,13 @@ body {
         }
     }
     .trend {
+        cursor: pointer;
         display: table-cell;
         vertical-align: middle;
         width: 10%;
         font-size: @base-size-xs;
-        line-height: .65rem;
+        line-height: calc(@base-size-xs - 1px);
         text-align: right;
-        > div {
-
-        }
     }
 
     .tops {
