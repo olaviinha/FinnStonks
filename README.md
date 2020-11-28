@@ -7,6 +7,7 @@ Made for my own purposes, so it is quite literally a _personal_ equity portfolio
 do daily/weekly trading, but are still interested in keeping an eye on their assets on a daily/weekly basis. 
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm1.jpg)
+FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
 
 FPEPM uses two APIs:
 - European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
