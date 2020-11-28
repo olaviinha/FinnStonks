@@ -15,7 +15,7 @@ FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase
 1. [Used APIs and how to obtain required API key](#used-apis-and-how-to-obtain-required-api-key)
 2. [Your trading data](#your-trading-data)
 3. [User interface and how to use it](#user-interface-and-how-to-use-it)
-4. [How to set it all up (and how to host your trading data in Dropbox)](#how-to-set-it-all-up)
+4. [How to set it all up](#how-to-set-it-all-up) and [how to host your trading data in Dropbox](#protip-host-stockstxt-in-dropbox-for-easy-updating)
 5. [Motivation](#motivation)
 
 ---
@@ -115,7 +115,7 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 
 1. Clone or download this repository.
 2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and liquidation events: [instructions](#your-trading-data).
-3. Obtain required API keys: [instructions](https://github.com/olaviinha/PEPM#used-apis-and-how-to-obtain-required-api-key).
+3. Obtain required API keys: [instructions](#obtain-api-key).
 4. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
 5. Whenever you perform a purchase or a liquidation, just add it to the corresponding list in `stocks.txt`.
 
