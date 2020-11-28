@@ -3,8 +3,7 @@
 FINNSTONKS Personal Equity Portfolio Monitor (**FPEPM**) provides a web-based, customizable, simple, compact, clean textual overview of the current state
 of your equity portfolio for monitoring on a daily basis.
 
-Made for my own purposes, so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't 
-do daily/weekly trading, but are still interested in keeping an eye on their assets on a daily/weekly basis. 
+Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do daily/weekly trading with large capitals, but are still interested in keeping an eye on their assets on a daily/weekly basis.
 
 In short, it turns a simple [`stocks.txt` containing your asset purchases and sales](#your-trading-data) into this:
 
