@@ -11,12 +11,12 @@ In short, it takes your stock purchases and liquidations like this:
 OR:FP;2020-09-40;2;299.34
 MSFT:US;2019-10-11;1;139.68
 SAA1V:FH;2020-02-12;30;12.85
-MSFT:US;2020-03-23;2;135.98
+MSFT:US;2020-03-23;1;135.98
 TSLA:US;2020-09-01;2;420.00
 YEINT:FH;2020-06-15;40;14.92
 
 # SELLS
-MSFT:US;2020-04-30;2;179.21
+MSFT:US;2020-04-30;1;179.21
 ```
 
 ...and turns them into this:
