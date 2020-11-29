@@ -41,14 +41,13 @@ var viewTrendIn = 'percent';
 // Truncate company name to this many characters. Set to 0 for no truncation.
 var truncateTo = 10;
 
-// Include liquidation turnovers in totals. I.e. when you have sold stocks, add the
-// profits or losses of those trades in the numbers displayed on page.
-// false = stock liquidations will only correct the amounts and values of your current holdings.
-// true = profits/losses through liquidations will be included in all changes and totals.
-var includeLiquidations = false;
+// Include sale profits/losses in changes and totals.
+// false = stock sales will only correct the amounts and values of your current holdings.
+// true = profits/losses through sales will be included in all changes and totals.
+var includeSalesResults = false;
 
 // Refresh every n hours.
-var refreshInterval = 3;
+var refreshInterval = 8;
 
 // What to show on page
 var showSymbol = false;     // Symbol in front of company's long name.
