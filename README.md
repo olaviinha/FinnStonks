@@ -24,7 +24,7 @@ MSFT:US;2020-04-30;1;179.21
 ![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm4.png)
 (An imaginary) portfolio viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
 
-Portfolio data may also be totally imaginary to explore your _shark hunch_ with different _what if_ scenarios.
+Portfolio data may also be totally imaginary to explore your _shark hunch_ with different what-if scenarios.
 
 ### Table of contents
 1. [Used APIs and how to obtain required API key](#used-apis-and-how-to-obtain-required-api-key)
