@@ -22,7 +22,7 @@ MSFT:US;2020-04-30;1;179.21
 ...and turns them into this:
 
 ![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm4.png)
-Imaginary portfolio viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
+(An imaginary) portfolio viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
 
 Portfolio data may also be totally imaginary to explore your _shark hunch_ with different _what if_ scenarios.
 
