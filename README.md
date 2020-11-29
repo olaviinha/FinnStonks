@@ -5,7 +5,7 @@ of your equity portfolio for daily monitoring.
 
 Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis.
 
-In short, it takes your stock purchases and liquidations like this:
+In short, it takes your stock purchases and sales like this:
 ```
 # BUYS
 OR:FP;2020-09-40;2;299.34
@@ -73,9 +73,9 @@ TODO: fetch price history only when day has changed since last pageload to save 
 
 ## Your trading data
 
-FPEPM uses a simple `stocks.txt` file that should contain all your purchase and liquidation events in a simple delimiter-separated format.
+FPEPM uses a simple `stocks.txt` file that should contain all your purchase and sale events in a simple delimiter-separated format.
 Each line should read `<symbol:exchange>;<date purchased/sold>;<number of shares purchased/sold>;<purchase/sale price of 1 stock>`.
-All additional fees regarding purchase or liquidation events should be calculated in the price per stock value.
+All additional fees regarding purchase or sale events should be calculated in the price per stock value.
 
 Purchases and sales are separated by one empty line. Lines beginning with character `#` will be ignored, in case you want to play around with the data or ignore certain events for whatever reasons.
 
@@ -113,7 +113,7 @@ modifying it should be pretty straight-forward.
 
 - `var effectiveDate = 'first'|'last'`: date to display if you have purchased shares of the same company on multiple occasions.
 - `var alarmLimit = -1`: limit used to determine how many percent a stock can drop every day for 3 consecutive days before alarm styling is triggered.
-- `var includeLiquidations = true|false`: Include or exclude any profits or losses through previous liquidations of stocks in the _change_ and _total_ values. If set to `false`, liquidation events (lines under `# SELLS` in `stocks.txt`) will only correct the numbers and values of your holdings.
+- `var includeLiquidations = true|false`: Include or exclude any profits or losses through previous sales of stocks in the _change_ and _total_ values. If set to `false`, sale events (lines under `# SELLS` in `stocks.txt`) will only correct the numbers and values of your holdings.
 - `var refreshInterval = 3`: interval in hours in which everything on page is auto-refreshed using real-time market prices. Set to `999999` or so if you don't want the page to auto-refresh at all.
 - **Below** settings, you can find `var mockData = false;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
 When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
@@ -124,7 +124,7 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 ### User interactions
 
 1. Click on _change_ value on top center to toggle between a) EUR value, b) percentage value.
-2. Click on the _portfolio value_ on top right corner to toggle between a) liquidations included, b) liquidations excluded. This works despite the value of `includeLiquidations` setting.
+2. Click on the _portfolio value_ on top right corner to toggle between a) sales included, b) sales excluded. This works despite the value of `includeLiquidations` setting.
 3. Click on the third column to toggle between a) change in EUR, b) change in percentage.
 4. Click on the fourth column to toggle between a) current market value in total, b) change in percentage.
 5. Click on the last column to toggle between a) change in EUR, b) change in percentage.
@@ -134,11 +134,11 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 ## How to set it all up
 
 1. Clone or download this repository.
-2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and liquidation events: [instructions](#your-trading-data).
+2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and sale events: [instructions](#your-trading-data).
 3. Obtain required API key: [instructions](#obtain-api-key).
 4. Open `pepm.js` in a text editor, paste your API key in there and change any of the settings you wish.
 5. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
-6. Whenever you perform a purchase or a liquidation, just add it to the corresponding list in `stocks.txt`.
+6. Whenever you perform a purchase or a sale, just add it to the corresponding list in `stocks.txt`.
 
 ### #protip: Host stocks.txt in Dropbox for easy updating.
 
