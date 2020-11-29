@@ -3,7 +3,7 @@
 FINNSTONKS Personal Equity Portfolio Monitor (**FPEPM**) provides a web-based, customizable, simple, compact, clean textual overview of the current state
 of your equity portfolio for daily monitoring.
 
-Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis.
+Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
 
 In short, it takes your stock purchases and sales like this:
 ```
@@ -23,6 +23,8 @@ MSFT:US;2020-04-30;1;179.21
 
 ![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm4.png)
 Imaginary portfolio viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
+
+Portfolio data may also be totally imaginary to explore your _shark hunch_ with different _what if_ scenarios.
 
 ### Table of contents
 1. [Used APIs and how to obtain required API key](#used-apis-and-how-to-obtain-required-api-key)
