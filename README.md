@@ -142,9 +142,9 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 5. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
 6. Whenever you perform a purchase or a sale, just add it to the corresponding list in `stocks.txt`.
 
-### #protip: Host stocks.txt in Dropbox for easy updating.
+### #protip: Host stocks.txt in [Dropbox](https://www.dropbox.com) for easy updating.
 
-Once you have FPEPM up on a server, you may also keep `stocks.txt` in your Dropbox, where it's possibly considerably easier to keep up to date than on a regular web server.
+Once you have FPEPM up on a server, you may also keep `stocks.txt` in your [Dropbox](https://www.dropbox.com), where it's possibly considerably easier to keep up to date than on a regular web server. Any other such cloud storage file sync apps may also work (as long as it can produce an url to the raw file with required CORS headers), but are untested.
 
 1. Place `stocks.txt` somewhere in your Dropbox.
 2. Right-click it and select _Copy Dropbox Link_.
