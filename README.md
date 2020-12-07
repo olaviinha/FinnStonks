@@ -161,7 +161,9 @@ var tradeEventsTxt = 'https://www.dropbox.com/s/b666pwrytk1pepm/stocks.txt?dl=0'
 There are countless stock market monitors out there that enable you to follow stock prices of your choosing. However, apart from the
 platform you've used to purchase your assets, very few seem to provide any ability to follow stock prices even _as if_ existing assets
 (_number of stocks_, _starting point_). Even fewer an entire equity portfolio containing multiple companies, not to mention taking into 
-account any further trading events or doing any calculations.
+account any further trading events, doing any calculations or customizing layout or the data shown. Furthermore, one may do different 
+tradings on different platforms and lose the overview of the whole.
 
-Hence an Excel spreadsheet is a good friend of any stock investor. The purpose of FPEPM is to replace all that hassle with an automated,
-clean, browser-accessible screen. All you do is add the event to the bottom of the list when you've purchased or sold some stocks.
+Hence an Excel spreadsheet is still a good friend of any stock investor. The purpose of FPEPM is to replace all that hassle with an 
+automated, clean, browser-accessible screen. All you do is add the event to the bottom of the list when you've purchased or sold some stocks
+in spite of the used platform.
