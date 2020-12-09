@@ -56,7 +56,7 @@ Register for a [RapidAPI](https://rapidapi.com) account
 and subscribe to [Bloomberg Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) to 
 obtain required API key.
 
-Copy and paste API key to the beginning of `pepm.js`:
+Copy and paste API key to the beginning of `finnstonks.js`:
 ```
 // rapidapi.com API key
 rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
@@ -103,11 +103,11 @@ You can safely ignore anything under this title, if you don't know what it means
 
 - jQuery
 
-Although Bootstrap and LESS are used for styling in `index.html`, they are not in any way required for `pepm.js` to run.
+Although Bootstrap and LESS are used for styling in `index.html`, they are not in any way required for `finnstonks.js` to run.
 
 ### Styling
 
-All styling is freely customizable in `pepm.less`. You may use regular CSS or any styling you like,
+All styling is freely customizable in `finnstonks.less`. You may use regular CSS or any styling you like,
 modifying it should be pretty straight-forward.
 
 ### Settings
@@ -165,7 +165,7 @@ Instead of hard-coded settings, most of the UI is configurable simply by clickin
 1. Clone or download this repository.
 2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and sale events: [instructions](#your-trading-data).
 3. Obtain required API key: [instructions](#obtain-api-key).
-4. Open `pepm.js` in a text editor, paste your API key in there and change any of the settings you wish.
+4. Open `finnstonks.js` in a text editor, paste your API key in there and change any of the settings you wish.
 5. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
 6. Whenever you perform a purchase or a sale, just add it to the corresponding list in `stocks.txt`.
 
