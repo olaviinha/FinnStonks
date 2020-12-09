@@ -1,0 +1,357 @@
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One|Signika+Negative:300,400,700');
+@font-face {
+    font-family: 'HSL Pikto';
+    src: url(gfx/hsl-pikto.woff);
+    font-weight:400;
+}
+
+@base-size:         20px;
+@base-size-xs:      12px;
+@large:             2rem;
+
+@vmargin:            1em;
+@hmargin:           .5em;
+
+@col1:              100%;
+@col2:               20%;
+@padd:                 0;
+
+@base-color:        #888;
+@positive:          #696;
+@negative:          #a66;
+@negative-highlight:#d54;
+@bright:            #fff;
+@cashout:           #996;
+
+@hline: 1px solid rgba(250,250,250,.1);
+
+@screen-xs:          480px;
+@screen-sm:          768px;
+@screen-md:          992px;
+@screen-lg:         1400px;
+
+@screen-xs-max:     (@screen-sm-min - 1);
+@screen-sm-min:     @screen-sm;
+@screen-sm-max:     (@screen-md - 1);
+@screen-md-min:     @screen-md;
+@screen-md-max:     (@screen-lg - 1);
+@screen-lg-min:     @screen-lg;
+
+html {
+    font-size: @base-size;
+    @media(max-width: @screen-md-max){
+        font-size: @base-size-xs;
+    }
+}
+
+body {
+    font-family: 'Signika Negative', sans-serif;
+    font-weight: 600;
+    overflow: visible;
+    background: #222;
+    &.light {
+        background: #fff;
+    }
+    .bgs {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-blend-mode: screen;
+        background: url(stocks-bg.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+}
+
+.hidden, .permahidden {
+    display: none !important;
+}
+
+.vmid {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.container-fluid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    .row {
+        height: 100%;
+    }
+}
+
+.stocks-container {
+    text-align: center;
+    height: 100%;
+}
+
+.message {
+    .vmid;
+    display: none;
+    transition: 1s ease-in-out;
+    max-width: 60%;
+    height: auto;
+    margin: auto;
+    color: @negative;
+    .err {
+        color: @bright;
+        margin-bottom: 10px;
+    }
+}
+
+.stocks {
+    text-align: left;
+    display: none;
+    color: @base-color;
+    width: 50%;
+    max-width: 560px;
+    padding: 10px;
+    margin: auto;
+    transition: 1s ease-in-out;
+
+    .vmid;
+
+    .pos {
+        color: @positive;
+    }
+    .neg {
+        color: @negative;
+    }
+
+    &.box {
+        background: rgba(0,0,0,.4);
+        border-radius: 5px;
+    }
+
+    &.light {
+        color: darken(@base-color, 15%);
+        .pos {
+            color: lighten(@positive, 15%);
+        }
+        .neg {
+            color: lighten(@negative, 15%);
+        }
+        &.box {
+            background: rgba(255,255,255,.4);
+        }
+    }
+
+
+
+    .secondary {
+        opacity: .5;
+        font-size: @base-size-xs;
+    }
+
+    .base {
+        width: 100%;
+        display: table;
+        margin-bottom: @hmargin;
+        transition: .2s linear;
+        > div {
+            padding: @padd;
+        }
+        &.very-compact {
+            margin-bottom: 0;
+        }
+        .stock {
+            width: @col1;
+            padding-right: @vmargin;
+        }
+        .title, .purchase, .market, .cashoutd {
+            display: table-cell;   
+        }
+        .cashoutd {
+            cursor: pointer;
+            text-align: right;
+            color: @cashout;
+            .pos {
+                color: @cashout;
+            }
+            .pos:before {
+                content: '+';
+            }
+            .neg:before {
+                content: '-';
+            }
+            .percent:after {
+                content: ' %';
+            }
+        }
+        &.alarm {
+            cursor: pointer;
+            background: rgba(70, 20, 20, .7);
+            padding: 0 .5em;
+            margin-left: -.5em;
+            width: calc(100% + 1em);
+            border-radius: 5px;
+            .title {
+                color: @negative-highlight;
+            }
+            .trend .neg {
+                color: @negative-highlight;
+            }
+        }
+    }
+
+    .inline {
+        display: inline-block;
+        width: auto;
+    }
+
+    .title {
+        display: table-cell;
+        font-size:  @base-size;
+        // width: 60%;
+    }
+    .meta {
+        font-size: @base-size-xs;
+        .secondary;
+        .pcs {
+            display: none;
+        }
+    }
+    .purchase {
+        cursor: pointer;
+        display: table-cell;
+        text-align: right;
+        width: @col2;
+        padding-right: @vmargin;
+        font-size: @base-size;
+        // width: 20%;
+        .price {
+            
+        }
+        .pcs {
+            .secondary;
+        }
+    }
+    .market {
+        cursor: pointer;
+        display: table-cell;
+        width: @col2;
+        padding-right: @vmargin;
+        text-align: right;
+        font-size: @base-size;
+        .price.eur.pos:before {
+            content: '+';
+        }
+        .price.percent:after {
+            content: ' %';
+        }
+    }
+    .percents {
+        cursor: pointer;
+        display: table-cell;
+        text-align: right;
+        width: @col2;
+        font-size: @base-size;
+        .percent:after{
+            content: ' %';
+        }
+    }
+    .trend {
+        cursor: pointer;
+        display: table-cell;
+        vertical-align: middle;
+        width: 10%;
+        font-size: @base-size-xs;
+        line-height: calc(@base-size-xs - 1px);
+        text-align: right;
+    }
+
+    .tops {
+        padding: @padd;
+        font-size: @large;
+        margin-right: -3px;
+        &:not(:first-child) {
+            margin-bottom: @hmargin;
+            padding-bottom: @hmargin;
+            border-bottom: @hline;
+        }
+        &.titles {
+            .secondary;
+            margin-bottom: 0;
+        }
+        &.values .difference {
+            white-space: nowrap;
+            cursor: pointer;
+            .eur, .eur-with-sales, .percent {
+                display: inline;
+                &.neg:before {
+                    content: '-';
+                }
+                &.pos:before {
+                    content: '+';
+                }
+            }
+            // .eur:after {
+            //     content: ' €';
+            // }
+            .percent:after {
+                content: ' %';
+            }
+        }
+        > div {
+            width: 33.333%;
+            display: inline-block;
+            line-height: .9em;
+        }
+        .difference {
+            text-align: center;
+        }
+        .paid {
+            cursor: pointer;
+        }
+        .value, .value-with-liquid, .value-only-liquid {
+            cursor: pointer;
+            text-align: right;
+        }
+    }
+    #totale {
+        padding: @padd;
+        width: 100%;
+        margin-top: @hmargin;
+        padding-top: @hmargin;
+        border-top: @hline;
+        font-size: @base-size;
+        .percents:after{
+            content: ' %';
+        }
+    }
+}
+
+.loader {
+    .vmid;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    transition: 1s ease-in-out;
+    &:after {
+        content: " ";
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid #fff;
+        border-color: #fff transparent #fff transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+    }
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
