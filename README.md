@@ -128,27 +128,33 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 
 Instead of hard-coded settings, most of the UI is configurable simply by clicking on things. The last column of the table shows the stock price change for the last three days. Each number means *change from previous day*.
 
-1. Click on _investment total_ value (top left) to toggle between:
+**1. Click on _investment total_ value (top left) to toggle between:**
   - total euros invested.
   - total euros invested minus any previous sales profits/losses (current true cash loss).
-2. Click on _change_ value (top center) to toggle between 
+  
+**2. Click on _change_ value (top center) to toggle between **
   - portfolio value change in euros.
   - portfolio value change including any previous sales profits/losses in euros.
   - portfolio value change in percentage.
-3. Click on the _portfolio value_ (top right) to toggle between:
+  
+**3. Click on the _portfolio value_ (top right) to toggle between:**
   - portfolio value in euros.
   - portfolio value in euros including any previous sales profits/losses
   - previous sales profits/losses only (no portfolio value)
-4. Click on the second column to toggle between:
+  
+**4. Click on the second column to toggle between:**
   - euros invested.
   - euros invested minus any previous sales profits/losses (current true cash loss).
-5. Click on the third column to toggle between
+  
+**5. Click on the third column to toggle between**
   - change in euros.
   - change in percentage.
-6. Click on the fourth column to toggle between
+  
+**6. Click on the fourth column to toggle between**
   - current market value in total.
   - change in percentage.
-7. Click on the last column to toggle between 
+  
+**7. Click on the last column to toggle between** 
   - change in euros.
   - change in percentage.
 
