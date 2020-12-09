@@ -8,15 +8,15 @@ Made for [my own purposes](#motivation), so it is quite literally a _personal_ e
 In short, it takes your stock purchases and sales like this:
 ```
 # BUYS
-OR:FP;2020-09-40;2;299.34
-MSFT:US;2019-10-11;1;139.68
-SAA1V:FH;2020-02-12;30;12.85
-MSFT:US;2020-03-23;1;135.98
-TSLA:US;2020-09-01;2;420.00
-YEINT:FH;2020-06-15;40;14.92
+OR:FP;2020-09-04;5;288.34
+SAA1V:FH;2020-02-12;40;12.85
+SSH1V:FH;2020-08-04;2000;1.33
+TSLA:US;2020-09-01;4;420.00
+TL0:GR;2020-09-01;2;442.75
+YEINT:FH;2020-06-15;80;14.92
 
 # SELLS
-MSFT:US;2020-04-30;1;179.21
+TL0:GR;2020-12-08;2;525.70
 ```
 
 ...and turns them into this:
@@ -84,14 +84,15 @@ Purchases and sales are separated by one empty line. Lines beginning with charac
 Example:
 ```
 # BUYS
-MSFT:US;2019-10-11;1;139.68
-MSFT:US;2020-03-23;2;135.98
-OR:FP;2020-09-04;2;299.34
-TSLA:US;2020-09-01;2;420.00
-YEINT:FH;2020-06-15;40;14.92
+OR:FP;2020-09-04;5;288.34
+SAA1V:FH;2020-02-12;40;12.85
+SSH1V:FH;2020-08-04;2000;1.33
+TSLA:US;2020-09-01;4;420.00
+TL0:GR;2020-09-01;2;442.75
+YEINT:FH;2020-06-15;80;14.92
 
 # SELLS
-MSFT:US;2020-04-30;1;179.21
+TL0:GR;2020-12-08;2;525.70
 ```
 
 ## User interface and how to use it
@@ -111,11 +112,11 @@ modifying it should be pretty straight-forward.
 
 ### Settings
 
-`pepm.js` contains a number of settings at the beginning of the file. Most should be pretty self-explanatory. Some settings that may not be self-explanatory:
+`finnstonks.js` contains a number of settings at the beginning of the file. Most should be pretty self-explanatory. Some settings that may not be self-explanatory:
 
+- `var includeCashouts = true|false`: set to true if you want to take into account profits or losses you have made with previously owned stocks, that you have completely cashed out and no longer own. If false, any such assets are ignored in all calculations.
 - `var effectiveDate = 'first'|'last'`: date to display if you have purchased shares of the same company on multiple occasions.
 - `var alarmLimit = -1`: limit used to determine how many percent a stock can drop every day for 3 consecutive days before alarm styling is triggered.
-- `var includeLiquidations = true|false`: Include or exclude any profits or losses through previous sales of stocks in the _change_ and _total_ values. If set to `false`, sale events (lines under `# SELLS` in `stocks.txt`) will only correct the numbers and values of your holdings.
 - `var refreshInterval = 3`: interval in hours in which everything on page is auto-refreshed using real-time market prices. Set to `999999` or so if you don't want the page to auto-refresh at all.
 - **Below** settings, you can find `var mockData = false;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
 When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
@@ -125,11 +126,31 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 
 ### User interactions
 
-1. Click on _change_ value on top center to toggle between a) EUR value, b) percentage value.
-2. Click on the _portfolio value_ on top right corner to toggle between a) sales included, b) sales excluded. This works despite the value of `includeLiquidations` setting.
-3. Click on the third column to toggle between a) change in EUR, b) change in percentage.
-4. Click on the fourth column to toggle between a) current market value in total, b) change in percentage.
-5. Click on the last column to toggle between a) change in EUR, b) change in percentage.
+Instead of hard-coded settings, most of the UI is configurable simply by clicking on things. The last column of the table shows the stock price change for the last three days. Each number means *change from previous day*.
+
+1. Click on _investment total_ value (top left) to toggle between:
+  - total euros invested.
+  - total euros invested minus any previous sales profits/losses (current true cash loss).
+2. Click on _change_ value (top center) to toggle between 
+  - portfolio value change in euros.
+  - portfolio value change including any previous sales profits/losses in euros.
+  - portfolio value change in percentage.
+3. Click on the _portfolio value_ (top right) to toggle between:
+  - portfolio value in euros.
+  - portfolio value in euros including any previous sales profits/losses
+  - previous sales profits/losses only (no portfolio value)
+4. Click on the second column to toggle between:
+  - euros invested.
+  - euros invested minus any previous sales profits/losses (current true cash loss).
+5. Click on the third column to toggle between
+  - change in euros.
+  - change in percentage.
+6. Click on the fourth column to toggle between
+  - current market value in total.
+  - change in percentage.
+7. Click on the last column to toggle between 
+  - change in euros.
+  - change in percentage.
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm3.gif)
 
@@ -148,7 +169,7 @@ Once you have FPEPM up on a server, you may also keep `stocks.txt` in your [Drop
 
 1. Place `stocks.txt` somewhere in your Dropbox.
 2. Right-click it and select _Copy Dropbox Link_.
-3. Edit `pepm.js` and locate line `var tradeEventsTxt = 'stocks.txt';` somewhere at the beginning.
+3. Edit `finnstonks.js` and locate line `var tradeEventsTxt = 'stocks.txt';` somewhere at the beginning.
 4. Replace `stocks.txt` on that line with the Dropbox Link from your clipboard and save.
 
 End result should look something like this:
