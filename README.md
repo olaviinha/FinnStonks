@@ -132,7 +132,7 @@ Instead of hard-coded settings, most of the UI is configurable simply by clickin
   - total euros invested.
   - total euros invested minus any previous sales profits/losses (current true cash loss).
   
-**2. Click on _change_ value (top center) to toggle between **
+**2. Click on _change_ value (top center) to toggle between:**
   - portfolio value change in euros.
   - portfolio value change including any previous sales profits/losses in euros.
   - portfolio value change in percentage.
@@ -146,15 +146,15 @@ Instead of hard-coded settings, most of the UI is configurable simply by clickin
   - euros invested.
   - euros invested minus any previous sales profits/losses (current true cash loss).
   
-**5. Click on the third column to toggle between**
+**5. Click on the third column to toggle between:**
   - change in euros.
   - change in percentage.
   
-**6. Click on the fourth column to toggle between**
+**6. Click on the fourth column to toggle between:**
   - current market value in total.
   - change in percentage.
   
-**7. Click on the last column to toggle between** 
+**7. Click on the last column to toggle between:** 
   - change in euros.
   - change in percentage.
 
