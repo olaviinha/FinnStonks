@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------
 
 // rapidapi.com API key
-var rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
+var rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
 
 // Url to your stocks.txt file, in case you want to host it in another location, e.g. Dropbox.
 var tradeEventsTxt = 'stocks.txt';
@@ -174,7 +174,6 @@ function initProcess(){
                 finalList.push(buy);
                 sellDetails.forEach(function(sell, ii){
                     if(buy.symbol == sell.symbol){
-                        console.log('change');
                         finalList[i].pcs -= sell.pcs;
                         finalList[i].totalWithSales -= sell.pcs * sell.price;
                         finalList[i].total -= sell.pcs * buy.price;
@@ -188,12 +187,10 @@ function initProcess(){
             if(includeCashouts == false){
                 finalList.forEach(function(stock, i){
                     if(stock.pcs == 0){
-                        console.log('drop', i, finalList[i]);
                         finalList.splice(i, 1);
                     }
                 });
             }
-            console.log(finalList);
             addRows(finalList);
             parseBuys(finalList);
         }
@@ -425,12 +422,10 @@ function calcTotals(){
         var sal = Number($(this).data('sales-total'));
         if(sal > 0){
             var pur = Number($(this).data('purchases-total'));
-            console.log('sales vs purch', sal, pur);
             var pl = sal - pur;
             liquidationsTotal += pl;
         }
     });
-    console.log('liquidTot', liquidationsTotal);
 
     var xpercentageTotal = xmarketDiff/xpurchaseTotal*100;
     var xmarketTotal = xpurchaseTotal+xmarketDiff;
