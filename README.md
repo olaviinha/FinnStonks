@@ -22,7 +22,7 @@ TL0:GR;2020-12-08;2;525.70
 ...and turns them into this:
 
 ![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm4.png)
-(An imaginary) portfolio viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
+Example `stocks.txt` viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
 
 Stock purchases/sales may also be totally imaginary to explore your _shark hunch_ with different what-if scenarios using actual market data.
 
@@ -99,6 +99,8 @@ TL0:GR;2020-12-08;2;525.70
 
 You can safely ignore anything under this title, if you don't know what it means.
 
+Most of the UI is configurable simply by clicking on things, even though there are a number of hard-coded settings in the javascript file (see [Settings](#settings)). See [user interactions](#user-interactions) for what is actually displayed on the table by default and what are the options.
+
 ### Prerequisites
 
 - jQuery
@@ -129,34 +131,36 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 Instead of hard-coded settings, most of the UI is configurable simply by clicking on things. The last column of the table shows the stock price change for the last three days. Each number means *change from previous day*.
 
 **1. Click on _investment total_ value (top left) to toggle between:**
-  - total euros invested.
+  - total euros invested. (Default)
   - total euros invested minus any previous sales profits/losses (current true cash loss).
   
 **2. Click on _change_ value (top center) to toggle between:**
-  - portfolio value change in euros.
+  - portfolio value change in euros. (Default)
   - portfolio value change including any previous sales profits/losses in euros.
   - portfolio value change in percentage.
   
 **3. Click on the _portfolio value_ (top right) to toggle between:**
-  - portfolio value in euros.
+  - portfolio value in euros. (Default)
   - portfolio value in euros including any previous sales profits/losses
   - previous sales profits/losses only (no portfolio value)
   
 **4. Click on the second column to toggle between:**
-  - euros invested.
+  - euros invested. (Default)
   - euros invested minus any previous sales profits/losses (current true cash loss).
   
 **5. Click on the third column to toggle between:**
-  - change in euros.
+  - change in euros. (Default)
   - change in percentage.
   
 **6. Click on the fourth column to toggle between:**
+  - change in percentage. (Default)
   - current market value in total.
-  - change in percentage.
   
 **7. Click on the last column to toggle between:** 
+  - change in percentage. (Default)
   - change in euros.
-  - change in percentage.
+  
+The last column of the table shows the stock price change for the last three days. Each number means change from previous day.
 
 ![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm3.gif)
 
