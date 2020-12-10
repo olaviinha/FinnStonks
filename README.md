@@ -136,12 +136,12 @@ Most of the UI is configurable simply by clicking on things.
   
 **2. Click on _change_ value (top center) to toggle between:**
   - portfolio value change in euros. (Default)
-  - portfolio value change including any previous sales profits/losses in euros.
+  - portfolio value change plus any previous sales profits/losses in euros.
   - portfolio value change in percentage.
   
 **3. Click on the _portfolio value_ (top right) to toggle between:**
   - portfolio value in euros. (Default)
-  - portfolio value in euros including any previous sales profits/losses
+  - portfolio value in euros plus any previous sales profits/losses
   - previous sales profits/losses only (no portfolio value)
   
 **4. Click on the second column to toggle between:**
