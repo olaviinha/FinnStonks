@@ -1,6 +1,6 @@
 # FinnStonks Personal Equity Portfolio Monitor
 
-FinnStonks Personal Equity Portfolio Monitor (**FPEPM**) provides a web-based, customizable, simple, compact, clean textual overview of the current state
+FinnStonks Personal Equity Portfolio Monitor provides a web-based, customizable, simple, compact, clean textual overview of the current state
 of your equity portfolio for daily monitoring.
 
 Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
@@ -37,7 +37,7 @@ Stock purchases/sales may also be totally imaginary to explore your _shark hunch
 
 ## Used APIs and how to obtain required API key
 
-FPEPM uses two APIs:
+FinnStonks uses two APIs:
 1. European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
 USD to EUR conversion.
 2. Bloomberg's
@@ -65,17 +65,17 @@ rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 ### API limitations
 
 At the time of writing this, Bloomberg's API is available for a Freemium plan, allowing 500 monthly API calls free of charge. 
-Each refresh or pageload of FPEPM consumes 2 API calls to fetch the current market information and 3 day price histories.
+Each refresh or pageload of FinnStonks consumes 2 API calls to fetch the current market information and 3 day price histories.
 
-**This means you can refresh FPEPM about 8 times a day, or, about once every 3 hours, providing that your copy of FPEPM is 
-open on a single device 24/7.** If your copy of FPEPM is open on multiple devices (e.g. more than one person has access to it), it
+**This means you can refresh FinnStonks about 8 times a day, or, about once every 3 hours, providing that your copy of FinnStonks is 
+open on a single device 24/7.** If your copy of FinnStonks is open on multiple devices (e.g. more than one person has access to it), it
 will naturally reflect on the number of consumed API calls.
 
 TODO: fetch price history only when day has changed since last pageload to save API calls.
 
 ## Your trading data
 
-FPEPM uses a simple `stocks.txt` file that should contain all your purchase and sale events in a simple delimiter-separated format.
+FinnStonks uses a simple `stocks.txt` file that should contain all your purchase and sale events in a simple delimiter-separated format.
 Each line should read `<symbol:exchange>;<date purchased/sold>;<number of shares purchased/sold>;<purchase/sale price of 1 stock>`.
 All additional fees regarding purchase or sale events should be calculated in the price per stock value.
 
@@ -170,12 +170,12 @@ The last column of the table shows the stock price change for the last three day
 2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and sale events: [instructions](#your-trading-data).
 3. Obtain required API key: [instructions](#obtain-api-key).
 4. Open `finnstonks.js` in a text editor, paste your API key in there and change any of the settings you wish.
-5. Upload all files to a SSL secured server. FPEPM cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
+5. Upload all files to a SSL secured server. FinnStonks cannot be ran on localhost due to CORS policies of modern browsers (e.g. `file://` protocol is no longer supported).
 6. Whenever you perform a purchase or a sale, just add it to the corresponding list in `stocks.txt`.
 
 ### #protip: Host stocks.txt in [Dropbox](https://www.dropbox.com) for easy updating.
 
-Once you have FPEPM up on a server, you may also keep `stocks.txt` in your [Dropbox](https://www.dropbox.com), where it's possibly considerably easier to keep up to date than on a regular web server. Any other such cloud storage file sync apps are currently untested, but may work just as well (as long as it can produce an URL to the raw file with required CORS headers).
+Once you have FinnStonks up on a server, you may also keep `stocks.txt` in your [Dropbox](https://www.dropbox.com), where it's possibly considerably easier to keep up to date than on a regular web server. Any other such cloud storage file sync apps are currently untested, but may work just as well (as long as it can produce an URL to the raw file with required CORS headers).
 
 1. Place `stocks.txt` somewhere in your Dropbox.
 2. Right-click it and select _Copy Dropbox Link_.
@@ -195,6 +195,6 @@ platform you've used to purchase your assets, very few seem to provide any abili
 account any further trading events, doing any calculations or customizing layout or the data shown. Furthermore, one may do different 
 tradings on different platforms and lose the overview of the whole.
 
-Hence an Excel spreadsheet is still a good friend of any stock investor. The purpose of FPEPM is to replace all that hassle with an 
+Hence an Excel spreadsheet is still a good friend of any stock investor. The purpose of FinnStonks is to replace all that hassle with an 
 automated, clean, browser-accessible screen. All you do is add the event to the bottom of the list when you've purchased or sold some stocks
 in spite of the used platform.
