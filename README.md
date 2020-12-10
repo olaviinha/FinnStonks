@@ -21,7 +21,7 @@ TL0:GR;2020-12-08;2;525.70
 
 ...and turns them into this:
 
-![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-1.jpg)
+![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-3.jpg)
 Example `stocks.txt` viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
 
 Stock purchases/sales may also be totally imaginary to explore your _shark hunch_ with different what-if scenarios using actual market data.
@@ -123,7 +123,7 @@ modifying it should be pretty straight-forward.
 - **Below** settings, you can find `var mockData = false;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
 When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
 
-![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-2.jpg)
+![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-4.jpg)
 `veryCompact` set to `true`, `showCashouts` set to true, everything clickable clicked once, to change what information is displayed.
 
 ### User interactions
