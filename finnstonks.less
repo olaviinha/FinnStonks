@@ -1,9 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Fredoka+One|Signika+Negative:300,400,700');
-@font-face {
-    font-family: 'HSL Pikto';
-    src: url(gfx/hsl-pikto.woff);
-    font-weight:400;
-}
 
 @base-size:         20px;
 @base-size-xs:      12px;
@@ -172,6 +167,7 @@ body {
             cursor: pointer;
             text-align: right;
             color: @cashout;
+            font-size: @base-size;
             .pos {
                 color: @cashout;
             }
@@ -181,7 +177,7 @@ body {
             .neg:before {
                 content: '-';
             }
-            .percent:after {
+            .cpercent:after {
                 content: ' %';
             }
         }
