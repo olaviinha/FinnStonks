@@ -160,6 +160,7 @@ function filterList(arr){
 
 var sold = false;
 function initProcess(){
+    $('.stocks').html('').hide();
     $.get({
         url: tradeEventsTxt,
         async: false,
