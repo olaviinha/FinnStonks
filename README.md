@@ -128,7 +128,7 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 
 ### User interactions
 
-Instead of hard-coded settings, most of the UI is configurable simply by clicking on things. The last column of the table shows the stock price change for the last three days. Each number means *change from previous day*.
+Most of the UI is configurable simply by clicking on things.
 
 **1. Click on _investment total_ value (top left) to toggle between:**
   - total euros invested. (Default)
