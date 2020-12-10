@@ -99,7 +99,7 @@ TL0:GR;2020-12-08;2;525.70
 
 You can safely ignore anything under this title, if you don't know what it means.
 
-Most of the UI is configurable simply by clicking on things, even though there are a number of hard-coded settings in the javascript file (see [Settings](#settings)). See [user interactions](#user-interactions) for what is actually displayed on the table by default and what are the options.
+Most of the UI is configurable simply by clicking on things, even though there are a number of hard-coded settings in the javascript file (see [Settings](#settings)). To keep the UI as clean and simple as possible, I have opted not to include much descriptive information on the UI: See [user interactions](#user-interactions) for what is actually displayed on the table by default and what are the options.
 
 ### Prerequisites
 
