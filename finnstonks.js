@@ -493,7 +493,7 @@ function initClicks(){
     });
     $('.tops.values .difference').click(function(){
         if($(this).find('.eur-with-sales').is(':visible')){
-            $('.tops.titles .difference').html('change incl. sales return');
+            $('.tops.titles .difference').html('change + sales return');
         } else {
             $('.tops.titles .difference').html('change');
         }
