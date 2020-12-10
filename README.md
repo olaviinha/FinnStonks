@@ -123,7 +123,7 @@ modifying it should be pretty straight-forward.
 - **Below** settings, you can find `var mockData = false;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
 When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
 
-![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-4.jpg)
+![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-5.jpg)
 `veryCompact` set to `true`, `showCashouts` set to true, everything clickable clicked once, to change what information is displayed.
 
 ### User interactions
@@ -161,8 +161,6 @@ Most of the UI is configurable simply by clicking on things.
   - change in euros.
   
 The last column of the table shows the stock price change for the last three days. Each number means change from previous day.
-
-![PEPM](https://storage.googleapis.com/olaviinha/github/pepm/pepm3.gif)
 
 ## How to set it all up
 
