@@ -50,7 +50,7 @@ var showChangeEur = true;   // Show the third column: change in EUR or percent.
 var showPercent = true;     // Show the fourth column: all-time change in percentage or current market price in EUR.
 var show3dHistory = true;   // Show 3 day market price change history.
 var showTotalsTop = true;   // Show totals at the top. Note that this is different than totals at bottom.
-var showTotalsBottom = false// Show totals at the bottom. Note that this is different than totals at top.
+var showTotalsBottom = false;// Show totals at the bottom. Note that this is different than totals at top.
 
 //---------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -78,8 +78,6 @@ refreshInterval = 1000 * 60 * 60 * refreshInterval;
 // Work around Dropbox CORS headers
 if(tradeEventsTxt.indexOf('www.dropbox.com') > -1){
     tradeEventsTxt = tradeEventsTxt.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
-} else {
-    // console.log('is not dropbox link');
 }
 
 $.ajax(currency).done(function (response) {
@@ -113,6 +111,8 @@ function addRows(detailsList){
             .attr('data-invested-with-sales', details.totalWithSales.toFixed(2))
             .attr('data-balance', details.liquidBalance.toFixed(2))
             .attr('data-purchases-total', details.purchasesTotal.toFixed(2))
+            .attr('data-purchases-pcs', details.purchasesPcs)
+            .attr('data-sales-pcs', details.salesPcs)
             .attr('data-sales-total', details.salesTotal.toFixed(2));
         $('#'+id).find('.date').html(details.date);
         $('#'+id).find('.pcs').html(details.pcs);
@@ -138,12 +138,15 @@ function filterList(arr){
             liquidBalance: Number(itm[2]) * Number(itm[3]),
             difference: 0,
             purchasesTotal: Number(itm[2]) * Number(itm[3]),
-            salesTotal: 0
+            purchasesPcs: Number(itm[2]),
+            salesTotal: 0,
+            salesPcs: 0
         };
         var addIt = true;
         arrDetails.forEach(function(bw, i){
             if(bw.symbol == details.symbol){
                 arrDetails[i].pcs += details.pcs;
+                arrDetails[i].purchasesPcs += details.purchasesPcs;
                 arrDetails[i].total += details.total;
                 if(effectiveDate=='last'){
                     arrDetails[i].date = details.date;
@@ -181,7 +184,7 @@ function initProcess(){
                         finalList[i].turnover += (sell.pcs * buy.price) - (buy.total/buy.pcs);
                         finalList[i].turnoverWithSales += (sell.pcs * sell.price) - (buy.total/buy.pcs);
                         finalList[i].salesTotal += sell.pcs * sell.price;
-                        // finalList[i].liquidBalance = buy.total - (sell.pcs * sell.price);
+                        finalList[i].salesPcs += sell.pcs;
                     }
                 });
             });
@@ -263,25 +266,12 @@ function processStocks(data){
         if( showChangeEur ){ $('#'+id).find('.market .price.eur').removeClass('hidden'); }
         if( showPercent ){ $('#'+id).find('.percents .percent').removeClass('hidden'); }
         if( veryCompact ){ $('#'+id).addClass('very-compact'); }
-        if( paidBack) {
-            // $('#'+id).find('.values, .pcs').addClass('hidden'); 
-            // $('#'+id).find('.purchase').addClass('purchase-locked').removeClass('.purchase');
-            // $('#'+id).find('.nostocks').html('0.00').removeClass('hidden'); 
-        }
         if( cashedOut) { 
             $('#'+id).find('.purchase, .market, .percents, .trend').remove(); 
             $('#'+id).find('.nostocks').html('0').removeClass('hidden'); 
-            // $('#'+id).find('.values').addClass('hidden'); 
-            
-            // $('#'+id).find('.market').css('visibility', 'hidden');
             $('#'+id).append('<div class="cashoutd"><div class="ceur">'+vicEur.toFixed(2)+'</div><div class="cpercent hidden">'+vicPer.toFixed(2)+'</div></div>')
-            paint($('.cashoutd .ceur, .cashoutd .cpercent'), 1); //Number($('#'+id).data('purchases-total')));
+            paint($('.cashoutd .ceur, .cashoutd .cpercent'), 1);
         }
-        // if( cashedOut ) { 
-        //     $('#'+id).find('.values').addClass('hidden'); 
-        //     $('#'+id).find('.nostocks').removeClass('hidden'); 
-        //     $('#'+id).find('.market').css('visibility', 'hidden');
-        // }
         if( truncateTo > 0){
             var name = $('#'+id).find('.name').html();
             if(name.indexOf(' ') > -1){
@@ -409,23 +399,27 @@ function calcTotals(){
     
     
     var xpurchaseTotal = 0;
+    var liquidationsTotal = 0;
     $('.stocks .base').each(function(){
         xpurchaseTotal += Number($(this).data('invested'));
+
+        var soldEur = Number($(this).data('sales-total'));
+        var soldPcs = Number($(this).data('sales-pcs'));
+        var purchasedEur = Number($(this).data('purchases-total'));
+        var purchasedPcs = Number($(this).data('purchases-pcs'));
+        console.log('deez', soldEur, soldPcs, purchasedEur, purchasedPcs);
+        if(soldEur > 0){
+            var purchasePriceOfSold = purchasedEur / purchasedPcs * soldPcs;
+            var revenueEur = soldEur - purchasePriceOfSold;
+            liquidationsTotal += revenueEur;
+
+            console.log('calc', purchasePriceOfSold, revenueEur, liquidationsTotal);
+        }
     });
 
     var xmarketDiff = 0;
     $('.market .price.eur').each(function(){
         xmarketDiff += Number($(this).html());
-    });
-
-    var liquidationsTotal = 0;
-    $('.stocks .base').each(function(){
-        var sal = Number($(this).data('sales-total'));
-        if(sal > 0){
-            var pur = Number($(this).data('purchases-total'));
-            var pl = sal - pur;
-            liquidationsTotal += pl;
-        }
     });
 
     var xpercentageTotal = xmarketDiff/xpurchaseTotal*100;
@@ -463,7 +457,6 @@ function calcTotals(){
         if(show3dHistory){
             $('#totale').append('<div class="trend"></div>');
         }
-        // $('#totale .stock').html('TOTAL');
         $('#totale .purchase').html(xpurchaseTotal.toFixed(2));
         $('#totale .market').html(xmarketDiff.toFixed(2));
         $('#totale .percents').html(xpercentageTotal.toFixed(2));
