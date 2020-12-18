@@ -168,7 +168,7 @@ The last column of the table shows the stock price change for the last three day
 2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and sale events: [instructions](#your-trading-data).
 3. Obtain required API key: [instructions](#obtain-api-key).
 4. Open `finnstonks.js` in a text editor, paste your API key in there and change any of the settings you wish.
-5. Upload all files to a SSL secured server or run a http server on localhost (such as [http-server](https://www.npmjs.com/package/http-server)). You cannot run FinnStonks by `file://` protocol.
+5. Upload all files to a SSL secured server or run a http server on localhost (such as [http-server](https://www.npmjs.com/package/http-server)). You can **not** run FinnStonks over `file://` protocol without a server due to modern browsers' CORS policies.
 6. Whenever you perform a purchase or a sale, just add it to the corresponding list in `stocks.txt`.
 
 ### #protip: Host stocks.txt in [Dropbox](https://www.dropbox.com) for easy updating.
