@@ -26,16 +26,40 @@ Example `stocks.txt` viewed on FINNSTONKS PEPM. Columns: owned shares, EUR inves
 
 Stock purchases/sales may also be totally imaginary to explore your _shark hunch_ with different what-if scenarios using actual market data.
 
-### Table of contents
+## Setup
+
+FinnStonks cannot be run via `file:///` protocol (i.e. it will not work if you drag and drop `index.html` to your browser window). You need to run a HTTP Daemon on localhost or place FinnStonks on an SSL secured web server.
+
+1. Clone or download this repository.
+2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and sale events: [instructions](#your-trading-data).
+3. Obtain required API key: [instructions](#obtain-api-key).
+4. Open `finnstonks.js` in a text editor, paste your API key in there and change any of the settings you wish.
+5. Run your HTTP Daemon (such as [http-server](https://www.npmjs.com/package/http-server)) or upload files to an SSL secured web server.
+6. Whenever you perform a purchase or a sale, just add it to the corresponding list in `stocks.txt`.
+
+### #protip: Host stocks.txt in [Dropbox](https://www.dropbox.com) for easy updating.
+
+Once you have FinnStonks up on a server, you may also keep `stocks.txt` in your [Dropbox](https://www.dropbox.com), where it's possibly considerably easier to keep up to date than on a regular web server. Any other such cloud storage file sync apps are currently untested, but may work just as well (as long as it can produce an URL to the raw file with required CORS headers).
+
+1. Place `stocks.txt` somewhere in your Dropbox.
+2. Right-click it and select _Copy Dropbox Link_.
+3. Edit `finnstonks.js` and locate line `var tradeEventsTxt = 'stocks.txt';` somewhere at the beginning.
+4. Replace `stocks.txt` on that line with the Dropbox Link from your clipboard and save.
+
+End result should look something like this:
+```
+var tradeEventsTxt = 'https://www.dropbox.com/s/b666pwrytk1pepm/stocks.txt?dl=0';
+```
+
+## Documentation
 1. [Used APIs and how to obtain required API key](#used-apis-and-how-to-obtain-required-api-key)
 2. [Your trading data](#your-trading-data)
 3. [User interface and how to use it](#user-interface-and-how-to-use-it)
-4. [How to set it all up](#how-to-set-it-all-up) and [how to host your trading data in Dropbox](#protip-host-stockstxt-in-dropbox-for-easy-updating)
 5. [Motivation](#motivation)
 
 ---
 
-## Used APIs and how to obtain required API key
+### Used APIs and how to obtain required API key
 
 FinnStonks uses two APIs:
 1. European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
@@ -48,7 +72,7 @@ Bloomberg's API was chosen for stock data for a few reasons probably worth menti
 - It contains multiple exchanges worldwide, most importantly Nasdaq Helsinki and Nasdaq First North.
 - It supports fetching market information of multiple companies with a single call, which is pretty neat when your usage is limited to 500 monthly API calls.
 
-### Obtain API key
+#### Obtain API key
 
 Bloomberg's Market and Financial News API requires an API key.
 
@@ -62,7 +86,7 @@ Copy and paste API key to the beginning of `finnstonks.js`:
 rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 ```
 
-### API limitations
+#### API limitations
 
 At the time of writing this, Bloomberg's API is available for a Freemium plan, allowing 500 monthly API calls free of charge. 
 Each refresh or pageload of FinnStonks consumes 2 API calls to fetch the current market information and 3 day price histories.
@@ -73,7 +97,7 @@ will naturally reflect on the number of consumed API calls.
 
 TODO: fetch price history only when day has changed since last pageload to save API calls.
 
-## Your trading data
+### Your trading data
 
 FinnStonks uses a simple `stocks.txt` file that should contain all your purchase and sale events in a simple delimiter-separated format.
 Each line should read `<symbol:exchange>;<date purchased/sold>;<number of shares purchased/sold>;<purchase/sale price of 1 stock>`.
@@ -95,24 +119,24 @@ YEINT:FH;2020-06-15;80;14.92
 TL0:GR;2020-12-08;2;525.70
 ```
 
-## User interface and how to use it
+### User interface and how to use it
 
 You can safely ignore anything under this title, if you don't know what it means.
 
 Most of the UI is configurable simply by clicking on things, even though there are a number of hard-coded settings in the javascript file (see [Settings](#settings)). To keep the UI as clean and simple as possible, I have opted not to include much descriptive information on the UI: See [user interactions](#user-interactions) for what is actually displayed on the table by default and what are the options.
 
-### Prerequisites
+#### Prerequisites
 
 - jQuery
 
 Although Bootstrap and LESS are used for styling in `index.html`, they are not in any way required for `finnstonks.js` to run.
 
-### Styling
+#### Styling
 
 All styling is freely customizable in `finnstonks.less`. You may use regular CSS or any styling you like,
 modifying it should be pretty straight-forward.
 
-### Settings
+#### Settings
 
 `finnstonks.js` contains a number of settings at the beginning of the file. Most should be pretty self-explanatory. Some settings that may not be self-explanatory:
 
@@ -126,7 +150,7 @@ When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's AP
 ![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-5.jpg)
 `veryCompact` set to `true`, `showCashouts` set to true, everything clickable clicked once, to change what information is displayed.
 
-### User interactions
+#### User interactions
 
 Most of the UI is configurable simply by clicking on things.
 
@@ -162,31 +186,8 @@ Most of the UI is configurable simply by clicking on things.
   
 The last column of the table shows the stock price change for the last three days. Each number means change from previous day.
 
-## How to set it all up
 
-1. Clone or download this repository.
-2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and sale events: [instructions](#your-trading-data).
-3. Obtain required API key: [instructions](#obtain-api-key).
-4. Open `finnstonks.js` in a text editor, paste your API key in there and change any of the settings you wish.
-5. Upload all files to a SSL secured server or run a http server on localhost (such as [http-server](https://www.npmjs.com/package/http-server)). You can **not** run FinnStonks over `file://` protocol without a server due to modern browsers' CORS policies.
-6. Whenever you perform a purchase or a sale, just add it to the corresponding list in `stocks.txt`.
-
-### #protip: Host stocks.txt in [Dropbox](https://www.dropbox.com) for easy updating.
-
-Once you have FinnStonks up on a server, you may also keep `stocks.txt` in your [Dropbox](https://www.dropbox.com), where it's possibly considerably easier to keep up to date than on a regular web server. Any other such cloud storage file sync apps are currently untested, but may work just as well (as long as it can produce an URL to the raw file with required CORS headers).
-
-1. Place `stocks.txt` somewhere in your Dropbox.
-2. Right-click it and select _Copy Dropbox Link_.
-3. Edit `finnstonks.js` and locate line `var tradeEventsTxt = 'stocks.txt';` somewhere at the beginning.
-4. Replace `stocks.txt` on that line with the Dropbox Link from your clipboard and save.
-
-End result should look something like this:
-```
-var tradeEventsTxt = 'https://www.dropbox.com/s/b666pwrytk1pepm/stocks.txt?dl=0';
-```
-
-
-## Motivation
+### Motivation
 There are countless stock market monitors out there that enable you to follow stock prices of your choosing. However, apart from the
 platform you've used to purchase your assets, very few seem to provide any ability to follow stock prices even _as if_ existing assets
 (_number of stocks_, _starting point_). Even fewer an entire equity portfolio containing multiple companies, not to mention taking into 
