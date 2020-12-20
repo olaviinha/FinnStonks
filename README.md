@@ -39,7 +39,7 @@ FinnStonks cannot be run via `file:///` protocol (i.e. it will not work if you d
 
 ### #protip: Host stocks.txt in [Dropbox](https://www.dropbox.com) for easy updating.
 
-Once you have FinnStonks up on a server, you may also keep `stocks.txt` in your [Dropbox](https://www.dropbox.com), where it's possibly considerably easier to keep up to date than on a regular web server. Any other such cloud storage file sync apps are currently untested, but may work just as well (as long as it can produce an URL to the raw file with required CORS headers).
+If your copy of FinnStonks is located on a web server, you may ease the updating of `stocks.txt` by hosting it separately in your [Dropbox](https://www.dropbox.com). Any other such cloud storage file sync apps are currently untested, but may work just as well (as long as it can produce an URL to the raw file with required CORS headers).
 
 1. Place `stocks.txt` somewhere in your Dropbox.
 2. Right-click it and select _Copy Dropbox Link_.
