@@ -2,16 +2,20 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>FinnStonks</title>
-        <link rel="shortcut icon" type="image/png" href="favicon-ft.png">
-        <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous" />
-        <link rel="stylesheet/less" type="text/css" href="finnstonks.less" />
-        <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" ></script>
+		<title>FinnStonks</title>
+		<link rel="shortcut icon" type="image/png" href="favicon-ft.png">
+		<link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous" />
+		<link rel="stylesheet/less" type="text/css" href="finnstonks.less" />
+		<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" ></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
+		<script src="//cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+		<script src="//cdn.jsdelivr.net/npm/chartjs-plugin-annotation@0.5.7/chartjs-plugin-annotation.min.js"></script>
+		<script src="//cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
 	</head>
 <body>
 
-    <!-- Templates -->
+    <!-- PEPM uses the id="STOCK" element as a row template -->
     <div class="hidden template">
         <div id="STOCK" class="base">
             <div class="stock">
@@ -42,12 +46,14 @@
                 <div class="percent"></div>
             </div>
             <div class="trend hidden">
-                <div class="eur hidden">
+                <!-- from purchase date --><div class="charts x5y0 hidden"></div>
+                <!-- 3 days --><div class="charts x3d0 hidden"></div>
+                <div class="percent hidden">
                     <div class="d1"></div>
                     <div class="d2"></div>
                     <div class="d3"></div>
                 </div>
-                <div class="percent hidden">
+                <div class="eur hidden">
                     <div class="d1"></div>
                     <div class="d2"></div>
                     <div class="d3"></div>
@@ -55,7 +61,7 @@
             </div>
         </div>
     </div>
-    <!-- //End templates -->
+    <!-- //End PEPM template -->
 
     <div class="container-fluid">
         <div class="row">
