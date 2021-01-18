@@ -190,6 +190,8 @@ Most of the UI is configurable simply by clicking on things.
   - price changed *per day from previous day* for the last 3 days, change in percentage.
   - price changed *per day from previous day* for the last 3 days, change in euros.
   
+In the price charts, horizontal grey line indicates the price you paid.
+  
 
 ### Motivation
 There are countless stock market monitors out there that enable you to follow stock prices of your choosing. However, apart from the
