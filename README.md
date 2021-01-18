@@ -23,7 +23,7 @@ TL0:GR;2020-12-08;2;525.70
 
 ![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/charts1.gif)
 
-Purchase/sales data may as well be completely imaginary, in case you want to practice or feel bad about not investing to a certain company earlier.
+Purchase/sales data may as well be completely imaginary, in case you want to practice or feel bad about not investing in a certain company earlier.
 
 ## Setup
 
