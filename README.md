@@ -123,8 +123,6 @@ Most of the UI is configurable simply by clicking on things, even though there a
 
 #### Prerequisites
 
-All prerequisites have been linked from CDNs.
-
 - jQuery
 - Chart.js
 - Chart.js Annotation Plugin
@@ -133,6 +131,7 @@ All prerequisites have been linked from CDNs.
 - LESS (demo only, you may use any styling methods)
 - Bootstrap (demo only, you may use any or no framework)
 
+All prerequisites have been linked from CDNs.
 
 #### Styling
 
