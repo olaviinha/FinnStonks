@@ -1,9 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Fredoka+One|Signika+Negative:300,400,700');
-@font-face {
-    font-family: 'HSL Pikto';
-    src: url(gfx/hsl-pikto.woff);
-    font-weight:400;
-}
 
 @base-size:         20px;
 @base-size-xs:      12px;
@@ -13,6 +8,7 @@
 @hmargin:           .5em;
 
 @col1:              100%;
+@colh:               15%;   
 @col2:               20%;
 @padd:                 0;
 
@@ -90,6 +86,10 @@ body {
 .stocks-container {
     text-align: center;
     height: 100%;
+
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
 }
 
 .message {
@@ -110,8 +110,8 @@ body {
     text-align: left;
     display: none;
     color: @base-color;
-    width: 50%;
-    max-width: 560px;
+    width: 100%;
+    // max-width: 560px;
     padding: 10px;
     margin: auto;
     transition: 1s ease-in-out;
@@ -223,7 +223,7 @@ body {
         cursor: pointer;
         display: table-cell;
         text-align: right;
-        width: @col2;
+        width: @colh;
         padding-right: @vmargin;
         font-size: @base-size;
         // width: 20%;
@@ -263,9 +263,21 @@ body {
         display: table-cell;
         vertical-align: middle;
         width: 10%;
+        // width: 100px;
         font-size: @base-size-xs;
         line-height: calc(@base-size-xs - 1px);
         text-align: right;
+        height: 100%;
+        .charts {
+            // width: 60px;
+            // height: 48px;
+            margin-left: 2em;
+            width: 60px;
+            height: 48px;
+            div {
+                
+            }
+        }
     }
 
     .tops {
