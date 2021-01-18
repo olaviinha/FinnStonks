@@ -21,10 +21,10 @@ TL0:GR;2020-12-08;2;525.70
 
 ...and turns them into this:
 
-![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-3.jpg)
-Example `stocks.txt` viewed on FINNSTONKS PEPM. Columns: owned shares, EUR invested, EUR changed since purchase, percent changed since purchase, daily change history for the previous 3 days in percent.
+![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/charts1.gif)
+`stocks.txt` rendered by FinnStonks. User clicks change what data the columns are displaying.
 
-Stock purchases/sales may also be totally imaginary to explore your _shark hunch_ with different what-if scenarios using actual market data.
+Data in `stocks.txt` may as well be all fake, in case you rather just practice or are curious about certain scenarios.
 
 ## Setup
 
@@ -89,13 +89,10 @@ rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 #### API limitations
 
 At the time of writing this, Bloomberg's API is available for a Freemium plan, allowing 500 monthly API calls free of charge. 
-Each refresh or pageload of FinnStonks consumes 2 API calls to fetch the current market information and 3 day price histories.
+Each refresh or pageload of FinnStonks consumes 3 API calls to fetch the current market information, 3 day price history and 5 year price history.
 
-**This means you can refresh FinnStonks about 8 times a day, or, about once every 3 hours, providing that your copy of FinnStonks is 
-open on a single device 24/7.** If your copy of FinnStonks is open on multiple devices (e.g. more than one person has access to it), it
-will naturally reflect on the number of consumed API calls.
+**This means you can refresh FinnStonks about 8 times a day**, or **every 5 hours** if your Stonks is always open with a refresh interval (setting supported). If your copy of FinnStonks is open on multiple devices (e.g. more than one person has access to it), it will naturally reflect on the number of consumed API calls.
 
-TODO: fetch price history only when day has changed since last pageload to save API calls.
 
 ### Your trading data
 
@@ -127,9 +124,16 @@ Most of the UI is configurable simply by clicking on things, even though there a
 
 #### Prerequisites
 
-- jQuery
+All prerequisites have been linked from CDNs.
 
-Although Bootstrap and LESS are used for styling in `index.html`, they are not in any way required for `finnstonks.js` to run.
+- jQuery
+- Chart.js
+- Chart.js Annotation Plugin
+- Moment.js
+
+- LESS (demo only, you may use any styling methods)
+- Bootstrap (demo only, you may use any or no framework)
+
 
 #### Styling
 
@@ -173,19 +177,19 @@ Most of the UI is configurable simply by clicking on things.
   - euros invested minus any previous sales profits/losses (current true cash loss).
   
 **5. Click on the third column to toggle between:**
-  - change in euros. (Default)
-  - change in percentage.
+  - from purchase price to latest price, change in euros. (Default)
+  - from purchase price to latest price, change in percentage.
   
 **6. Click on the fourth column to toggle between:**
-  - change in percentage. (Default)
-  - current market value in total.
+  - from purchase price to latest price, change in percentage. (Default)
+  - current total market value.
   
 **7. Click on the last column to toggle between:** 
-  - change in percentage. (Default)
-  - change in euros.
+  - price chart from purchase date to latest. (Default)
+  - price chart from 3 days ago to latest.
+  - price changed *per day from previous day* for the last 3 days, change in percentage.
+  - price changed *per day from previous day* for the last 3 days, change in euros.
   
-The last column of the table shows the stock price change for the last three days. Each number means change from previous day.
-
 
 ### Motivation
 There are countless stock market monitors out there that enable you to follow stock prices of your choosing. However, apart from the
