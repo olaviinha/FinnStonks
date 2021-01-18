@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------
 
 // rapidapi.com API key
-var rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
+var rapidApiKey = 'PASTE YOUR RAPIDAPI KEY HERE';
 
 // Url to your stocks.txt file, in case you want to host it in another location, e.g. Dropbox.
 var tradeEventsTxt = 'stocks.txt';
@@ -51,6 +51,11 @@ var showPercent = true;     // Show the fourth column: all-time change in percen
 var show3dHistory = true;   // Show 3 day market price change history.
 var showTotalsTop = true;   // Show totals at the top. Note that this is different than totals at bottom.
 var showTotalsBottom = false;// Show totals at the bottom. Note that this is different than totals at top.
+var generateCharts = true;
+
+var clBs = '#888'; // Base color, ideally same as in CSS
+var clPs = '#696'; // Positive color, ideally same as in CSS
+var clNg = '#a66'; // Negative color, ideally same as in CSS
 
 //---------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -63,13 +68,18 @@ var mockAlarm = false;
 var mockStocks = {"result":{"OR:FP":{"securityType":"Common Stock","symbol":"OR","exchange":"EN Paris","country":"France","currency":"EUR","resourceType":"Company","fundamentalDataCurrency":"EUR","resourceSubtype":"Public","region":"EMEA","ticker":"or:fp","tickerName":"OR:FP","template":"Stock","tinyName":"L'Oreal SA","name":"L'Oreal SA","watchlist":true,"resourceId":"OR:FP","last":"302.0","netChange":"-2.8","lastPriceTime":1607531708,"pctChange1M":"-2.9","yearHigh":"321.4","dayHigh":"306.4","volume":406239.0,"yearLow":"196.0","dayLow":"300.4","pctChangeYTD":"14.4","lastPriceAllSessions":"302.0","lastPriceTimeAllSessions":1607531708,"pctChange":"-0.92"},"SAA1V:FH":{"securityType":"Common Stock","symbol":"SAA1V","exchange":"Helsinki","country":"Finland","currency":"EUR","resourceType":"Company","fundamentalDataCurrency":"EUR","resourceSubtype":"Public","region":"EMEA","ticker":"saa1v:fh","tickerName":"SAA1V:FH","template":"Stock","tinyName":"Sanoma Oyj","name":"Sanoma Oyj","watchlist":true,"resourceId":"SAA1V:FH","last":"13.38","netChange":"0.00","lastPriceTime":1607531374,"pctChange1M":"10.21","yearHigh":"13.60","dayHigh":"13.60","volume":70680.0,"yearLow":"6.84","dayLow":"13.24","pctChangeYTD":"41.66","lastPriceAllSessions":"13.38","lastPriceTimeAllSessions":1607531374,"pctChange":"0.00"},"SSH1V:FH":{"securityType":"Common Stock","symbol":"SSH1V","exchange":"Helsinki","country":"Finland","currency":"EUR","resourceType":"Company","fundamentalDataCurrency":"EUR","resourceSubtype":"Public","region":"EMEA","ticker":"ssh1v:fh","tickerName":"SSH1V:FH","template":"Stock","tinyName":"SSH Communications Security Oyj","name":"SSH Communications Security Oyj","watchlist":true,"resourceId":"SSH1V:FH","last":"1.33","netChange":"-0.01","lastPriceTime":1607531392,"pctChange1M":"1.14","yearHigh":"1.90","dayHigh":"1.34","volume":12205.0,"yearLow":"0.65","dayLow":"1.30","pctChangeYTD":"28.50","lastPriceAllSessions":"1.33","lastPriceTimeAllSessions":1607531392,"pctChange":"-0.75"},"TSLA:US":{"securityType":"Common Stock","symbol":"TSLA","exchange":"NASDAQ GS","country":"United States","currency":"USD","resourceType":"Company","fundamentalDataCurrency":"USD","resourceSubtype":"Public","region":"AMERICAS","ticker":"tsla:us","tickerName":"TSLA:US","template":"Stock","tinyName":"Tesla Inc","name":"Tesla Inc","watchlist":true,"resourceId":"TSLA:US","last":"604.48","netChange":"-45.40","lastPriceTime":1607547600,"pctChange1M":"43.49","yearHigh":"654.32","dayHigh":"654.32","volume":69949056,"yearLow":"67.02","dayLow":"588.00","pctChangeYTD":"654.71","lastPriceAllSessions":"604.44","lastPriceTimeAllSessions":1607548127,"pctChange":"-6.99"},"TL0:GR":{"securityType":"Common Stock","symbol":"TL0","exchange":"Xetra","country":"United States","currency":"EUR","resourceType":"Company","fundamentalDataCurrency":"USD","resourceSubtype":"Public","region":"EMEA","ticker":"tl0:gr","tickerName":"TL0:GR","template":"Stock","tinyName":"Tesla Inc","name":"Tesla Inc","watchlist":true,"resourceId":"TL0:GR","last":"499.60","netChange":"-37.30","lastPriceTime":1607546994,"pctChange1M":"38.78","yearHigh":"552.00","dayHigh":"544.20","volume":72320.0,"yearLow":"60.40","dayLow":"491.60","pctChangeYTD":"551.03","lastPriceAllSessions":"499.60","lastPriceTimeAllSessions":1607546994,"pctChange":"-6.95"},"YEINT:FH":{"securityType":"Common Stock","symbol":"YEINT","exchange":"Helsinki","country":"Finland","currency":"EUR","resourceType":"Company","fundamentalDataCurrency":"EUR","resourceSubtype":"Public","region":"EMEA","ticker":"yeint:fh","tickerName":"YEINT:FH","template":"Stock","tinyName":"Yleiselektroniikka Oyj","name":"Yleiselektroniikka Oyj","watchlist":true,"resourceId":"YEINT:FH","last":"26.6","netChange":"0.6","lastPriceTime":1607531390,"pctChange1M":"40.7","yearHigh":"34.0","dayHigh":"26.8","volume":1303.0,"yearLow":"9.9","dayLow":"26.0","pctChangeYTD":"150.9","lastPriceAllSessions":"26.6","lastPriceTimeAllSessions":1607531390,"pctChange":"2.31"}}};
 var mockTrends = {"result":{"OR:FP":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1604930400,"close":311.0},{"time":1605016800,"close":315.4},{"time":1605103200,"close":319.0},{"time":1605189600,"close":317.3},{"time":1605276000,"close":314.2},{"time":1605535200,"close":317.5},{"time":1605621600,"close":316.6},{"time":1605708000,"close":314.6},{"time":1605794400,"close":310.8},{"time":1605880800,"close":312.1},{"time":1606140000,"close":306.3},{"time":1606226400,"close":295.9},{"time":1606312800,"close":304.4},{"time":1606399200,"close":305.8},{"time":1606485600,"close":309.3},{"time":1606744800,"close":306.8},{"time":1606831200,"close":306.3},{"time":1606917600,"close":306.4},{"time":1607004000,"close":305.0},{"time":1607090400,"close":306.3},{"time":1607349600,"close":304.0},{"time":1607436000,"close":304.8},{"time":1607522400,"close":302.0}],"low":"295.9","high":"319.0","first":1604930400,"last":1607522400,"security":{"ticker":"OR:FP","open":"306.4","prevClose":"311.0"},"hasVolume":false},"SAA1V:FH":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1604930400,"close":12.14},{"time":1605016800,"close":11.7},{"time":1605103200,"close":11.96},{"time":1605189600,"close":11.78},{"time":1605276000,"close":12.1},{"time":1605535200,"close":12.16},{"time":1605621600,"close":12.26},{"time":1605708000,"close":12.28},{"time":1605794400,"close":12.06},{"time":1605880800,"close":11.96},{"time":1606140000,"close":12.36},{"time":1606226400,"close":12.52},{"time":1606312800,"close":12.56},{"time":1606399200,"close":12.32},{"time":1606485600,"close":12.46},{"time":1606744800,"close":12.2},{"time":1606831200,"close":12.3},{"time":1606917600,"close":12.76},{"time":1607004000,"close":13.12},{"time":1607090400,"close":13.08},{"time":1607349600,"close":13.08},{"time":1607436000,"close":13.38},{"time":1607522400,"close":13.46}],"low":"11.7","high":"13.46","first":1604930400,"last":1607522400,"security":{"ticker":"SAA1V:FH","open":"13.38","prevClose":"12.14"},"hasVolume":false},"SSH1V:FH":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1604930400,"close":1.315},{"time":1605016800,"close":1.34},{"time":1605103200,"close":1.3599999999999999},{"time":1605189600,"close":1.27},{"time":1605276000,"close":1.26},{"time":1605535200,"close":1.27},{"time":1605621600,"close":1.25},{"time":1605708000,"close":1.255},{"time":1605794400,"close":1.27},{"time":1605880800,"close":1.26},{"time":1606140000,"close":1.28},{"time":1606226400,"close":1.2650000000000001},{"time":1606312800,"close":1.2650000000000001},{"time":1606399200,"close":1.27},{"time":1606485600,"close":1.27},{"time":1606744800,"close":1.255},{"time":1606831200,"close":1.26},{"time":1606917600,"close":1.28},{"time":1607004000,"close":1.275},{"time":1607090400,"close":1.275},{"time":1607349600,"close":1.305},{"time":1607436000,"close":1.34},{"time":1607522400,"close":1.33}],"low":"1.25","high":"1.3599999999999999","first":1604930400,"last":1607522400,"security":{"ticker":"SSH1V:FH","open":"1.34","prevClose":"1.31"},"hasVolume":false},"TSLA:US":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1604930400,"close":421.26},{"time":1605016800,"close":410.36},{"time":1605103200,"close":417.13},{"time":1605189600,"close":411.76},{"time":1605276000,"close":408.5},{"time":1605535200,"close":408.09},{"time":1605621600,"close":441.61},{"time":1605708000,"close":486.64},{"time":1605794400,"close":499.27},{"time":1605880800,"close":489.61},{"time":1606140000,"close":521.85},{"time":1606226400,"close":555.38},{"time":1606312800,"close":574.0},{"time":1606485600,"close":585.76},{"time":1606744800,"close":567.6},{"time":1606831200,"close":584.76},{"time":1606917600,"close":568.82},{"time":1607004000,"close":593.38},{"time":1607090400,"close":599.04},{"time":1607349600,"close":641.76},{"time":1607436000,"close":649.88},{"time":1607522400,"close":620.92}],"low":"408.09","high":"649.88","first":1604930400,"last":1607522400,"security":{"ticker":"TSLA:US","open":"653.69","prevClose":"421.26"},"hasVolume":false},"TL0:GR":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1604930400,"close":360.0},{"time":1605016800,"close":346.0},{"time":1605103200,"close":353.85},{"time":1605189600,"close":348.75},{"time":1605276000,"close":345.4},{"time":1605535200,"close":344.2},{"time":1605621600,"close":372.45},{"time":1605708000,"close":410.8},{"time":1605794400,"close":419.75},{"time":1605880800,"close":413.8},{"time":1606140000,"close":440.4},{"time":1606226400,"close":467.4},{"time":1606312800,"close":480.25},{"time":1606399200,"close":478.05},{"time":1606485600,"close":490.6},{"time":1606744800,"close":475.4},{"time":1606831200,"close":484.9},{"time":1606917600,"close":469.7},{"time":1607004000,"close":488.45},{"time":1607090400,"close":493.25},{"time":1607349600,"close":528.4},{"time":1607436000,"close":536.9},{"time":1607522400,"close":528.6}],"low":"344.2","high":"536.9","first":1604930400,"last":1607522400,"security":{"ticker":"TL0:GR","open":"535.10","prevClose":"360.00"},"hasVolume":false},"YEINT:FH":{"historical":true,"ticksType":"DayTick","ticks":[{"time":1604930400,"close":18.9},{"time":1605016800,"close":19.0},{"time":1605103200,"close":19.0},{"time":1605189600,"close":19.8},{"time":1605276000,"close":20.4},{"time":1605535200,"close":22.2},{"time":1605621600,"close":25.2},{"time":1605708000,"close":24.4},{"time":1605794400,"close":24.2},{"time":1605880800,"close":25.6},{"time":1606140000,"close":27.8},{"time":1606226400,"close":27.8},{"time":1606312800,"close":29.0},{"time":1606399200,"close":33.0},{"time":1606485600,"close":33.6},{"time":1606744800,"close":31.2},{"time":1606831200,"close":28.0},{"time":1606917600,"close":26.2},{"time":1607004000,"close":25.2},{"time":1607090400,"close":26.4},{"time":1607349600,"close":26.0},{"time":1607436000,"close":26.0},{"time":1607522400,"close":26.4}],"low":"18.9","high":"33.6","first":1604930400,"last":1607522400,"security":{"ticker":"YEINT:FH","open":"26.4","prevClose":"18.9"},"hasVolume":false}}};
 
+var api_currency = 'https://api.exchangeratesapi.io/latest?base=USD&symbols=USD,EUR';
+var api_stock = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-compact?id=';
+var api_history5y = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?&interval=y5&id='
+var api_history3d = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?&interval=d3&id='
+
 var rate, usd, eur;
 var buys = new Array();
 var sells = new Array();
 var includeSales = true;
 var currency = {
     async: false,
-    url: 'https://api.exchangeratesapi.io/latest?base=USD&symbols=USD,EUR',
+    url: api_currency,
     method: 'GET'
 };
 
@@ -103,6 +113,7 @@ function addRows(detailsList){
         tpl = tpl.replace('STOCK', symbol);
         $(container).append(tpl);
         $('#'+id)
+            .attr('data-first-price', details.price)
             .attr('data-turnover', details.turnover)
             .attr('data-turnover-with-sales', details.turnoverWithSales)
             .attr('data-date', details.date)
@@ -297,50 +308,202 @@ function paint(el, comp, base){
     }
 }
 
-function processTrends(data){
+function processTrends(data, interval){
+
     $.each(data, function(i, stock) {
+
         var id = i.split(':')[0];
         var last = stock.ticks.length;
+
         var latest = stock.ticks[last-1].close;
-        var close3daysAgo = stock.ticks[last-4].close;
-        var close2daysAgo = stock.ticks[last-3].close;
-        var closeYesterday = stock.ticks[last-2].close;
-        d3e = close2daysAgo - close3daysAgo;
-        d2e = closeYesterday - close2daysAgo;
-        d1e = latest - closeYesterday;
-        d3p = (1 - close3daysAgo/close2daysAgo) * 100;
-        d2p = (1 - close2daysAgo/closeYesterday) * 100;
-        d1p = (1 - closeYesterday/latest) * 100;
-        if(mockData && mockAlarm && id=='MSFT'){
-            d1p = -4;
-            d2p = -5;
-            d3p = -6;
+        var purchaseDate = $('#'+id).data('date');
+        var firstPrice = $('#'+id).data('first-price');
+
+        if(interval == '3d'){
+
+            var charts = [];
+            charts = [
+                moment().subtract(3, 'days').unix()
+            ];
+            var chartData = [];
+            $.each(charts, function(){
+                chartData.push([]);
+            });
+            $.each(stock.ticks, function(i, tick){
+                if(tick.time > charts[0]){
+                    chartData[0].push(tick.close);
+                }
+            });
+
+
+            var close3daysAgo = stock.ticks[last-4].close;
+            var close2daysAgo = stock.ticks[last-3].close;
+            var closeYesterday = stock.ticks[last-2].close;
+            d3e = close2daysAgo - close3daysAgo;
+            d2e = closeYesterday - close2daysAgo;
+            d1e = latest - closeYesterday;
+            d3p = (1 - close3daysAgo/close2daysAgo) * 100;
+            d2p = (1 - close2daysAgo/closeYesterday) * 100;
+            d1p = (1 - closeYesterday/latest) * 100;
+            if(mockData && mockAlarm && id=='MSFT'){
+                d1p = -4;
+                d2p = -5;
+                d3p = -6;
+            }
+            $('#'+id).find('.trend .eur .d1').html(d1e.toFixed(2));
+            $('#'+id).find('.trend .eur .d2').html(d2e.toFixed(2));
+            $('#'+id).find('.trend .eur .d3').html(d3e.toFixed(2));
+            $('#'+id).find('.trend .percent .d1').html(d1p.toFixed(2));
+            $('#'+id).find('.trend .percent .d2').html(d2p.toFixed(2));
+            $('#'+id).find('.trend .percent .d3').html(d3p.toFixed(2));
+            paint($('#'+id).find('.trend .d1'), d1p);
+            paint($('#'+id).find('.trend .d2'), d2p);
+            paint($('#'+id).find('.trend .d3'), d3p);
+            if(d1p < alarmLimit && d2p < alarmLimit && d3p < alarmLimit){
+                $('#'+id).addClass('alarm');
+            }
+        } else {
+            charts = [
+                moment(purchaseDate).unix()
+            ];
+            var chartData = [];
+            $.each(charts, function(){
+                chartData.push([]);
+            });
+            $.each(stock.ticks, function(i, tick){
+                if(tick.time > charts[0]){
+                    chartData[0].push(tick.close);
+                }
+                // if(tick.time > charts[1]){
+                //     chartData[1].push(tick.close);
+                // }
+                // if(tick.time > charts[2]){
+                //     chartData[2].push(tick.close);
+                // }
+            });
         }
-        $('#'+id).find('.trend .eur .d1').html(d1e.toFixed(2));
-        $('#'+id).find('.trend .eur .d2').html(d2e.toFixed(2));
-        $('#'+id).find('.trend .eur .d3').html(d3e.toFixed(2));
-        $('#'+id).find('.trend .percent .d1').html(d1p.toFixed(2));
-        $('#'+id).find('.trend .percent .d2').html(d2p.toFixed(2));
-        $('#'+id).find('.trend .percent .d3').html(d3p.toFixed(2));
-        if(d1p < alarmLimit){paint($('#'+id).find('.trend .d1'), d1p);}
-        if(d2p < alarmLimit){paint($('#'+id).find('.trend .d2'), d2p);}
-        if(d3p < alarmLimit){paint($('#'+id).find('.trend .d3'), d3p);}
-        if(d1p < alarmLimit && d2p < alarmLimit && d3p < alarmLimit){
-            $('#'+id).addClass('alarm');
+
+        if(generateCharts && $('#'+id).find('.trend').length){
+            var bgc = 'rgba(255,255,255,1)';
+            chartData.forEach(function(chart, i){
+                var trds = chart;
+                Chart.defaults.global.defaultFontSize = 10;
+                Chart.defaults.global.elements.point.pointStyle = 'rectRot';
+                Chart.defaults.global.elements.point.radius = 2;
+                Chart.defaults.global.elements.point.borderColor = 'rbga(0,0,0,0)';
+                Chart.defaults.global.elements.point.borderWidth = 0;
+                Chart.defaults.global.elements.line.borderWidth = 1;
+                Chart.defaults.global.legend.display = false;
+
+                if (chartGen) chartGen.destroy();
+
+                $('#'+id).find('.trend .charts.x'+interval+i).empty().append('<canvas id="'+id+interval+i+'"></canvas>');
+                var ctx = document.getElementById(id+interval+i).getContext('2d');
+
+                var chartGen = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: trds,
+                        datasets: [{
+                            data: trds,
+                            backgroundColor: 'transparent',
+                            borderColor: clBs,
+                            pointBorderWidth: 0,
+                            pointBorderColor: 'rgba(0,0,0,0)',
+                            pointBackgroundColor: function(ctx) {
+                                var index = ctx.dataIndex;
+                                var value = ctx.dataset.data[index];
+                                return value < firstPrice ? clNg : clPs;
+                            }
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        title: {
+                            display: false
+                        },
+                        tooltips: {
+                            enabled: false
+                        },
+                        scales: {
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: false
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false,
+                                    tickMarkLength: 0
+                                },
+                                ticks: {
+                                    display: false,
+                                    beginAtZero: false
+                                }
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: false
+                                },
+                                gridLines: {
+                                    display: false,
+                                    tickMarkLength: 0
+                                },
+                                ticks: {
+                                    display: false
+                                }
+                            }]
+                        },
+                        annotation: {
+                            annotations: [{
+                                type: 'line',
+                                mode: 'horizontal',
+                                scaleID: 'y-axis-0',
+                                value: firstPrice,
+                                borderColor: clBs,
+                                borderWidth: .5,
+                                label: {
+                                    enabled: false,
+                                }
+                            }],
+                            drawTime: "afterDraw"
+                        },
+                        layout: {
+                            padding: {
+                                left: 0,
+                                right: 0,
+                                top: 0,
+                                bottom: 0
+                            }
+                        }
+                    }
+
+                });
+
+            });
         }
+
+
+
+
+        
+
     });
-    if(show3dHistory && !veryCompact){ $('.trend, .trend .percent').removeClass('hidden'); }
-    $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
-    $(container).show();
-    $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
-    if(showCashouts == false){
-        $('.cashed-out').hide();
-    }
-    setTimeout(function(){
+
+    if(interval == '3d'){
+        if(show3dHistory && !veryCompact){ $('.trend, .trend > div:first-child').removeClass('hidden'); }
+        $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
         $(container).show();
         $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
-    }, 500);
-    initClicks();
+        if(showCashouts == false){
+            $('.cashed-out').hide();
+        }
+        setTimeout(function(){
+            $(container).show();
+            $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
+        }, 500);
+        initClicks();
+    }
 }
 
 function parseBuys(buys){
@@ -360,7 +523,7 @@ function parseBuys(buys){
         var stockInfo= {
             "async": false,
             "crossDomain": true,
-            "url": 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-compact?id='+stocks,
+            "url": api_stock+stocks,
             "method": "GET",
             "headers": {
                 "x-rapidapi-key": rapidApiKey,
@@ -374,10 +537,11 @@ function parseBuys(buys){
             processStocks(response.result);
         });
 
+        // 5y
         var stockTrends = {
-            "async": true,
+            "async": false,
             "crossDomain": true,
-            "url": "https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?&interval=m1&id="+stocks,
+            "url": api_history5y+stocks,
             "method": "GET",
             "headers": {
                 "x-rapidapi-key": rapidApiKey,
@@ -388,10 +552,29 @@ function parseBuys(buys){
             $('.loader').hide();
             $('.stocks-container .message').html('<div class="err">Bloomberg\'s API responded:</div>'+response.responseJSON.message).show();
         }).done(function(response) {
-            processTrends(response.result);
+            processTrends(response.result, '5y');
+        });
+
+        // 3d
+        var stockTrends2 = {
+            "async": false,
+            "crossDomain": true,
+            "url": api_history3d+stocks,
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-key": rapidApiKey,
+                "x-rapidapi-host": "bloomberg-market-and-financial-news.p.rapidapi.com"
+            }
+        };
+        $.ajax(stockTrends2).fail(function(response){
+            $('.loader').hide();
+            $('.stocks-container .message').html('<div class="err">Bloomberg\'s API responded:</div>'+response.responseJSON.message).show();
+        }).done(function(response) {
+            processTrends(response.result, '3d');
             $('.loader').hide();
             $('.stocks').show();
         });
+
     }
 }
 
@@ -407,13 +590,10 @@ function calcTotals(){
         var soldPcs = Number($(this).data('sales-pcs'));
         var purchasedEur = Number($(this).data('purchases-total'));
         var purchasedPcs = Number($(this).data('purchases-pcs'));
-        console.log('deez', soldEur, soldPcs, purchasedEur, purchasedPcs);
         if(soldEur > 0){
             var purchasePriceOfSold = purchasedEur / purchasedPcs * soldPcs;
             var revenueEur = soldEur - purchasePriceOfSold;
             liquidationsTotal += revenueEur;
-
-            console.log('calc', purchasePriceOfSold, revenueEur, liquidationsTotal);
         }
     });
 
@@ -494,7 +674,7 @@ function initClicks(){
 }
 
 function initClickery(el){
-    $(el).click(function(){
+    $(el).on('click', function(e){
         cycleVisibility($(el));
     });
 }
