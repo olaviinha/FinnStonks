@@ -8,15 +8,16 @@ Made for [my own purposes](#motivation), so it is quite literally a _personal_ e
 In short, it takes your stock purchases and sales like this:
 ```
 # BUYS
-OR:FP;2020-09-04;5;288.34
-SAA1V:FH;2020-02-12;40;12.85
-SSH1V:FH;2020-08-04;2000;1.33
-TSLA:US;2020-09-01;4;420.00
-TL0:GR;2020-09-01;2;442.75
-YEINT:FH;2020-06-15;80;14.92
+YEINT:FH;   2020-06-15;      20;     14.92
+SSH1V:FH;   2020-08-04;     121;      1.33
+TSLA:US;    2020-09-01;       5;    420.00
+SAA1V:FH;   2020-02-12;      35;     12.85
+MSFT:US;    2020-04-20;       4;    147.49
 
 # SELLS
-TL0:GR;2020-12-08;2;525.70
+YEINT:FH;   2020-11-23;       8;     26.00
+SSH1V:FH;   2020-12-11;     121;      1.74
+TSLA:US;    2020-01-28;       4;    682.21
 ```
 
 ...and turns them into this:
@@ -38,7 +39,7 @@ FinnStonks cannot be run via `file:///` protocol (i.e. it will not work if you d
 
 ### #protip: Host stocks.txt in [Dropbox](https://www.dropbox.com) for easy updating.
 
-If your copy of FinnStonks is located on a web server, you may ease the updating of `stocks.txt` by hosting it separately in your [Dropbox](https://www.dropbox.com). Any other such cloud storage file sync apps are currently untested, but may work just as well (as long as it can produce an URL to the raw file with required CORS headers).
+If your copy of FinnStonks is located on a web server, you may ease the updating of `stocks.txt` by hosting it separately in your [Dropbox](https://www.dropbox.com), thus giving access to editing the trades txt directly on your computer. Any other such cloud storage file sync apps are currently untested, but may work just as well (as long as it can produce an URL to the raw file with required CORS headers).
 
 1. Place `stocks.txt` somewhere in your Dropbox.
 2. Right-click it and select _Copy Dropbox Link_.
@@ -104,15 +105,16 @@ Purchases and sales are separated by one empty line. Lines beginning with charac
 Example:
 ```
 # BUYS
-OR:FP;2020-09-04;5;288.34
-SAA1V:FH;2020-02-12;40;12.85
-SSH1V:FH;2020-08-04;2000;1.33
-TSLA:US;2020-09-01;4;420.00
-TL0:GR;2020-09-01;2;442.75
-YEINT:FH;2020-06-15;80;14.92
+YEINT:FH;   2020-06-15;      20;     14.92
+SSH1V:FH;   2020-08-04;     121;      1.33
+TSLA:US;    2020-09-01;       5;    420.00
+SAA1V:FH;   2020-02-12;      35;     12.85
+MSFT:US;    2020-04-20;       4;    147.49
 
 # SELLS
-TL0:GR;2020-12-08;2;525.70
+YEINT:FH;   2020-11-23;       8;     26.00
+SSH1V:FH;   2020-12-11;     121;      1.74
+TSLA:US;    2020-01-28;       4;    682.21
 ```
 
 ### User interface and how to use it
@@ -146,8 +148,8 @@ modifying it should be pretty straight-forward.
 - `var effectiveDate = 'first'|'last'`: date to display if you have purchased shares of the same company on multiple occasions.
 - `var alarmLimit = -1`: limit used to determine how many percent a stock can drop every day for 3 consecutive days before alarm styling is triggered.
 - `var refreshInterval = 3`: interval in hours in which everything on page is auto-refreshed using real-time market prices. Set to `999999` or so if you don't want the page to auto-refresh at all.
-- **Below** settings, you can find `var mockData = false;`. Set it to `true` when you do any development, such as styling or modify the Javascript. 
-When `mockData` is `true`, data is mocked instead of fetched from Bloomberg's APIs. This way no API calls are consumed during development, when you probably refresh the page many times.
+- `var defaultChart = 'sincePurchase'|''3d;`: Chart that is shown by default upon loading the page (providing `generateCharts` is `true`).
+- `var colorDownhillTicks = true|false;`: Color tick in the chart red if price has come down since last tick. Otherwise only ticks below purchase price are red.
 
 ![Very compact FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/finnstonks-5.jpg)
 `veryCompact` set to `true`, `showCashouts` set to true, everything clickable clicked once, to change what information is displayed.
@@ -184,7 +186,7 @@ Most of the UI is configurable simply by clicking on things.
   
 **7. Click on the last column to toggle between:** 
   - price chart from purchase date to latest. (Default)
-  - price chart from 3 days ago to latest.
+  - price chart from 3 days ago to latest. (You can set this as default in settings)
   - price changed *per day from previous day* for the last 3 days, change in percentage.
   - price changed *per day from previous day* for the last 3 days, change in euros.
   
