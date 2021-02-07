@@ -14,7 +14,7 @@
 
 ## 2020-12-20
 
-- Support to Dropbox-hosted trade events txt.
+- Support for Dropbox-hosted trade events txt.
 
 ## 2020-12-13
 
