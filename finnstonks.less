@@ -15,7 +15,7 @@
 @base-color:        #888;
 @positive:          #696;
 @negative:          #a66;
-@negative-highlight:#d54;
+@negative-highlight:#a54;
 @bright:            #fff;
 @cashout:           #996;
 
@@ -44,6 +44,8 @@ body {
     font-family: 'Signika Negative', sans-serif;
     font-weight: 600;
     overflow: visible;
+    // Transparency in case you want to use it as a translucent overlay on another page:
+    // background: rgba(0,0,0,.75);
     background: #222;
     &.light {
         background: #fff;
@@ -133,7 +135,7 @@ body {
     &.light {
         color: darken(@base-color, 15%);
         .pos {
-            color: lighten(@positive, 15%);
+            color: saturate(@positive, 15%);
         }
         .neg {
             color: lighten(@negative, 15%);
@@ -141,9 +143,10 @@ body {
         &.box {
             background: rgba(255,255,255,.4);
         }
+        .base.alarm {
+            background: rgba(250, 180, 180, .3);
+        }
     }
-
-
 
     .secondary {
         opacity: .5;
@@ -180,7 +183,7 @@ body {
                 content: '+';
             }
             .neg:before {
-                content: '-';
+                // content: '-';
             }
             .cpercent:after {
                 content: ' %';
@@ -299,7 +302,7 @@ body {
             .eur, .eur-with-sales, .percent {
                 display: inline;
                 &.neg:before {
-                    content: '-';
+                    // content: '-';
                 }
                 &.pos:before {
                     content: '+';
