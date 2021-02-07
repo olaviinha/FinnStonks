@@ -45,11 +45,11 @@ var alarmLimit = -2;
 // This option will color each chart ticks red, if lower than the previous tick,
 // i.e. red point in chart whenever price has gone down instead of up. 
 //  Otherwise only ticks that are lower than purchase price will be colored red.
-colorDownhillTicks = true;
+var colorDownhillTicks = true;
 
 // In graphic charts, include only every nth tick. This will produce a less detailed but 
 // visually cleaner chart, handy especially if colorDownhillTicks above is true.
-nth = 6;
+var nth = 6;
 
 
 
@@ -88,7 +88,7 @@ var clNg = '#a66'; // Negative color, ideally same as in CSS
 // - DEVELOPMENT & DEBUGGING  -----------------------------------------------------------------
 
 var consoleOutput = false;  // Print stuff in browser console. This is always true for mockData.
-var mockData = true;        // Use mocked stock trade data, 5y ticks and 3d ticks.
+var mockData = false;       // Use mocked stock trade data, 5y ticks and 3d ticks.
 var mockAlarm = false;      // Simulate alarm.
 
 
