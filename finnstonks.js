@@ -87,7 +87,7 @@ var clNg = '#a66'; // Negative color, ideally same as in CSS
 //---------------------------------------------------------------------------------------------
 // - DEVELOPMENT & DEBUGGING  -----------------------------------------------------------------
 
-var consoleOutput = true;  // Print stuff in browser console. This is always true for mockData.
+var consoleOutput = false;  // Print stuff in browser console. This is always true for mockData.
 var mockData = false;       // Use mocked stock trade data, 5y ticks and 3d ticks.
 var mockAlarm = false;      // Simulate alarm.
 
