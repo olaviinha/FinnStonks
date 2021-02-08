@@ -2,7 +2,7 @@
 // - GENERAL ----------------------------------------------------------------------------------
 
 // rapidapi.com API key
-var rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
+var rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
 
 // Url to your stocks.txt file, in case you want to host it in another location, e.g. Dropbox.
 var tradeEventsTxt = 'stocks.txt';
@@ -17,7 +17,7 @@ var includeCashouts = true;
 // Date to display in case you have purchased the same stock on multiple occasions. Either
 // a) 'first' = first purchase.
 // b) 'last' = last purchase date.
-var effectiveDate = 'first';
+var effectiveDate = 'last';
 
 // Truncate company name to this many characters. Set to 0 for no truncation.
 var truncateTo = 10;
@@ -36,7 +36,7 @@ var generateCharts = true;
 // Default chart.
 // a) '3d' = 3 day price history.
 // b) 'sincePurchase' = price history since purchase.
-var defaultChart = 'sincePurchase';
+var defaultChart = '3d';
 
 // Highlight row with an alarm if the closing price has dropped at least this many percent
 // per day, consecutively for three days.
@@ -87,7 +87,7 @@ var clNg = '#a66'; // Negative color, ideally same as in CSS
 //---------------------------------------------------------------------------------------------
 // - DEVELOPMENT & DEBUGGING  -----------------------------------------------------------------
 
-var consoleOutput = false;  // Print stuff in browser console. This is always true for mockData.
+var consoleOutput = true;  // Print stuff in browser console. This is always true for mockData.
 var mockData = false;       // Use mocked stock trade data, 5y ticks and 3d ticks.
 var mockAlarm = false;      // Simulate alarm.
 
@@ -121,7 +121,7 @@ var currency = {
 refreshInterval = 1000 * 60 * 60 * refreshInterval;
 
 if(mockData) consoleOutput = true;
-if(consoleOutput) console.log('!!! USING MOCK DATA !!!'); console.log('MOCKED STOCK TRADE EVENTS:', mockStocks); console.log('MOCKED 5 YEAR TICKS', mockTrends5y); console.log('MOCKED 3 DAY TICKS', mockTrends3d);
+if(mockData && consoleOutput){ console.log('!!! USING MOCK DATA !!!'); console.log('MOCKED STOCK TRADE EVENTS:', mockStocks); console.log('MOCKED 5 YEAR TICKS', mockTrends5y); console.log('MOCKED 3 DAY TICKS', mockTrends3d); }
 
 // Work around Dropbox CORS headers
 if(tradeEventsTxt.indexOf('www.dropbox.com') > -1){
@@ -222,9 +222,11 @@ function filterList(arr){
 }
 
 function parseStocks(data){
-    var events = data.split('\n\n');
+    var events = data.split(/\n\s*\n/);
     var buys = events[0].split('\n').filter(function(line){return line.indexOf('#') != 0});
+    if(consoleOutput) console.log('BUYS', buys);
     var sells = events[1].split('\n').filter(function(line){return line.indexOf('#') != 0});
+    if(consoleOutput) console.log('SELLS', sells);
     var buyDetails = filterList(buys);
     var sellDetails = filterList(sells);
     var finalList = new Array();
