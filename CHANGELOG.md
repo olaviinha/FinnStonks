@@ -4,6 +4,7 @@
 
 - Calculate total investment and cashouts from input data.
 - Remove cashed out stocks from API call if `showCashouts = false;` for much faster API response/pageload.
+- Convert chart ticks to EUR for accurate comparison to purchase price.
 
 ## 2021-02-07
 
