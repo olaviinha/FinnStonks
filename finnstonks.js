@@ -49,7 +49,7 @@ var colorDownhillTicks = true;
 
 // In graphic charts, include only every nth tick. This will produce a less detailed but 
 // visually cleaner chart, handy especially if colorDownhillTicks above is true.
-var nth = 6;
+var nth = 4;
 
 
 
@@ -254,7 +254,7 @@ function parseStocks(data){
         if(includeCashouts == true && stock.pcs == 0){
             totalLiquid += stock.totalWithSales * -1;
         }
-        if((includeCashouts == false || showCashouts == false) && stock.pcs == 0){
+        if((includeCashouts == false || showCashouts == false) && stock.pcs == 0 && mockData == false){
             if(consoleOutput) console.log('REMOVE', i, stock);
             delete finalList[i];
         }
@@ -263,7 +263,6 @@ function parseStocks(data){
 
     if(consoleOutput) console.log('TOTAL INVESTED:', totalInvested);
     if(consoleOutput) console.log('CASHED OUT TOTAL:', totalLiquid);
-    if(consoleOutput) console.log('CALL API FOR:', finalList);
 
     return finalList;
 }
@@ -293,6 +292,9 @@ function initProcess(){
 
 function processStocks(data){
     $.each(data, function(i, stock) {
+
+        if(consoleOutput) console.log('->', i, stock);
+
         var currency = stock.currency;
         var price = stock.last;
         var symbol = stock.symbol;
@@ -411,20 +413,20 @@ function processTrends(data, interval){
         var latest = stock.ticks[last-1].close;
         var purchaseDate = $('#'+id).data('date');
         var firstPrice = $('#'+id).data('first-price');
+        var now3dago = moment().subtract(3, 'days').unix();
 
         if(interval == '3d'){
 
             var charts = [];
-            charts = [
-                moment().subtract(3, 'days').unix()
-            ];
+            charts = [now3dago];
             var chartData = [];
             $.each(charts, function(){
                 chartData.push([]);
             });
             $.each(stock.ticks, function(i, tick){
                 if(tick.time > charts[0] && i % nth === 0){
-                    chartData[0].push(tick.close);
+                    console.log('push', tick.close);
+                    chartData[0].push(toEur(tick.close));
                 }
             });
 
@@ -455,16 +457,14 @@ function processTrends(data, interval){
                 $('#'+id).addClass('alarm');
             }
         } else {
-            charts = [
-                moment(purchaseDate).unix()
-            ];
+            charts = [moment(purchaseDate).unix()];
             var chartData = [];
             $.each(charts, function(){
                 chartData.push([]);
             });
             $.each(stock.ticks, function(i, tick){
                 if(tick.time >= charts[0]){
-                    chartData[0].push(tick.close);
+                    chartData[0].push(toEur(tick.close));
                 }
                 // if(tick.time > charts[1]){
                 //     chartData[1].push(tick.close);
@@ -615,6 +615,9 @@ function parseBuys(buys){
     // Get stock info
     stocks = stocks.join(',');
     if(mockData == true){
+
+        if(consoleOutput) console.log('PROCESS STOCKS', mockStocks.result);
+
         processStocks(mockStocks.result);
         processTrends(mockTrends5y.result, '5y');
         processTrends(mockTrends3d.result, '3d');
