@@ -1,5 +1,10 @@
 # Change log
 
+## 2021-02-16
+
+- Calculate total investment and cashouts from input data.
+- Remove cashed out stocks from API call if `showCashouts = false;` for much faster API response/pageload.
+
 ## 2021-02-07
 
 - Better debugging and data mocking.
