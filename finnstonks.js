@@ -425,7 +425,6 @@ function processTrends(data, interval){
             });
             $.each(stock.ticks, function(i, tick){
                 if(tick.time > charts[0] && i % nth === 0){
-                    console.log('push', tick.close);
                     chartData[0].push(toEur(tick.close));
                 }
             });
