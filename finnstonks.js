@@ -2,7 +2,7 @@
 // - GENERAL ----------------------------------------------------------------------------------
 
 // rapidapi.com API key
-var rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
+var rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 
 // Url to your stocks.txt file, in case you want to host it in another location, e.g. Dropbox.
 var tradeEventsTxt = 'stocks.txt';
@@ -87,7 +87,7 @@ var clNg = '#a66'; // Negative color, ideally same as in CSS
 //---------------------------------------------------------------------------------------------
 // - DEVELOPMENT & DEBUGGING  -----------------------------------------------------------------
 
-var consoleOutput = false;  // Print stuff in browser console. This is always true for mockData.
+var consoleOutput = true;  // Print stuff in browser console. This is always true for mockData.
 var mockData = false;       // Use mocked stock trade data, 5y ticks and 3d ticks.
 var mockAlarm = false;      // Simulate alarm.
 
@@ -221,6 +221,9 @@ function filterList(arr){
     return arrDetails;
 }
 
+var totalLiquid = 0;
+var totalInvested = 0;
+
 function parseStocks(data){
     var events = data.split(/\n\s*\n/);
     var buys = events[0].split('\n').filter(function(line){return line.indexOf('#') != 0});
@@ -244,13 +247,24 @@ function parseStocks(data){
             }
         });
     });
-    if(includeCashouts == false){
-        finalList.forEach(function(stock, i){
-            if(stock.pcs == 0){
-                finalList.splice(i, 1);
-            }
-        });
-    }
+
+    if(consoleOutput) console.log('CALC INVESTMENT & CASHOUTS BEFORE API CALLS');
+    finalList.forEach(function(stock, i){
+        totalInvested += stock.pcs * stock.price;
+        if(includeCashouts == true && stock.pcs == 0){
+            totalLiquid += stock.totalWithSales * -1;
+        }
+        if((includeCashouts == false || showCashouts == false) && stock.pcs == 0){
+            if(consoleOutput) console.log('REMOVE', i, stock);
+            delete finalList[i];
+        }
+    });
+    finalList = finalList.filter(function (el) {return el != null;});
+
+    if(consoleOutput) console.log('TOTAL INVESTED:', totalInvested);
+    if(consoleOutput) console.log('CASHED OUT TOTAL:', totalLiquid);
+    if(consoleOutput) console.log('CALL API FOR:', finalList);
+
     return finalList;
 }
 
@@ -345,7 +359,7 @@ function processStocks(data){
             $('#'+id).find('.purchase, .market, .percents, .trend').remove(); 
             $('#'+id).find('.nostocks').html('0').removeClass('hidden'); 
             $('#'+id).append('<div class="cashoutd"><div class="ceur">'+vicEur.toFixed(2)+'</div><div class="cpercent hidden">'+vicPer.toFixed(2)+'</div></div>')
-            paint($('.cashoutd .ceur, .cashoutd .cpercent'), 1);
+            paint($('#'+id).find('.cashoutd .ceur, .cashoutd .cpercent'));
         }
         if( truncateTo > 0){
             var name = $('#'+id).find('.name').html();
@@ -364,7 +378,7 @@ function processStocks(data){
 }
 
 function paint(el, comp, base){
-    comp = (typeof comp !== 'undefined') ? comp : el.html().trim();
+    comp = (typeof comp !== 'undefined') ? comp : Number(el.html().trim());
     base = (typeof base !== 'undefined') ? base : 0.00;
     if(comp > base){
         el.removeClass('neg').addClass('pos');
@@ -385,7 +399,11 @@ function paintReverse(el, comp, base){
 
 function processTrends(data, interval){
 
+    if(consoleOutput) console.log('PROCESS TRENDS', data);
+
     $.each(data, function(i, stock) {
+
+        if(consoleOutput) console.log('->', i, stock);
 
         var id = i.split(':')[0];
         var last = stock.ticks.length;
@@ -666,22 +684,8 @@ function parseBuys(buys){
 
 function calcTotals(){
     
-    
-    var xpurchaseTotal = 0;
-    var liquidationsTotal = 0;
-    $('.stocks .base').each(function(){
-        xpurchaseTotal += Number($(this).data('invested'));
-
-        var soldEur = Number($(this).data('sales-total'));
-        var soldPcs = Number($(this).data('sales-pcs'));
-        var purchasedEur = Number($(this).data('purchases-total'));
-        var purchasedPcs = Number($(this).data('purchases-pcs'));
-        if(soldEur > 0){
-            var purchasePriceOfSold = purchasedEur / purchasedPcs * soldPcs;
-            var revenueEur = soldEur - purchasePriceOfSold;
-            liquidationsTotal += revenueEur;
-        }
-    });
+    var xpurchaseTotal = totalInvested;
+    var liquidationsTotal = totalLiquid;
 
     var xmarketDiff = 0;
     $('.market .price.eur').each(function(){
@@ -709,9 +713,11 @@ function calcTotals(){
         $('.tops.values .difference .eur').html(xmarketDiff.toFixed(2));
         $('.tops.values .difference .eur-with-sales').html(xmarketDiffWithSales.toFixed(2));
         $('.tops.values .difference .percent').html(xpercentageTotal.toFixed(2));
+
         $('.tops.values .pvalue .value').html(xmarketTotal.toFixed(2)).attr('data-total', xmarketTotal.toFixed(2)).attr('data-with-liquidations', totalWithLiquidations);
         $('.tops.values .pvalue .value-with-liquid').html(totalWithLiquidations.toFixed(2)).attr('data-total', xmarketTotal.toFixed(2)).attr('data-with-liquidations', totalWithLiquidations);
         $('.tops.values .pvalue .value-only-liquid').html(liquidationsTotal.toFixed(2));
+
         $(container).prepend('<div class="tops titles"><div class="paid">investment total</div><div class="difference">change</div><div class="pvalue"><div class="value hidden">current worth</div><div class="value-with-liquid hidden">value + sales return</div><div class="value-only-liquid hidden">sales return only</div></div></div>');
         paint($('.tops.values .difference .eur, .tops.values .difference .percent, .tops.values .value'), xmarketDiff);
         paint($('.tops.values .difference .eur-with-sales, .tops.values .value-with-liquid, .tops.values .value-only-liquid'));
