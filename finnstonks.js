@@ -23,8 +23,9 @@ var effectiveDate = 'last';
 var truncateTo = 10;
 
 // Refresh every n hours.
-var refreshInterval = 24;
-
+var refreshInterval = 4;
+// ...but only between these hours
+var refreshDuring = [16, 23];
 
 
 //---------------------------------------------------------------------------------------------
@@ -87,7 +88,7 @@ var clNg = '#a66'; // Negative color, ideally same as in CSS
 //---------------------------------------------------------------------------------------------
 // - DEVELOPMENT & DEBUGGING  -----------------------------------------------------------------
 
-var consoleOutput = true;  // Print stuff in browser console. This is always true for mockData.
+var consoleOutput = false;  // Print stuff in browser console. This is always true for mockData.
 var mockData = false;       // Use mocked stock trade data, 5y ticks and 3d ticks.
 var mockAlarm = false;      // Simulate alarm.
 
@@ -118,7 +119,13 @@ var currency = {
     url: api_currency,
     method: 'GET'
 };
+
 refreshInterval = 1000 * 60 * 60 * refreshInterval;
+
+if(mockData == true){
+    if(consoleOutput) console.log('Using refresh interval of 15 seconds.')
+    refreshInterval = 15000;
+}
 
 if(mockData) consoleOutput = true;
 if(mockData && consoleOutput){ console.log('!!! USING MOCK DATA !!!'); console.log('MOCKED STOCK TRADE EVENTS:', mockStocks); console.log('MOCKED 5 YEAR TICKS', mockTrends5y); console.log('MOCKED 3 DAY TICKS', mockTrends3d); }
@@ -225,6 +232,8 @@ var totalLiquid = 0;
 var totalInvested = 0;
 
 function parseStocks(data){
+    totalLiquid = 0;
+    totalInvested = 0;
     var events = data.split(/\n\s*\n/);
     var buys = events[0].split('\n').filter(function(line){return line.indexOf('#') != 0});
     if(consoleOutput) console.log('BUYS', buys);
@@ -787,6 +796,22 @@ function cycleVisibility(el){
     }
 }
 
+function checkUrlParams(){
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const bg = urlParams.get('bg');
+    const zoom = urlParams.get('zoom');
+    const brightness = urlParams.get('brightness');
+    const cursor = urlParams.get('cursor');
+    $('body').css({
+        'background': bg,
+        'zoom': zoom,
+        'filter': 'brightness('+brightness+')',
+        'cursor': cursor
+    });
+}
+
 $(document).ready(function(){
 
     if(generateCharts){
@@ -798,9 +823,16 @@ $(document).ready(function(){
     }
 
     initProcess();
-    fetchLoop = setInterval(function(){
-        initProcess();
-    }, refreshInterval);
+    if(consoleOutput) console.log('Refresh every', refreshInterval);
+    let refreshWorker = new Worker('autorefresh.js');
+    refreshWorker.postMessage({refreshInterval, refreshDuring, consoleOutput});
+    refreshWorker.onmessage = function(e){
+        if(e.data == 'refresh'){
+            initProcess();
+        }
+        if(consoleOutput) console.log('Refresh at', new Date());
+
+    }
     if(theme=='light'){
         $('body, .stocks').addClass('light');
     } else {
@@ -812,4 +844,6 @@ $(document).ready(function(){
     if(bgBox==true){
         $('.stocks').addClass('box');
     }
+
+    checkUrlParams();
 });
