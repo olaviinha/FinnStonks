@@ -24,7 +24,8 @@ var truncateTo = 10;
 
 // Refresh every n hours.
 var refreshInterval = 4;
-// ...but only between these hours
+
+// ...but only between these hours.
 var refreshDuring = [16, 23];
 
 
@@ -812,8 +813,8 @@ function checkUrlParams(){
     });
 }
 
+let refreshWorker = new Worker('autorefresh.js');
 $(document).ready(function(){
-
     if(generateCharts){
         if(defaultChart=='sincePurchase'){
             $('.trend').prepend('<div class="charts x5y0 hidden"></div><div class="charts x3d0 hidden"></div>');
@@ -821,17 +822,14 @@ $(document).ready(function(){
             $('.trend').prepend('<div class="charts x3d0 hidden"></div><div class="charts x5y0 hidden"></div>');
         }
     }
-
     initProcess();
     if(consoleOutput) console.log('Refresh every', refreshInterval);
-    let refreshWorker = new Worker('autorefresh.js');
     refreshWorker.postMessage({refreshInterval, refreshDuring, consoleOutput});
     refreshWorker.onmessage = function(e){
         if(e.data == 'refresh'){
             initProcess();
+            if(consoleOutput) console.log('Refreshed at', new Date());
         }
-        if(consoleOutput) console.log('Refresh at', new Date());
-
     }
     if(theme=='light'){
         $('body, .stocks').addClass('light');
