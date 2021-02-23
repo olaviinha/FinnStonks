@@ -1,5 +1,11 @@
 # Change log
 
+## 2021-02-23
+
+- Added `var refreshDuring = [16, 23];` for hours of day between which to auto-refresh every n hours (`var refreshInterval = 4;`).
+- Improved with webworker.
+- Support for a few CSS attributes via URL, in case your FinnStonks is in an iframe. Attributes are `?background=<color value>&zoom=<zoom value>&brightness=<css filter: brightness value>`
+
 ## 2021-02-16
 
 - Calculate total investment and cashouts from input data.
