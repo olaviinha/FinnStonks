@@ -108,12 +108,12 @@ var mockTrends3d = {"result":{"YEINT:FH":{"first":1612339200,"last":1612542900,"
 
 var api_currency = 'https://api.exchangeratesapi.io/latest?base=USD&symbols=USD,EUR';
 var api_stock = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-compact?id=';
-var api_history5y = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?&interval=y5&id='
-var api_history3d = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?&interval=d3&id='
+var api_history5y = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?&interval=y5&id=';
+var api_history3d = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?&interval=d3&id=';
 
 var rate, usd, eur;
-var buys = new Array();
-var sells = new Array();
+var buys = [];
+var sells = [];
 var includeSales = true;
 var currency = {
     async: false,
@@ -123,8 +123,8 @@ var currency = {
 
 refreshInterval = 1000 * 60 * 60 * refreshInterval;
 
-if(mockData == true){
-    if(consoleOutput) console.log('Using refresh interval of 15 seconds.')
+if(mockData === true){
+    if(consoleOutput) console.log('Using refresh interval of 15 seconds.');
     refreshInterval = 15000;
 }
 
@@ -138,7 +138,7 @@ if(tradeEventsTxt.indexOf('www.dropbox.com') > -1){
 
 $.ajax(currency).done(function (response) {
     if(consoleOutput) console.log('CURRENCY RATE:', response);
-    eur = response.rates.EUR
+    eur = response.rates.EUR;
 });
 
 function toEur(usdAmount) {
@@ -147,9 +147,9 @@ function toEur(usdAmount) {
 
 function truncateString(str, num) {
     if (str.length <= num) {
-      return str
+      return str;
     }
-    return str.slice(0, num) + '...'
+    return str.slice(0, num) + '...';
 }
 
 function addRows(detailsList){
@@ -181,7 +181,7 @@ function addRows(detailsList){
 
 function filterList(arr){
 
-    var arrDetails = new Array();
+    var arrDetails = [];
     arr.forEach(function(line, i){
         var itm = line.split(';');
         if(itm.length > 1){
@@ -236,9 +236,9 @@ function parseStocks(data){
     totalLiquid = 0;
     totalInvested = 0;
     var events = data.split(/\n\s*\n/);
-    var buys = events[0].split('\n').filter(function(line){return line.indexOf('#') != 0});
+    var buys = events[0].split('\n').filter(function(line){return line.indexOf('#') !== 0;});
     if(consoleOutput) console.log('BUYS', buys);
-    var sells = events[1].split('\n').filter(function(line){return line.indexOf('#') != 0});
+    var sells = events[1].split('\n').filter(function(line){return line.indexOf('#') !== 0;});
     if(consoleOutput) console.log('SELLS', sells);
     var buyDetails = filterList(buys);
     var sellDetails = filterList(sells);
@@ -261,15 +261,15 @@ function parseStocks(data){
     if(consoleOutput) console.log('CALC INVESTMENT & CASHOUTS BEFORE API CALLS');
     finalList.forEach(function(stock, i){
         totalInvested += stock.pcs * stock.price;
-        if(includeCashouts == true && stock.pcs == 0){
+        if(includeCashouts === true && stock.pcs === 0){
             totalLiquid += stock.totalWithSales * -1;
         }
-        if((includeCashouts == false || showCashouts == false) && stock.pcs == 0 && mockData == false){
+        if((includeCashouts === false || showCashouts === false) && stock.pcs === 0 && mockData === false){
             if(consoleOutput) console.log('REMOVE', i, stock);
             delete finalList[i];
         }
     });
-    finalList = finalList.filter(function (el) {return el != null;});
+    finalList = finalList.filter(function (el) {return el !== null;});
 
     if(consoleOutput) console.log('TOTAL INVESTED:', totalInvested);
     if(consoleOutput) console.log('CASHED OUT TOTAL:', totalLiquid);
@@ -314,6 +314,8 @@ function processStocks(data){
         var paidBack = false;
         var cashedOut = false;
         var vic = 0;
+        var vicEur = 0;
+        var vicPer = 0;
 
         // Convert USD to EUR
         if(currency == 'USD'){
@@ -339,7 +341,7 @@ function processStocks(data){
             vicEur = Number($('#'+id).data('sales-total')) - Number($('#'+id).data('purchases-total'));
             vicPer = vicEur/Number($('#'+id).data('purchases-total'))*100;
         }
-        if(Number($('#'+id).data('pcs')) == 0){
+        if(Number($('#'+id).data('pcs')) === 0){
             cashedOut = true;
             $('#'+id).addClass('cashed-out');
             vicEur = Number($('#'+id).data('sales-total')) - Number($('#'+id).data('purchases-total'));
@@ -370,16 +372,17 @@ function processStocks(data){
         if( cashedOut) { 
             $('#'+id).find('.purchase, .market, .percents, .trend').remove(); 
             $('#'+id).find('.nostocks').html('0').removeClass('hidden'); 
-            $('#'+id).append('<div class="cashoutd"><div class="ceur">'+vicEur.toFixed(2)+'</div><div class="cpercent hidden">'+vicPer.toFixed(2)+'</div></div>')
+            $('#'+id).append('<div class="cashoutd"><div class="ceur">'+vicEur.toFixed(2)+'</div><div class="cpercent hidden">'+vicPer.toFixed(2)+'</div></div>');
             paint($('#'+id).find('.cashoutd .ceur, .cashoutd .cpercent'));
         }
+        var trunced;
         if( truncateTo > 0){
             var name = $('#'+id).find('.name').html();
             if(name.indexOf(' ') > -1){
                 name = name.split(' ')[0];
             }
             if(name.length <= truncateTo+3){
-                trunced = name
+                trunced = name;
             } else {
                 trunced = truncateString(name, truncateTo);
             }
@@ -442,12 +445,12 @@ function processTrends(data, interval){
             var close3daysAgo = stock.ticks[last-4].close;
             var close2daysAgo = stock.ticks[last-3].close;
             var closeYesterday = stock.ticks[last-2].close;
-            d3e = close2daysAgo - close3daysAgo;
-            d2e = closeYesterday - close2daysAgo;
-            d1e = latest - closeYesterday;
-            d3p = (1 - close3daysAgo/close2daysAgo) * 100;
-            d2p = (1 - close2daysAgo/closeYesterday) * 100;
-            d1p = (1 - closeYesterday/latest) * 100;
+            var d3e = close2daysAgo - close3daysAgo;
+            var d2e = closeYesterday - close2daysAgo;
+            var d1e = latest - closeYesterday;
+            var d3p = (1 - close3daysAgo/close2daysAgo) * 100;
+            var d2p = (1 - close2daysAgo/closeYesterday) * 100;
+            var d1p = (1 - closeYesterday/latest) * 100;
             if(mockData && mockAlarm && id=='MSFT'){
                 d1p = -4;
                 d2p = -5;
@@ -604,7 +607,7 @@ function processTrends(data, interval){
         $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
         $(container).show();
         $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
-        if(showCashouts == false){
+        if(showCashouts === false){
             $('.cashed-out').hide();
         }
         setTimeout(function(){
@@ -616,14 +619,14 @@ function processTrends(data, interval){
 }
 
 function parseBuys(buys){
-    stocks = [];
+    var stocks = [];
     buys.forEach(function(buy){
         stocks.push(buy.symbol);
     });
 
     // Get stock info
     stocks = stocks.join(',');
-    if(mockData == true){
+    if(mockData === true){
 
         if(consoleOutput) console.log('PROCESS STOCKS', mockStocks.result);
 
@@ -710,7 +713,7 @@ function calcTotals(){
     var xmarketDiffWithSales = xmarketDiff+liquidationsTotal;
     var xpurchaseTotalWithSales = xpurchaseTotal-liquidationsTotal;
 
-    if( showTotalsTop == true ){
+    if( showTotalsTop === true ){
         if( $(container).find('.tops').length ){
             $(container).find('.tops').remove();
         }
@@ -735,7 +738,7 @@ function calcTotals(){
         paint($('.tops.values .difference .eur-with-sales, .tops.values .value-with-liquid, .tops.values .value-only-liquid'));
         paintReverse($('.tops.values .paid .eur-excl-sales'));
     }
-    if( showTotalsBottom == true){
+    if( showTotalsBottom === true){
         if( $(container).find('.totale').length ){
             $(container).find('.totale').remove();
         }
@@ -831,15 +834,15 @@ $(document).ready(function(){
             if(consoleOutput) console.log('Refreshed at', new Date());
         }
     }
-    if(theme=='light'){
+    if(theme == 'light'){
         $('body, .stocks').addClass('light');
     } else {
         $('body, .stocks').removeClass('dark');
     }
-    if(bgImage==true){
+    if(bgImage === true){
         $('body').prepend('<div class="bgs"></div>');
     }
-    if(bgBox==true){
+    if(bgBox === true){
         $('.stocks').addClass('box');
     }
 
