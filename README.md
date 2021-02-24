@@ -92,7 +92,7 @@ rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 At the time of writing this, Bloomberg's API is available for a Freemium plan, allowing 500 monthly API calls free of charge. 
 Each refresh or pageload of FinnStonks consumes 3 API calls to fetch the current market information, 3 day price history and 5 year price history.
 
-**This means you can refresh FinnStonks about 8 times a day**, or **every 5 hours** if your Stonks is always open with a refresh interval (setting supported). If your copy of FinnStonks is open on multiple devices (e.g. more than one person has access to it), it will naturally reflect on the number of consumed API calls.
+**This means you can refresh FinnStonks about 5 times a day**, roughly once every 5 hours if open 24/7 with a refresh interval. You can optimize this as you please by using the `refreshInterval` (refresh every n hours) and `refreshDuring` (hours of day between which refresh interval occurs) settings. If your copy of FinnStonks is open on multiple devices (or e.g. more than one person has access to it), it will naturally reflect on the number of consumed API calls.
 
 
 ### Your trading data
