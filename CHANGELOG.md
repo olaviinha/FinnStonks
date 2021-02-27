@@ -3,7 +3,8 @@
 ## 2021-02-27
 
 - Now supports a different view for following stocks (that you don't own yet but are monitoring for e.g. the right time to purchase).
-- Improved debugging (`consoleOutput`, `mockData` updating).
+- Improved debugging (`consoleOutput`, make `mockData` updating manually more convenient).
+- Refactor data and calculations concerning realisations and totals.
 
 ## 2021-02-23
 
