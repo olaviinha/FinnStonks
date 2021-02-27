@@ -161,7 +161,8 @@ modifying it should be pretty straight-forward.
 - `var includeCashouts = true|false`: set to true if you want to take into account profits or losses you have made with previously owned stocks, that you have completely cashed out and no longer own. If false, any such assets are ignored in all calculations.
 - `var effectiveDate = 'first'|'last'`: date to display if you have purchased shares of the same company on multiple occasions.
 - `var alarmLimit = -1`: limit used to determine how many percent a stock can drop every day for 3 consecutive days before alarm styling is triggered.
-- `var refreshInterval = 5`: interval in hours in which everything on page is auto-refreshed using real-time market prices. Set to `999999` or so if you don't want the page to auto-refresh at all.
+- `var refreshInterval = 240`: interval in minutes in which everything on page is auto-refreshed using real-time market prices. Set to `999999` or so if you don't want the page to auto-refresh at all.
+- `var refreshDuring = [16, 23]`: hours of day between which `refreshInterval` is active. With this you can save on API call consumption by limiting auto-refresh to only hours when you usually need the real-time price information (e.g. exclude night time if you sleep).
 - `var defaultChart = 'sincePurchase'|'3d';`: Chart that is shown by default upon pageload (providing `generateCharts` is `true`).
 - `var colorDownhillTicks = true|false;`: Color tick in the chart red if price has come down since last tick. Otherwise only ticks below purchase price are red.
 
