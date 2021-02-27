@@ -62,9 +62,9 @@ var tradeEventsTxt = 'https://www.dropbox.com/s/b666pwrytk1pepm/stocks.txt?dl=0'
 3. [User interface and how to use it](#user-interface-and-how-to-use-it)
 5. [Motivation](#motivation)
 
-### Used APIs and how to obtain required API key
+### Used APIs and how to obtain required API key (free)
 
-FinnStonks uses two APIs:
+FinnStonks uses two free APIs:
 1. European Central Bank's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time
 USD to EUR conversion.
 2. Bloomberg's
