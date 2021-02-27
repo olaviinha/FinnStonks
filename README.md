@@ -1,7 +1,7 @@
 # FinnStonks Personal Equity Portfolio Monitor
 
 FinnStonks Personal Equity Portfolio Monitor provides a web-based, customizable, simple, compact, clean overview of the current state
-of your equity portfolio as well as stocks that you are interested in, for daily monitoring.
+of your equity portfolio for daily monitoring as well as monitoring stock prices that you are interested in to e.g. find the right time to purchase.
 
 Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
 
