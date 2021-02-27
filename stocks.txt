@@ -1,11 +1,13 @@
-# BUYS
-YEINT:FH;   2020-06-15;      20;     14.92
-SSH1V:FH;   2020-08-04;     121;      1.33
-TSLA:US;    2020-09-01;       5;    420.00
+# BUYS      event date       pcs price/pce
 SAA1V:FH;   2020-02-12;      35;     12.85
 MSFT:US;    2020-04-20;       4;    147.49
+BOREO:FH;   2020-06-15;     100;     14.92
+SSH1V:FH;   2020-08-04;     121;      1.33
+TSLA:US;    2020-09-01;       5;    420.00
 
 # SELLS
-YEINT:FH;   2020-11-23;       8;     26.00
-SSH1V:FH;   2020-12-11;     121;      1.74
 TSLA:US;    2020-01-28;       4;    682.21
+
+# LOOKOUT
+LI:US
+NIO:US
