@@ -73,7 +73,7 @@ for up-to-date real-time stock prices.
 
 Bloomberg's API was chosen for stock data for a few reasons probably worth mentioning:
 - It contains multiple exchanges worldwide, most importantly Nasdaq Helsinki and Nasdaq First North.
-- It supports fetching market information of multiple companies with a single call, which is pretty neat when your usage is limited to 500 monthly API calls.
+- It supports fetching market information of multiple companies with a single call, which is pretty neat if you're on the Freemium plan with limited 500 monthly API calls.
 
 #### Obtain API key
 
