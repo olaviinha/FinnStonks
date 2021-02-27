@@ -28,6 +28,10 @@ NIO:US
 
 Trade events may also be completely imaginary, in case you want to test your skills before starting to invest.
 
+The view is configurable by settings and by simply clicking on things:
+
+![Clickery](https://storage.googleapis.com/olaviinha/github/finnstonks/stonks.gif)
+
 ## Setup
 
 FinnStonks cannot be run via `file:///` protocol (i.e. it will not work if you drag and drop `index.html` to your browser window). You need to run a HTTP Daemon on localhost or place FinnStonks on an SSL secured web server.
