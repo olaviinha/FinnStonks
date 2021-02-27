@@ -22,7 +22,7 @@ var effectiveDate = 'last';
 // Truncate company name to this many characters. Set to 0 for no truncation.
 var truncateTo = 10;
 
-// Refresh every n minutes.
+// Refresh every n minutes. (5 hours = 300 minutes)
 var refreshInterval = 240;
 
 // ...but only between these hours.
@@ -53,12 +53,26 @@ var colorDownhillTicks = true;
 // visually cleaner chart, handy especially if colorDownhillTicks above is true.
 var nth = 4;
 
-// In LOOKOUT section, left side chart displays prices this many years back:
+
+//---------------------------------------------------------------------------------------------
+// - LOOKOUT ----------------------------------------------------------------------------------
+
+// How many years to display in the left chart.
 var yearsBack = 3;
 
-// In LOOKOUT section, sync scale of left and right chart (may be harder to read):
-var syncScale = false;
+// Which three price changes (in percents) to display on the right side of the charts.
+// Options: 
+//  - alltime (up to yearsBack value)
+//  - y1 (1 year)
+//  - m6 (6 months)
+//  - m3 (3 months)
+//  - m1 (1 month)
+//  - w2 (2 weeks)
+//  - w1 (1 week)
+var displayChanges = ['y1', 'm3', 'm1'];
 
+// Align left and right charts to the current market price (horizontal line).
+var syncScale = false;
 
 
 //---------------------------------------------------------------------------------------------
@@ -508,7 +522,7 @@ function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest,
         var trds = chart;
         Chart.defaults.global.defaultFontSize = 10;
         Chart.defaults.global.elements.point.pointStyle = 'rectRot';
-        Chart.defaults.global.elements.point.radius = 2;
+        Chart.defaults.global.elements.point.radius = 1.2;
         
         Chart.defaults.global.elements.point.borderColor = 'rbga(0,0,0,0)';
         Chart.defaults.global.elements.point.borderWidth = 0;
@@ -541,7 +555,8 @@ function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest,
                             return neg || value < firstPrice ? clNg : clPs;
                         }
                         if(type == 'interest'){
-                            return neg ? clNg : clPs;
+                            return neg || value < firstPrice ? clNg : clPs;
+                            // return neg ? clNg : clPs;
                         }
                         return value < firstPrice ? clNg : clPs;
                     }
@@ -711,18 +726,40 @@ function processTrends(data, interval){
             });
 
             if(type=='interest'){
-                var m3val = chartData[0][chartData[0].length - 12];
-                var m1val = chartData[0][chartData[0].length - 4];
-                var w1val = chartData[0][chartData[0].length - 1];
+                var alltimeval = chartData[0][0];
+                var y1val = chartData[0][chartData[0].length - 52] || chartData[0][0];
+                var m6val = chartData[0][chartData[0].length - 26] || chartData[0][0];;
+                var m3val = chartData[0][chartData[0].length - 13] || chartData[0][0];;
+                var m1val = chartData[0][chartData[0].length - 4] || chartData[0][0];;
+                var w2val = chartData[0][chartData[0].length - 2] || chartData[0][0];;
+                var w1val = chartData[0][chartData[0].length - 1] || chartData[0][0];;
+                var alltimeCustom = (latest - alltimeval) / alltimeval * 100;
+                var y1changeCustom = (latest - y1val) / y1val * 100;
+                var m6changeCustom = (latest - m6val) / m6val * 100;
                 var m3changeCustom = (latest - m3val) / m3val * 100;
                 var m1changeCustom = (latest - m1val) / m1val * 100;
+                var w2changeCustom = (latest - w2val) / w2val * 100;
                 var w1changeCustom = (latest - w1val) / w1val * 100;
+
+                $('#'+id).find('.alltimechange').html(alltimeCustom.toFixed(2));
+                $('#'+id).find('.y1change').html(y1changeCustom.toFixed(2));
+                $('#'+id).find('.m6change').html(m6changeCustom.toFixed(2));
                 $('#'+id).find('.m3change').html(m3changeCustom.toFixed(2));
                 $('#'+id).find('.m1change').html(m1changeCustom.toFixed(2));
+                $('#'+id).find('.w2change').html(w2changeCustom.toFixed(2));
                 $('#'+id).find('.w1change').html(w1changeCustom.toFixed(2));
+
+                paint($('#'+id).find('.alltimechange'));
+                paint($('#'+id).find('.y1change'));
+                paint($('#'+id).find('.m6change'));
                 paint($('#'+id).find('.m3change'));
                 paint($('#'+id).find('.m1change'));
+                paint($('#'+id).find('.w2change'));
                 paint($('#'+id).find('.w1change'));
+
+                displayChanges.forEach(function(change, i){
+                    $('#'+id).find('.'+change+'change').removeClass('hidden');
+                });
 
                 var mediani = median(chartData[0]);
                 $('#'+id).find('.purchase .price.eur').append('<br><span class="dim xs">'+mediani.toFixed(2)+'</span>');
