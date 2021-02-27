@@ -26,7 +26,7 @@ NIO:US
 
 ![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/finnstonks/finnstonks-cap1.jpg)
 
-![Follow](https://storage.googleapis.com/olaviinha/github/finnstonks/follow.jpg)
+![Follow](https://storage.googleapis.com/olaviinha/github/finnstonks/follow2.jpg)
 
 ![Clickery](https://storage.googleapis.com/olaviinha/github/finnstonks/stonks.gif)
 
