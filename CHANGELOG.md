@@ -1,5 +1,10 @@
 # Change log
 
+## 2021-02-27
+
+- Now supports a different view for following stocks (that you don't own yet but are monitoring for e.g. the right time to purchase).
+- Improved debugging (`consoleOutput`, `mockData` updating).
+
 ## 2021-02-23
 
 - Added `var refreshDuring = [16, 23];` for hours of day between which to auto-refresh every n hours (`var refreshInterval = 4;`).
