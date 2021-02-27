@@ -6,7 +6,7 @@ SSH1V:FH;   2020-08-04;     121;      1.33
 TSLA:US;    2020-09-01;       5;    420.00
 
 # SELLS (optional, but keep this line in place)
-TSLA:US;    2020-01-28;       4;    682.21
+TSLA:US;    2021-01-28;       4;    682.21
 
 # LOOKOUT (optional, but keep this line in place)
 LI:US
