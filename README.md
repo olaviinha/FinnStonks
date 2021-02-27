@@ -57,7 +57,7 @@ var tradeEventsTxt = 'https://www.dropbox.com/s/b666pwrytk1pepm/stocks.txt?dl=0'
 
 
 ## Documentation
-1. [Used APIs and how to obtain required API key](#used-apis-and-how-to-obtain-required-api-key)
+1. [Used APIs and how to obtain required API key (free)](#used-apis-and-how-to-obtain-required-api-key)
 2. [Your trading data](#your-trading-data)
 3. [User interface and how to use it](#user-interface-and-how-to-use-it)
 5. [Motivation](#motivation)
