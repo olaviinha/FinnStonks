@@ -7,12 +7,12 @@ Made for [my own purposes](#motivation), so it is quite literally a _personal_ e
 
 In short, it takes your stock purchases, stock sales and interesting companies like this:
 ```
-# BUYS      event date       pcs     price
+# BUYS      event date      pcs      price
 SAA1V:FH;   2020-02-12;      35;     12.85
 MSFT:US;    2020-04-20;       4;    147.49
 BOREO:FH;   2020-06-15;     100;     14.92
 SSH1V:FH;   2020-08-04;     121;      1.33
-TSLA:US;    2020-09-01;       5;    420.00
+TSLA:US;    2021-09-01;       5;    420.00
 
 # SELLS (optional, but keep this line in place)
 TSLA:US;    2020-01-28;       4;    682.21
@@ -112,12 +112,12 @@ Pay attention that
 
 Example:
 ```
-# BUYS      event date       pcs     price
+# BUYS      event date      pcs      price
 SAA1V:FH;   2020-02-12;      35;     12.85
 MSFT:US;    2020-04-20;       4;    147.49
 BOREO:FH;   2020-06-15;     100;     14.92
 SSH1V:FH;   2020-08-04;     121;      1.33
-TSLA:US;    2020-09-01;       5;    420.00
+TSLA:US;    2021-09-01;       5;    420.00
 
 # SELLS (optional, but keep this line in place)
 TSLA:US;    2020-01-28;       4;    682.21
