@@ -1,4 +1,4 @@
-# BUYS      event date       pcs price/pce
+# BUYS      event date       pcs     price
 SAA1V:FH;   2020-02-12;      35;     12.85
 MSFT:US;    2020-04-20;       4;    147.49
 BOREO:FH;   2020-06-15;     100;     14.92
