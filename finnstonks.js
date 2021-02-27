@@ -2,7 +2,7 @@
 // - GENERAL ----------------------------------------------------------------------------------
 
 // rapidapi.com API key
-var rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
+var rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 
 // Url to your stocks.txt file, in case you want to host it in another location, e.g. Dropbox.
 var tradeEventsTxt = 'stocks.txt';
@@ -22,8 +22,8 @@ var effectiveDate = 'last';
 // Truncate company name to this many characters. Set to 0 for no truncation.
 var truncateTo = 10;
 
-// Refresh every n hours.
-var refreshInterval = 4;
+// Refresh every n minutes.
+var refreshInterval = 240;
 
 // ...but only between these hours.
 var refreshDuring = [16, 23];
@@ -68,9 +68,9 @@ var syncScale = false;
 // a) 'light' = darker texts, for light backgrounds
 // b) 'dark' = lighter texts, for dark backgrounds
 var theme = 'dark';
-var bgImage = false;        // Show 'stock-bg.jpg' as page background.
-var bgBox = false;          // Show translucent box. May be useful with some background images.
-var veryCompact = false;    // Force-hide all secondary information, despite later settings.
+var bgImage = false;         // Show 'stock-bg.jpg' as page background.
+var bgBox = false;           // Show translucent box. May be useful with some background images.
+var veryCompact = false;     // Force-hide all secondary information, despite later settings.
 
 // What to show on page
 var showFollows = true;     // Show followed stocks (LOOKOUT section).
@@ -130,7 +130,7 @@ var totalInvested = 0;
 var totalReturns = 0;
 
 var interestsContainer = '.interests';
-refreshInterval = 1000 * 60 * 60 * refreshInterval;
+refreshInterval = 1000 * 60 * refreshInterval;
 
 
 if(mockData == true) refreshInterval = 15000;
