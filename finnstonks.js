@@ -2,10 +2,10 @@
 // - GENERAL ----------------------------------------------------------------------------------
 
 // rapidapi.com API key
-var rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
+var rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
 
 // Url to your stocks.txt file, in case you want to host it in another location, e.g. Dropbox.
-var tradeEventsTxt = 'stocks.txt';
+var tradeEventsTxt = 'mock-stocks.txt';
 
 // Element in which to place the stock table
 var container = '.stocks';
@@ -51,10 +51,9 @@ var colorDownhillTicks = true;
 
 // In graphic charts, include only every nth tick. This will produce a less detailed but 
 // visually cleaner chart, handy especially if colorDownhillTicks above is true.
-// This will not apply to charts in the LOOKOUT section.
 var nth = 4;
 
-// In LOOKOUT section, left side chart displays prices this many years back (1-5)
+// In LOOKOUT section, left side chart displays prices this many years back:
 var yearsBack = 3;
 
 // In LOOKOUT section, sync scale of left and right chart (may be harder to read):
@@ -69,9 +68,9 @@ var syncScale = false;
 // a) 'light' = darker texts, for light backgrounds
 // b) 'dark' = lighter texts, for dark backgrounds
 var theme = 'dark';
-var bgImage = false;         // Show 'stock-bg.jpg' as page background.
-var bgBox = false;           // Show translucent box. May be useful with some background images.
-var veryCompact = false;     // Force-hide all secondary information, despite later settings.
+var bgImage = false;        // Show 'stock-bg.jpg' as page background.
+var bgBox = false;          // Show translucent box. May be useful with some background images.
+var veryCompact = false;    // Force-hide all secondary information, despite later settings.
 
 // What to show on page
 var showFollows = true;     // Show followed stocks (LOOKOUT section).
@@ -98,8 +97,8 @@ var clNg = '#a66'; // Negative color, ideally same as in CSS
 
 //---------------------------------------------------------------------------------------------
 // - DEVELOPMENT & DEBUGGING  -----------------------------------------------------------------
-var printToCopy = false;    // Print only what's necessary to update mock data (copy-paste from browser console).
 var consoleOutput = false;  // Print stuff in browser console. This is always true for mockData.
+var printToCopy = false;    // Print only what's necessary to update mock data (copy-paste from browser console).
 var mockData = false;       // Use mocked stock trade data, 5y ticks and 3d ticks.
 var mockAlarm = false;      // Simulate alarm.
 
@@ -125,6 +124,10 @@ var currency = {
     url: api_currency,
     method: 'GET'
 };
+
+var totalLiquid = 0;
+var totalInvested = 0;
+var totalReturns = 0;
 
 var interestsContainer = '.interests';
 refreshInterval = 1000 * 60 * 60 * refreshInterval;
@@ -166,23 +169,33 @@ function addRows(detailsList, element=container){
         var tpl = element==container ? $('.template').html() : $('.interests-template').html();
         tpl = tpl.replace('STOCK', symbol);
         $(container).append(tpl);
-        if(details.price)           $('#'+id).attr('data-first-price', details.price); $('#'+id).attr('data-type', 'trade');
-        if(details.turnover)        $('#'+id).attr('data-turnover', details.turnover)
-        if(details.turnoverWithSales) $('#'+id).attr('data-turnover-with-sales', details.turnoverWithSales);
-        if(details.date)            $('#'+id).attr('data-date', details.date);
-        if(details.pcs)             $('#'+id).attr('data-pcs', details.pcs);
-        if(details.total)           $('#'+id).attr('data-invested', details.total.toFixed(2));
-        if(details.totalWithSales)  $('#'+id).attr('data-invested-with-sales', details.totalWithSales.toFixed(2));
-        if(details.liquidBalance)   $('#'+id).attr('data-balance', details.liquidBalance.toFixed(2));
-        if(details.purchaseTotal)   $('#'+id).attr('data-purchases-total', details.purchasesTotal.toFixed(2));
-        if(details.purchasesPcs)    $('#'+id).attr('data-purchases-pcs', details.purchasesPcs);
-        if(details.salesPcs)        $('#'+id).attr('data-sales-pcs', details.salesPcs);
-        if(details.salesTotal)      $('#'+id).attr('data-sales-total', details.salesTotal.toFixed(2));
+        if(details.price){
 
-        if(details.date)            $('#'+id).find('.date').html(details.date);
-        if(details.pcs)             $('#'+id).find('.pcs').html(details.price+' &times; <span class="highlight">'+details.pcs)+'</span>'; //$('#'+id).find('.per-pc').html(details.price);
-        if(details.total)           $('#'+id).find('.invested').html(details.total.toFixed(2));
-        if(details.totalWithSales)  $('#'+id).find('.invested-with-sales').html(details.totalWithSales.toFixed(2));
+            var withReturns = details.currentTotal + (details.salesTotal - details.purchasesTotal);
+            if(withReturns==0) withReturns = details.currentTotal;
+            var salesReturn = details.salesTotal - details.purchasesTotal;
+            if(salesReturn < 0) salesReturn = 0;
+
+            $('#'+id).attr('data-first-price', details.price); 
+            $('#'+id).attr('data-type', 'trade');
+            $('#'+id).addClass('trade');
+            $('#'+id).attr('data-date', details.date);
+            $('#'+id).attr('data-pcs', details.pcs);
+            $('#'+id).attr('data-purchases-total', details.purchasesTotal.toFixed(2));
+            $('#'+id).attr('data-purchases-pcs', details.purchasesPcs);
+            $('#'+id).attr('data-sales-total', details.salesTotal.toFixed(2));
+            $('#'+id).attr('data-sales-pcs', details.salesPcs);
+            $('#'+id).attr('data-current-total', details.currentTotal.toFixed(2));
+
+            $('#'+id).attr('data-balance', details.balance.toFixed(2));
+            $('#'+id).attr('data-return', salesReturn.toFixed(2));
+
+            $('#'+id).find('.date').html(details.date);
+            $('#'+id).find('.pcs').html(details.price +' &times; <span class="highlight pcnr">'+details.pcs)+'</span>';
+            $('#'+id).find('.invested').html(details.currentTotal.toFixed(2));
+            $('#'+id).find('.invested-after-sales').html(details.balance.toFixed(2));
+            paintReverse($('#'+id).find('.invested-after-sales'));
+        }
 
         if(!details.price)          $('#'+id).attr('data-type', 'interest');
     });
@@ -201,31 +214,23 @@ function filterList(arr){
                 date: itm[1].trim(),
                 pcs: Number(itm[2].trim()),
                 price: Number(itm[3].trim()),
-                total: Number(itm[2].trim()) * Number(itm[3].trim()),
-                totalWithSales: Number(itm[2]) * Number(itm[3].trim()),
-                turnover: 0,
-                turnoverWithSales: 0,
-                liquidBalance: Number(itm[2]) * Number(itm[3].trim()),
-                difference: 0,
+                currency: 'EUR',
                 purchasesTotal: Number(itm[2]) * Number(itm[3].trim()),
                 purchasesPcs: Number(itm[2].trim()),
                 salesTotal: 0,
                 salesPcs: 0,
-                currency: 'EUR'
+                salesReturn: 0,
+                currentTotal: Number(itm[2]) * Number(itm[3].trim()),
+                balance: Number(itm[2]) * Number(itm[3].trim()),
             };
-            // if(market=='US'){
-            //     details.price = toEur(details.price);
-            //     details.total = toEur(details.total);
-            //     details.totalWithSales = toEur(details.totalWithSales);
-            //     details.liquidBalance = toEur(details.liquidBalance);
-            //     details.purchasesTotal = toEur(details.purchasesTotal);
-            // }
             var addIt = true;
             arrDetails.forEach(function(bw, i){
                 if(bw.symbol == details.symbol){
                     arrDetails[i].pcs += details.pcs;
                     arrDetails[i].purchasesPcs += details.purchasesPcs;
-                    arrDetails[i].total += details.total;
+                    arrDetails[i].purchasesTotal += details.purchasesTotal;
+                    arrDetails[i].currentTotal += details.currentTotal;
+                    arrDetails[i].balance += details.balance;
                     if(effectiveDate=='last'){
                         arrDetails[i].date = details.date;
                     }
@@ -239,9 +244,6 @@ function filterList(arr){
     });
     return arrDetails;
 }
-
-var totalLiquid = 0;
-var totalInvested = 0;
 
 function parseStocks(data){
     totalLiquid = 0;
@@ -264,12 +266,10 @@ function parseStocks(data){
         sellDetails.forEach(function(sell, ii){
             if(buy.symbol == sell.symbol){
                 finalList[i].pcs -= sell.pcs;
-                finalList[i].totalWithSales -= sell.pcs * sell.price;
-                finalList[i].total -= sell.pcs * buy.price;
-                finalList[i].turnover += (sell.pcs * buy.price) - (buy.total/buy.pcs);
-                finalList[i].turnoverWithSales += (sell.pcs * sell.price) - (buy.total/buy.pcs);
                 finalList[i].salesTotal += sell.pcs * sell.price;
                 finalList[i].salesPcs += sell.pcs;
+                finalList[i].currentTotal -= sell.pcs * buy.price;
+                finalList[i].balance -= sell.pcs * sell.price;
             }
         });
     });
@@ -278,7 +278,7 @@ function parseStocks(data){
     finalList.forEach(function(stock, i){
         totalInvested += stock.pcs * stock.price;
         if(includeCashouts == true && stock.pcs == 0){
-            totalLiquid += stock.totalWithSales * -1;
+            totalLiquid += stock.balance * -1;
         }
         if((includeCashouts == false || showCashouts == false) && stock.pcs == 0 && mockData == false){
             if(consoleOutput) console.log('Remove cashed out stock', i, stock);
@@ -308,7 +308,6 @@ function parseInterests(data){
     return ntArr;
 }
 
-var sold = false;
 function initProcess(){
     $(container).html('').hide();
     $(interestsContainer).html('').hide();
@@ -370,6 +369,8 @@ function processStocks(data){
         var paidBack = false;
         var cashedOut = false;
         var vic = 0;
+        var vicEur = 0;
+        var vicPer = 0;
 
         var type = $('#'+id).data('type');
 
@@ -386,15 +387,16 @@ function processStocks(data){
 
             // Calculate things
             var pcs =  Number($('#'+id).data('pcs'));
-            var purchaseTotal = Number($('#'+id).data('invested'));
-            var perPc = purchaseTotal/pcs
+            // var purchaseTotal = Number($('#'+id).data('invested'));
+            var purchaseTotal = Number($('#'+id).data('current-total'));
+            var perPc = purchaseTotal/pcs;
             var marketTotal = price*pcs;
-            var marketTotalWithSales = marketTotal + Number($('#'+id).data('turnover'));
+            var marketTotalWithSales = marketTotal + Number($('#'+id).data('balance'));
             var diff = marketTotal-purchaseTotal;
             var percent = diff/purchaseTotal*100;
             var salesPL = Number($('#'+id).data('sales-total')) - Number($('#'+id).data('purchases-total'));
             
-            if(Number($('#'+id).data('invested-with-sales')) <= 0){
+            if(Number($('#'+id).data('invested-after-sales')) <= 0){
                 paidBack = true;
                 $('#'+id).addClass('paid-back');
                 vicEur = Number($('#'+id).data('sales-total')) - Number($('#'+id).data('purchases-total'));
@@ -698,7 +700,6 @@ function processTrends(data, interval){
         } else {
 
             charts = type == 'trade' ? [moment(purchaseDate).unix()] : [moment().subtract(yearsBack, 'y').unix()];
-            // console.log(charts);
             var chartData = [];
             $.each(charts, function(){
                 chartData.push([]);
@@ -730,7 +731,7 @@ function processTrends(data, interval){
 
         if(generateCharts && ($('#'+id).find('.trend').length || type == 'interest')){
             if(consoleOutput) console.log('Create', interval, 'chart for', id);
-            var begin = false; //type == 'interest' ? true : false;
+            var begin = false;
             if(type=='interest') firstPrice = ocurLatest;
             makeChart(id, chartData, interval, i, firstPrice, type, begin, highest, lowest);
         }
@@ -860,11 +861,19 @@ function parseBuys(buys){
 }
 
 function calcTotals(){
+
+    var sold = 0;
+    $('.trade').each(function(){
+        sold += Number($(this).data('return'));
+    });
     
     var xpurchaseTotal = totalInvested;
-    var liquidationsTotal = totalLiquid;
-
+    var liquidationsTotal = totalLiquid + sold;
+    // var liquidationsTotal = sold;
     var xmarketDiff = 0;
+
+    console.log('Sales returns total:', liquidationsTotal);
+
     $('.market .price.eur').each(function(){
         xmarketDiff += Number($(this).html());
     });
@@ -930,14 +939,14 @@ function initClicks(){
     initClickery('.trend');
     $('.tops.values .paid').click(function(){
         if($(this).find('.eur-excl-sales').is(':visible')){
-            $('.tops.titles .paid').html('investment - sales return');
+            $('.tops.titles .paid').html('investment - sales');
         } else {
             $('.tops.titles .paid').html('investment total');
         }
     });
     $('.tops.values .difference').click(function(){
         if($(this).find('.eur-with-sales').is(':visible')){
-            $('.tops.titles .difference').html('change + sales return');
+            $('.tops.titles .difference').html('change + sales');
         } else {
             $('.tops.titles .difference').html('change');
         }
