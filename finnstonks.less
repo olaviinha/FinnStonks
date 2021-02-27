@@ -20,6 +20,7 @@
 @cashout:           #996;
 
 @hline: 1px solid rgba(250,250,250,.1);
+@hline-thicc: 2px solid rgba(250,250,250,.1);
 
 @screen-xs:          480px;
 @screen-sm:          768px;
@@ -44,8 +45,6 @@ body {
     font-family: 'Signika Negative', sans-serif;
     font-weight: 600;
     overflow: visible;
-    // Transparency in case you want to use it as a translucent overlay on another page:
-    // background: rgba(0,0,0,.75);
     background: #222;
     &.light {
         background: #fff;
@@ -73,6 +72,35 @@ body {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.hr {
+    margin: @hmargin*2 0;
+    border-bottom: @hline;
+}
+
+.secondary {
+    color: darken(@base-color, 20%);
+    font-size: @base-size-xs;
+    .highlight {
+        color: darken(@base-color, 5%);
+    }
+}
+
+.xs {
+    font-size: @base-size-xs;
+}
+
+.dim {
+    .secondary;
+}
+
+.highlight {
+    color: @base-color;
+}
+
+.interest .x3d0 canvas {
+    border-left: @hline-thicc;
 }
 
 .container-fluid {
@@ -116,9 +144,7 @@ body {
     // max-width: 560px;
     padding: 10px;
     margin: auto;
-    transition: 1s ease-in-out;
-
-    .vmid;
+    transition: .5s ease-in-out;
 
     .pos {
         color: @positive;
@@ -148,14 +174,10 @@ body {
         }
     }
 
-    .secondary {
-        opacity: .5;
-        font-size: @base-size-xs;
-    }
-
     .base {
         width: 100%;
         display: table;
+        position: relative;
         margin-bottom: @hmargin;
         transition: .2s linear;
         > div {
@@ -165,11 +187,14 @@ body {
             margin-bottom: 0;
         }
         .stock {
-            width: @col1;
+            // width: @col1;
             padding-right: @vmargin;
+            display: table-cell;
+            vertical-align: top;
         }
         .title, .purchase, .market, .cashoutd {
             display: table-cell;   
+            vertical-align: top;
         }
         .cashoutd {
             cursor: pointer;
@@ -222,20 +247,31 @@ body {
             display: none;
         }
     }
-    .purchase {
+    .purchase, .prices {
         cursor: pointer;
         display: table-cell;
         text-align: right;
         width: @colh;
         padding-right: @vmargin;
         font-size: @base-size;
+        vertical-align: top;
         // width: 20%;
         .price {
             
         }
         .pcs {
             .secondary;
+            .highligh {
+                color: @base-color;
+            }
         }
+        .add {
+            font-size: @base-size-xs;
+            line-height: @base-size-xs;
+        }
+    }
+    .prices {
+        width: 10%;
     }
     .market {
         cursor: pointer;
@@ -271,17 +307,44 @@ body {
         line-height: calc(@base-size-xs - 1px);
         text-align: right;
         height: 100%;
-        .charts {
-            // width: 60px;
-            // height: 48px;
-            margin-left: 2em;
-            width: 60px;
-            height: 48px;
-            div {
-                
-            }
+    }
+
+    .charts {
+        // width: 60px;
+        // height: 48px;
+        margin-left: 2em;
+        width: 60px;
+        height: 48px;
+        display: inline-block;
+        vertical-align: top;
+        div {
+            
         }
     }
+
+    .interest .charts {
+        display: table-cell;
+        width: 30%;
+        vertical-align: top;
+        height: 40px;
+        max-height: 40px;
+
+        &.x5y0 {
+            padding-left: @vmargin;
+            width: 35%;
+        }
+        &.x3d0 {
+            width: 20%;
+        }
+    }
+
+    .interest.compact {
+        .charts {
+            height: 20px;
+            max-height: 20px;
+        }
+    }
+
 
     .tops {
         padding: @padd;
