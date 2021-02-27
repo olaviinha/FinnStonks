@@ -105,6 +105,11 @@ All additional fees regarding purchase or sale events should be calculated in th
 
 Purchases and sales are separated by one empty line. Lines beginning with character `#` will be ignored, in case you want to play around with the data or ignore certain events for whatever reasons.
 
+Pay attention that 
+- the `# BUYS`, `# SELLS` and `# LOOKOUT` lines stay in place, even if you have no entries under them.
+- the empty lines between these sections stay in place.
+- there is no empty line in the beginning or **the end of the file**.
+
 Example:
 ```
 # BUYS      event date       pcs     price
