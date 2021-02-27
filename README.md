@@ -1,30 +1,32 @@
 # FinnStonks Personal Equity Portfolio Monitor
 
-FinnStonks Personal Equity Portfolio Monitor provides a web-based, customizable, simple, compact, clean textual overview of the current state
-of your equity portfolio for daily monitoring.
+FinnStonks Personal Equity Portfolio Monitor provides a web-based, customizable, simple, compact, clean overview of the current state
+of your equity portfolio as well as stocks that you are interested in, for daily monitoring.
 
 Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
 
 In short, it takes your stock purchases and sales like this:
 ```
-# BUYS
-YEINT:FH;   2020-06-15;      20;     14.92
-SSH1V:FH;   2020-08-04;     121;      1.33
-TSLA:US;    2020-09-01;       5;    420.00
+# BUYS      event date       pcs     price
 SAA1V:FH;   2020-02-12;      35;     12.85
 MSFT:US;    2020-04-20;       4;    147.49
+BOREO:FH;   2020-06-15;     100;     14.92
+SSH1V:FH;   2020-08-04;     121;      1.33
+TSLA:US;    2020-09-01;       5;    420.00
 
-# SELLS
-YEINT:FH;   2020-11-23;       8;     26.00
-SSH1V:FH;   2020-12-11;     121;      1.74
+# SELLS (optional, but keep this line in place)
 TSLA:US;    2020-01-28;       4;    682.21
+
+# LOOKOUT (optional, but keep this line in place)
+LI:US
+NIO:US
 ```
 
 ...and turns them into this:
 
-![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/pepm/charts1.gif)
+![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/finnstonks/finnstonks-cap1.jpg)
 
-Purchase/sales data may as well be completely imaginary, in case you want to practice or feel bad about not investing in a certain company earlier.
+Trade events may also be completely imaginary, in case you want to test your skills before starting to invest.
 
 ## Setup
 
@@ -90,9 +92,9 @@ rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 #### API limitations
 
 At the time of writing this, Bloomberg's API is available for a Freemium plan, allowing 500 monthly API calls free of charge. 
-Each refresh or pageload of FinnStonks consumes 3 API calls to fetch the current market information, 3 day price history and 5 year price history.
+Each refresh or pageload of FinnStonks consumes **at least 3 API calls** to fetch the current market information, 3 day price history and 5 year price history. If your page displays more than 10 companies, price history data will be fetched in chunks of 10, which will increase the number of API calls accordingly.
 
-**This means you can refresh FinnStonks about 5 times a day**, roughly once every 5 hours if open 24/7 with a refresh interval. You can optimize this as you please by using the `refreshInterval` (refresh every n hours) and `refreshDuring` (hours of day between which refresh interval occurs) settings. If your copy of FinnStonks is open on multiple devices (or e.g. more than one person has access to it), it will naturally reflect on the number of consumed API calls.
+If you have a maximum of ten companies on your page and you are on the Freemium plan of Bloomberg's API, **this means you can refresh FinnStonks about 5 times a day**, roughly once every 5 hours if open 24/7 with a refresh interval. You can optimize this as you please by using the `refreshInterval` (refresh every n hours) and `refreshDuring` (hours of day between which refresh interval occurs) settings. If your copy of FinnStonks is open on multiple devices (or e.g. more than one person has access to it), it will naturally reflect on the number of consumed API calls.
 
 
 ### Your trading data
@@ -105,17 +107,19 @@ Purchases and sales are separated by one empty line. Lines beginning with charac
 
 Example:
 ```
-# BUYS
-YEINT:FH;   2020-06-15;      20;     14.92
-SSH1V:FH;   2020-08-04;     121;      1.33
-TSLA:US;    2020-09-01;       5;    420.00
+# BUYS      event date       pcs     price
 SAA1V:FH;   2020-02-12;      35;     12.85
 MSFT:US;    2020-04-20;       4;    147.49
+BOREO:FH;   2020-06-15;     100;     14.92
+SSH1V:FH;   2020-08-04;     121;      1.33
+TSLA:US;    2020-09-01;       5;    420.00
 
-# SELLS
-YEINT:FH;   2020-11-23;       8;     26.00
-SSH1V:FH;   2020-12-11;     121;      1.74
+# SELLS (optional, but keep this line in place)
 TSLA:US;    2020-01-28;       4;    682.21
+
+# LOOKOUT (optional, but keep this line in place)
+LI:US
+NIO:US
 ```
 
 ### User interface and how to use it
