@@ -5,7 +5,7 @@ of your equity portfolio for daily monitoring as well as monitoring stock prices
 
 Made for [my own purposes](#motivation), so it is quite literally a _personal_ equity portfolio monitor. Probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
 
-In short, it takes your stock purchases and sales like this:
+In short, it takes your stock purchases, stock sales and interesting companies like this:
 ```
 # BUYS      event date       pcs     price
 SAA1V:FH;   2020-02-12;      35;     12.85
