@@ -5,7 +5,7 @@
 var rapidApiKey = 'PASTE RAPIDAPI.COM API KEY HERE';
 
 // Url to your stocks.txt file, in case you want to host it in another location, e.g. Dropbox.
-var tradeEventsTxt = 'mock-stocks.txt';
+var tradeEventsTxt = 'stocks.txt';
 
 // Element in which to place the stock table
 var container = '.stocks';
