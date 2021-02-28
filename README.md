@@ -26,11 +26,13 @@ NIO:US
 
 ![Imaginary portfolio viewed on FINNSTONKS PEPM](https://storage.googleapis.com/olaviinha/github/finnstonks/finnstonks-cap1.jpg)
 
-![Follow](https://storage.googleapis.com/olaviinha/github/finnstonks/follow2.jpg)
-
+The view is configurable by settings and by simply clicking on things:
 ![Clickery](https://storage.googleapis.com/olaviinha/github/finnstonks/stonks.gif)
 
-The view is configurable by settings and by simply clicking on things. Trade events may also be completely imaginary, in case you want to test your skills before starting to invest.
+Lookout section explained:
+![Follow](https://storage.googleapis.com/olaviinha/github/finnstonks/follow2.jpg)
+
+Trade events may also be completely imaginary, in case you want to test your skills before starting to invest.
 
 ## Setup
 
