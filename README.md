@@ -41,7 +41,7 @@ FinnStonks cannot be run via `file:///` protocol (i.e. it will not work if you d
 
 1. Clone or download this repository.
 2. Replace the example lists in `stocks.txt` with a list of your own, actual purchase and sale events: [instructions](#your-trading-data).
-3. Obtain required API key: [instructions](#obtain-api-key).
+3. Obtain required (free) API key: [instructions](#obtain-api-key).
 4. Open `finnstonks.js` in a text editor, paste your API key in there and change any of the settings you wish.
 5. Run your HTTP Daemon (such as [http-server](https://www.npmjs.com/package/http-server)) or upload files to an SSL secured web server.
 6. Whenever you perform a purchase or a sale, just add it to the corresponding list in `stocks.txt`.
