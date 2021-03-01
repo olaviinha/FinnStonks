@@ -26,8 +26,7 @@ var truncateTo = 10;
 var refreshInterval = 240;
 
 // ...but only between these hours.
-var refreshDuring = [16, 23];
-
+var refreshDuring = [16, 23];¨
 
 //---------------------------------------------------------------------------------------------
 // - CHARTS / PRICE DEVELOPMENT ---------------------------------------------------------------
@@ -53,7 +52,6 @@ var colorDownhillTicks = true;
 // visually cleaner chart, handy especially if colorDownhillTicks above is true.
 var nth = 4;
 
-
 //---------------------------------------------------------------------------------------------
 // - LOOKOUT ----------------------------------------------------------------------------------
 
@@ -73,7 +71,6 @@ var displayChanges = ['y1', 'm3', 'm1'];
 
 // Align left and right charts to the current market price (horizontal line).
 var syncScale = false;
-
 
 //---------------------------------------------------------------------------------------------
 // - LAYOUT -----------------------------------------------------------------------------------
@@ -106,8 +103,6 @@ var spd = 300;
 var clBs = '#888'; // Base color, ideally same as in CSS
 var clPs = '#696'; // Positive color, ideally same as in CSS
 var clNg = '#a66'; // Negative color, ideally same as in CSS
-
-
 
 //---------------------------------------------------------------------------------------------
 // - DEVELOPMENT & DEBUGGING  -----------------------------------------------------------------
@@ -145,7 +140,6 @@ var totalReturns = 0;
 
 var interestsContainer = '.interests';
 refreshInterval = 1000 * 60 * refreshInterval;
-
 
 if(mockData == true) refreshInterval = 15000;
 if(mockData && consoleOutput) console.log('Using refresh interval of 15 seconds.')
