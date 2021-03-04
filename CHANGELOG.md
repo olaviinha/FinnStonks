@@ -1,5 +1,9 @@
 # Change log
 
+## 2021-03-04
+
+- Auto-convert everything to EUR, despite currency (previously only USD was converted).
+
 ## 2021-02-27
 
 - Now supports a different view for following stocks (that you don't own yet but are monitoring for e.g. the right time to purchase).
