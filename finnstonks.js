@@ -125,7 +125,7 @@ var mockTrends3d = {};
 
 //---------------------------------------------------------------------------------------------
 
-var api_currency = 'https://api.exchangeratesapi.io/latest';
+var api_currency = 'https://api.exchangerate.host/latest';
 var api_stock = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-compact?id=';
 var api_history5y = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?interval=y5&id='
 var api_history3d = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?interval=d3&id='
