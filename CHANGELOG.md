@@ -1,5 +1,9 @@
 # Change log
 
+## 2021-04-01
+
+- Changed exchange rates API to exchangerate.host
+
 ## 2021-03-04
 
 - Auto-convert everything to EUR, despite currency (previously only USD was converted).
