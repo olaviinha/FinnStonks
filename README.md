@@ -72,7 +72,7 @@ var tradeEventsTxt = 'https://www.dropbox.com/s/b666pwrytk1pepm/stocks.txt?dl=0'
 ### Used APIs and how to obtain required API key (free)
 
 FinnStonks uses two free APIs:
-1. @madisvain's [Foreign exchange rates API](https://exchangeratesapi.io) for up-to-date real-time currency conversion as provided by European Central Bank.
+1. [Exchangerate.host](hhttps://github.com/Formicka/exchangerate.host) for up-to-date real-time currency conversion as provided by European Central Bank.
 2. Bloomberg's
 [Market and Financial News API](https://rapidapi.com/apidojo/api/bloomberg-market-and-financial-news) 
 for up-to-date real-time stock prices.
