@@ -2,7 +2,7 @@
 
 ## 2021-04-01
 
-- Changed exchange rates API to exchangerate.host
+- Changed exchange rates API to exchangerate.host, as old one turned from free service to paid service with an API key requirement and request limitations.
 
 ## 2021-03-04
 
