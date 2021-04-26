@@ -1,5 +1,9 @@
 # Change log
 
+## 2021-04-17
+
+- Error handling for lack of chart data, for when e.g. company listing is so new it does not have any/required number of ticks to produce requested chart.
+
 ## 2021-04-01
 
 - Changed exchange rates API to exchangerate.host, as old one turned from free service to paid service with an API key requirement and request limitations.
