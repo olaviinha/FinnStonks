@@ -1,5 +1,12 @@
 # Change log
 
+## 2021-06-17
+
+- Option to easily change layout direction. Display owned and followed stocks stacked, side by side, or side by side reversed.
+- Generated charts, price histories and their options have been optimized to a more momentum based monitoring, rather than daily based.
+- API calls have been optimized accordingly to use day ticks by default: consume least API calls by setting all displayed price histories from 1 week to 1 year.
+- Minute ticks (3 day price histories) are currently unavailable due to above changes, but I aim to bring them back in the not so distant future.
+
 ## 2021-04-17
 
 - Error handling for lack of chart data, for when e.g. company listing is so new it does not have any/required number of ticks to produce requested chart.
@@ -14,7 +21,7 @@
 
 ## 2021-02-27
 
-- Now supports a different view for following stocks (that you don't own yet but are monitoring for e.g. the right time to purchase).
+- Support to following stocks that you don't own separately from stocks that you already own. For monitoring the right time to purchase, or whatevs.
 - Improved debugging (`consoleOutput`, make `mockData` updating manually more convenient).
 - Refactor data and calculations concerning realisations and totals.
 
