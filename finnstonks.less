@@ -12,7 +12,8 @@
 @col2:               20%;
 @padd:                 0;
 
-@base-color:        #888;
+@bg:                #222;
+@base-color:        #bbb;
 @positive:          #696;
 @negative:          #a66;
 @negative-highlight:#a54;
@@ -45,7 +46,7 @@ body {
     font-family: 'Signika Negative', sans-serif;
     font-weight: 600;
     overflow: visible;
-    background: #222;
+    background: @bg;
     &.light {
         background: #fff;
     }
@@ -64,14 +65,13 @@ body {
     }
 }
 
-.hidden, .permahidden {
-    display: none !important;
+form {
+    margin: 0;
+    padding: 0;
 }
 
-.vmid {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+.hidden, .permahidden {
+    display: none !important;
 }
 
 .hr {
@@ -99,8 +99,44 @@ body {
     color: @base-color;
 }
 
-.interest .x3d0 canvas {
+.interest .right-chart canvas {
     border-left: @hline-thicc;
+}
+
+.query-ticker {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: @bg;
+    z-index: 2;
+    padding: 40px;
+    color: #fff;
+    input, button {
+        border: 0;
+        border-radius: 4px;
+        background: #fff;
+        color: @bg;
+        padding: 10px;
+    }
+    .results {
+        margin-top: 20px;
+        .result {
+            margin: 5px 0;
+            .ticker, .info {
+                display: inline-block;
+            }
+            .ticker {
+                width: 130px;
+            }
+            .info {
+                color: #888;
+                font-weight: 300;
+            }
+        }
+    }
 }
 
 .container-fluid {
@@ -108,18 +144,14 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    .row {
-        height: 100%;
-    }
 }
 
 .stocks-container {
     text-align: center;
     height: 100%;
-
     width: 100%;
-    max-width: 600px;
     margin: auto;
+    max-width: 600px;
 }
 
 .message {
@@ -136,7 +168,7 @@ body {
     }
 }
 
-.stocks {
+.stocks, .portfolio, .lookout {
     text-align: left;
     display: none;
     color: @base-color;
@@ -175,11 +207,17 @@ body {
     }
 
     .base {
-        width: 100%;
         display: table;
         position: relative;
         margin-bottom: @hmargin;
         transition: .2s linear;
+        width: 100%;
+        &.full {
+            width: 100%;
+        }
+        &.half {
+            width: 50%;
+        }
         > div {
             padding: @padd;
         }
@@ -238,7 +276,6 @@ body {
     .title {
         display: table-cell;
         font-size:  @base-size;
-        // width: 60%;
     }
     .meta {
         font-size: @base-size-xs;
@@ -255,7 +292,6 @@ body {
         padding-right: @vmargin;
         font-size: @base-size;
         vertical-align: top;
-        // width: 20%;
         .price {
             
         }
@@ -302,7 +338,6 @@ body {
         display: table-cell;
         vertical-align: middle;
         width: 10%;
-        // width: 100px;
         font-size: @base-size-xs;
         line-height: calc(@base-size-xs - 1px);
         text-align: right;
@@ -310,16 +345,11 @@ body {
     }
 
     .charts {
-        // width: 60px;
-        // height: 48px;
         margin-left: 2em;
         width: 60px;
         height: 48px;
         display: inline-block;
         vertical-align: top;
-        div {
-            
-        }
     }
 
     .interest .charts {
@@ -329,11 +359,11 @@ body {
         height: 40px;
         max-height: 40px;
 
-        &.x5y0 {
+        &.left-chart {
             padding-left: @vmargin;
             width: 35%;
         }
-        &.x3d0 {
+        &.right-chart {
             width: 20%;
         }
     }
@@ -345,9 +375,7 @@ body {
         }
     }
 
-
     .tops {
-        padding: @padd;
         font-size: @large;
         margin-right: -3px;
         &:not(:first-child) {
@@ -365,15 +393,12 @@ body {
             .eur, .eur-with-sales, .percent {
                 display: inline;
                 &.neg:before {
-                    // content: '-';
+
                 }
                 &.pos:before {
                     content: '+';
                 }
             }
-            // .eur:after {
-            //     content: ' €';
-            // }
             .percent:after {
                 content: ' %';
             }
@@ -407,12 +432,18 @@ body {
     }
 }
 
+.portfolio, .lookout {
+    padding: 10px;
+    margin: 0;
+}
+
 .loader {
     .vmid;
     display: inline-block;
     width: 80px;
     height: 80px;
     transition: 1s ease-in-out;
+    z-index: 3;
     &:after {
         content: " ";
         display: block;
