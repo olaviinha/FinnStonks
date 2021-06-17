@@ -74,6 +74,12 @@ form {
     display: none !important;
 }
 
+.vmid {
+    // position: relative;
+    // top: 50%;
+    // transform: translateY(-50%);
+}
+
 .hr {
     margin: @hmargin*2 0;
     border-bottom: @hline;
@@ -225,7 +231,6 @@ form {
             margin-bottom: 0;
         }
         .stock {
-            // width: @col1;
             padding-right: @vmargin;
             display: table-cell;
             vertical-align: top;
@@ -393,7 +398,7 @@ form {
             .eur, .eur-with-sales, .percent {
                 display: inline;
                 &.neg:before {
-
+                    // content: '-';
                 }
                 &.pos:before {
                     content: '+';
