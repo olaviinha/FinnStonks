@@ -28,21 +28,45 @@ var refreshInterval = 20;
 // ...but only between these hours.
 var refreshDuring = [16, 23];
 
-
 //---------------------------------------------------------------------------------------------
 // - CHARTS / PRICE DEVELOPMENT ---------------------------------------------------------------
 
 // Generate charts. If false, only textual 3d history is shown instead.
 var generateCharts = true;
 
-// Default chart.
-// a) '3d' = 3 day price history.
-// b) 'sincePurchase' = price history since purchase.
-var defaultChart = '3d';
+// How long price history to display in default chart of stocks you own.
+// a) 'w1' = 1 week
+// b) 'w2' = 2 weeks
+// c) 'm1' = 1 month
+// d) 'm3' = 3 months
+// e) 'm6' = 6 months
+var defaultChart = 'm1';
 
-// Highlight row with an alarm if the closing price has dropped at least this many percent
-// per day, consecutively for three days.
-var alarmLimit = -2;
+// How many years of price history is displayed in charts.
+// a) 1
+// b) 3
+// c) 5
+var yearsBack = 1;
+
+// How long history to display in the right hand side chart of LOOKOUT section.
+// a) 'w1' = 1 week
+// b) 'w2' = 2 weeks
+// c) 'm1' = 1 month
+// d) 'm3' = 3 months
+// e) 'm6' = 6 months
+// f) defaultChart = same as default chart in stocks.
+var rightChart = defaultChart;
+
+// In LOOKOUT section, align left and right charts to the current market price (horizontal line).
+var syncScale = false;
+
+// Which three price changes (in percents) to display on the right side of the charts.
+// a) 'w1' = 1 week
+// b) 'w2' = 2 weeks
+// c) 'm1' = 1 month
+// d) 'm3' = 3 months
+// e) 'm6' = 6 months
+var displayChanges = ['m1', 'm3', 'm6'];
 
 // This option will color each chart ticks red, if lower than the previous tick,
 // i.e. red point in chart whenever price has gone down instead of up. 
@@ -51,32 +75,16 @@ var colorDownhillTicks = true;
 
 // In graphic charts, include only every nth tick. This will produce a less detailed but 
 // visually cleaner chart, handy especially if colorDownhillTicks above is true.
-var nth = 4;
-
-
-//---------------------------------------------------------------------------------------------
-// - LOOKOUT ----------------------------------------------------------------------------------
-
-// How many years to display in the left chart.
-var yearsBack = 3;
-
-// Which three price changes (in percents) to display on the right side of the charts.
-// Options: 
-//  - alltime (up to yearsBack value)
-//  - y1 (1 year)
-//  - m6 (6 months)
-//  - m3 (3 months)
-//  - m1 (1 month)
-//  - w2 (2 weeks)
-//  - w1 (1 week)
-var displayChanges = ['y1', 'm6', 'm3'];
-
-// Align left and right charts to the current market price (horizontal line).
-var syncScale = false;
-
+var nth = 1;
 
 //---------------------------------------------------------------------------------------------
-// - LAYOUT -----------------------------------------------------------------------------------
+// - LAYOUT (experimental settings) -----------------------------------------------------------
+
+// Display portfolio section and followed stocks section side by side or stacked
+// a) 'cols' = portfolio and followed side by side in that order.
+// b) 'cols-reverse' = followed and portfolio side by side in that order.
+// b) 'rows' = portfolio and followed stacked.
+var layoutDirection = 'rows';
 
 // Color scheme, etc.
 // a) 'light' = darker texts, for light backgrounds
@@ -107,7 +115,6 @@ var clBs = '#888'; // Base color, ideally same as in CSS
 var clPs = '#696'; // Positive color, ideally same as in CSS
 var clNg = '#a66'; // Negative color, ideally same as in CSS
 
-
 //---------------------------------------------------------------------------------------------
 // - DEVELOPMENT & DEBUGGING  -----------------------------------------------------------------
 var consoleOutput = false;  // Print stuff in browser console. This is automatically set to true if mockData is true.
@@ -116,22 +123,23 @@ var printToCopy = false;    // Print only what's necessary to update mock data (
 var devInterval = false;    // Overwrite refresh interval with 15 seconds.
 var mockAlarm = false;      // Simulate alarm.
 
-// When doing development, styling, etc., you can mock API responses by copy-pasting the actual responses from 
-// browser console or Network tab to variables below. This way FinnStonks will not consume API calls while you keep 
-// refreshing the page frequently. Set printToCopy (above) to true and copy-paste responses from browser accordingly below:
+// Mock data
 var mockEvents = '';
 var mockStocks = {};
-var mockTrends5y = {};
-var mockTrends3d = {};
+var mockWeekTicks = {};
+var mockDayTicks = {};
+var mockMinTicks = {};
 
 //---------------------------------------------------------------------------------------------
 
 var api_currency = 'https://api.exchangerate.host/latest?source=ecb';
 var api_stock = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-compact?id=';
 var api_quote = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/auto-complete?query=';
-var api_history5y = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?interval=y5&id='
-var api_history3d = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?interval=d3&id='
 var rapidapi_host = 'bloomberg-market-and-financial-news.p.rapidapi.com';
+
+var api_weekTicks = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?interval=y5&id=';
+var api_dayTicks = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?interval=y1&id=';
+var api_minTicks = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?interval=d3&id=';
 
 // var rates, rate, usd, eur;
 var rates;
@@ -147,7 +155,8 @@ var currency = {
 var totalLiquid = 0;
 var totalInvested = 0;
 var totalReturns = 0;
-
+var colsCreated = false;
+var alarmLimit = -99;
 var interestsContainer = '.interests';
 refreshInterval = 1000 * 60 * refreshInterval;
 
@@ -209,13 +218,13 @@ function addRows(detailsList, element=container){
             $('#'+id).attr('data-return', salesReturn.toFixed(2));
 
             $('#'+id).find('.date').html(details.date);
-            $('#'+id).find('.pcs').html(details.price +' &times; <span class="highlight pcnr">'+details.pcs)+'</span>';
+            $('#'+id).find('.purchase .pcs').html(details.price +' &times; <span class="highlight pcnr">'+details.pcs)+'</span>';
             $('#'+id).find('.invested').html(details.currentTotal.toFixed(2));
             $('#'+id).find('.invested-after-sales').html(details.balance.toFixed(2));
             paintReverse($('#'+id).find('.invested-after-sales'));
         }
 
-        if(!details.price)          $('#'+id).attr('data-type', 'interest');
+        if(!details.price) $('#'+id).attr('data-type', 'interest');
     });
 }
 
@@ -298,7 +307,7 @@ function parseStocks(data){
         if(includeCashouts == true && stock.pcs == 0){
             totalLiquid += stock.balance * -1;
         }
-        if((includeCashouts == false || showCashouts == false) && stock.pcs == 0 && mockData == false){
+        if((includeCashouts == false || showCashouts == false) && stock.pcs == 0){
             if(consoleOutput) console.log('Remove cashed out stock', i, stock);
             delete finalList[i];
         }
@@ -332,12 +341,14 @@ function parseInterests(data){
 function initProcess(){
     $(container).html('').hide();
     $(interestsContainer).html('').hide();
+    $('.portfolio').html('');
+    $('.lookout').html('');
     if(mockData){
         var finalList = parseStocks(mockEvents);
         addRows(finalList);
         if(showFollows == true){
             var interestsList = parseInterests(mockEvents);
-            $(container).append('<div class="hr large"></div>');
+            if(layoutDirection=='rows' && !$('hr.large').length) $(container).append('<div class="hr large"></div>');
             addRows(interestsList, interestsContainer);
             finalList = finalList.concat(interestsList);
         }
@@ -356,7 +367,7 @@ function initProcess(){
                 if(showFollows == true){
                     var interestsList = parseInterests(data);
                     if(consoleOutput) console.log('All handled lookouts', interestsList);
-                    $(container).append('<div class="hr large"></div>');
+                    if(layoutDirection=='rows' && !$('hr.large').length)  $(container).append('<div class="hr large"></div>');
                     addRows(interestsList, interestsContainer);
                     finalList = finalList.concat(interestsList);
                 }
@@ -408,7 +419,6 @@ function processStocks(data){
 
             // Calculate things
             var pcs =  Number($('#'+id).data('pcs'));
-            // var purchaseTotal = Number($('#'+id).data('invested'));
             var purchaseTotal = Number($('#'+id).data('current-total'));
             var perPc = purchaseTotal/pcs;
             var marketTotal = price*pcs;
@@ -416,6 +426,7 @@ function processStocks(data){
             var diff = marketTotal-purchaseTotal;
             var percent = diff/purchaseTotal*100;
             var salesPL = Number($('#'+id).data('sales-total')) - Number($('#'+id).data('purchases-total'));
+            var latest = currency=='EUR' ? Number(stock.last) : Number(toEur(stock.last, currency));
             
             if(Number($('#'+id).data('invested-after-sales')) <= 0){
                 paidBack = true;
@@ -440,6 +451,7 @@ function processStocks(data){
             $('#'+id).find('.percents').attr('data-purchase-total', purchaseTotal).attr('data-percent-amount', percent.toFixed(2)).attr('data-eur-amount', marketTotal.toFixed(2));
             $('#'+id).find('.percents .percent').html(percent.toFixed(2));
             $('#'+id).find('.percents .eur').html(marketTotal.toFixed(2));
+            $('#'+id).find('.percents .pcs').html(latest.toFixed(2) +' &times; <span class="highlight pcnr">'+pcs+'</span>');
             paint($('#'+id).find('.percents'), percent);
 
         }
@@ -457,7 +469,7 @@ function processStocks(data){
         if( showQuantity && !veryCompact ){ $('#'+id).find('.purchase .pcs').removeClass('hidden permahidden').addClass('permashow'); }
         if( showPrice && !cashedOut ){ $('#'+id).find('.purchase .invested').removeClass('hidden'); }
         if( showChangeEur ){ $('#'+id).find('.market .first').removeClass('hidden'); }
-        if( showPercent ){ $('#'+id).find('.percents .eur').removeClass('hidden'); }
+        if( showPercent ){ $('#'+id).find('.percents .first').removeClass('hidden'); }
         if( veryCompact ){ $('#'+id).addClass('very-compact'); }
         if( cashedOut) { 
             $('#'+id).find('.purchase, .market, .percents, .trend').remove(); 
@@ -472,7 +484,6 @@ function processStocks(data){
         }
     
         if( truncateTo > 0){
-            // var name = $('#'+id).find('.name').html();
             if(name.indexOf(' ') > -1){
                 name = name.split(' ')[0];
             }
@@ -537,8 +548,10 @@ function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest,
         Chart.defaults.global.legend.display = false;
 
         if (chartGen) chartGen.destroy();
-
-        $('#'+id).find('.charts.x'+interval+i).empty().append('<canvas id="'+id+interval+i+'" data-high="'+highest+'" data-low="'+lowest+'" data-hline="'+firstPrice+'"></canvas>');
+        var targetEl = type=='trade' ? defaultChart : rightChart;
+        if(interval=='full') targetEl = type=='trade' ? 'charts.alltime' : 'left-chart';
+        
+        $('#'+id).find('.'+targetEl).empty().append('<canvas id="'+id+interval+i+'" data-high="'+highest+'" data-low="'+lowest+'" data-hline="'+firstPrice+'"></canvas>');
         var ctx = document.getElementById(id+interval+i).getContext('2d');
 
         var chartGen = new Chart(ctx, {
@@ -629,7 +642,12 @@ function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest,
 
         });
 
-        if(type == 'interest') $('#'+id).find('.charts.x'+interval+i).removeClass('hidden');
+        if(type=='trade') {
+            $('#'+id).find('.trend, .charts.default').removeClass('hidden');
+        }
+        if(type=='interest') {
+            $('#'+id).find('.trends').removeClass('hidden');
+        }
 
     });
 }
@@ -640,9 +658,12 @@ const median = arr => {
     return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
 };
 
+var y3data, y3dataLeft, y5data, y5dataLeft;
+
 function processTrends(data, interval){
 
     if(consoleOutput) console.log('PROCESS', interval, 'CHART DATA:', data);
+
 
     $.each(data, function(i, stock) {
 
@@ -659,17 +680,6 @@ function processTrends(data, interval){
             var currency = $('#'+id).data('currency');
             var comp = currency == 'USD' ? ocurLatest : latest;
 
-            if( $('.interest #'+id+'5y0').length ){
-                var oldHigh = Number($('#'+id+'5y0').data('high'));
-                var oldLow = Number($('#'+id+'5y0').data('low'));
-                if( oldHigh > highest){
-                    highest = oldHigh;
-                }
-                if( oldLow < lowest){
-                    lowest = oldLow;
-                }
-            }
-
             var type = $('#'+id).data('type');
             var purchaseDate = $('#'+id).data('date');
             var firstPrice = $('#'+id).data('first-price');
@@ -677,7 +687,19 @@ function processTrends(data, interval){
 
             if(consoleOutput) console.log('Collect', interval, 'chart data for', id);
 
-            if(interval == '3d'){
+            var lenMap = {
+                'd3': 3,
+                'w1': 7,
+                'w2': 14,
+                'm1': 30,
+                'm3': 91,
+                'm6': 182,
+                'y1': 260,
+                'y3': 156,
+                'y5': 260,
+            }
+
+            if(interval == 'minTicks'){
 
                 var charts = [];
                 charts = [now3dago];
@@ -686,14 +708,16 @@ function processTrends(data, interval){
                     chartData.push([]);
                 });
                 $.each(stock.ticks, function(i, tick){
-                    if(tick.time > charts[0] && ((type == 'interest') || (type == 'trade' && i % nth === 0))){
+                    if((type == 'interest') || (type == 'trade' && i % nth === 0)){
                         if(currency != 'EUR' && type=='trade'){
-                            chartData[0].push(toEur(tick.close, currency));
+                            chartData[0].push( toEur(tick.close, currency) );
                         } else {
                             chartData[0].push( tick.close );
                         }
                     }
                 });
+
+                var d3data = [chartData[0]];
 
                 var close3daysAgo = stock.ticks[last-4].close;
                 var close2daysAgo = stock.ticks[last-3].close;
@@ -709,20 +733,20 @@ function processTrends(data, interval){
                     d2p = -5;
                     d3p = -6;
                 }
-                $('#'+id).find('.trend .eur .d1').html(d1e.toFixed(2));
-                $('#'+id).find('.trend .eur .d2').html(d2e.toFixed(2));
-                $('#'+id).find('.trend .eur .d3').html(d3e.toFixed(2));
-                $('#'+id).find('.trend .percent .d1').html(d1p.toFixed(2));
-                $('#'+id).find('.trend .percent .d2').html(d2p.toFixed(2));
-                $('#'+id).find('.trend .percent .d3').html(d3p.toFixed(2));
-                paint($('#'+id).find('.trend .d1'), d1p);
-                paint($('#'+id).find('.trend .d2'), d2p);
-                paint($('#'+id).find('.trend .d3'), d3p);
+                $('#'+id).find('.trend .eur .x1').html(d1e.toFixed(2));
+                $('#'+id).find('.trend .eur .x2').html(d2e.toFixed(2));
+                $('#'+id).find('.trend .eur .x3').html(d3e.toFixed(2));
+                $('#'+id).find('.trend .percent .x1').html(d1p.toFixed(2));
+                $('#'+id).find('.trend .percent .x2').html(d2p.toFixed(2));
+                $('#'+id).find('.trend .percent .x3').html(d3p.toFixed(2));
+                paint($('#'+id).find('.trend .x1'), d1p);
+                paint($('#'+id).find('.trend .x2'), d2p);
+                paint($('#'+id).find('.trend .x3'), d3p);
                 if(d1p < alarmLimit && d2p < alarmLimit && d3p < alarmLimit){
                     $('#'+id).addClass('alarm');
                 }
 
-            } else {
+            } else if (interval == 'weekTicks' && yearsBack > 1) {
 
                 charts = type == 'trade' ? [moment(purchaseDate).unix()] : [moment().subtract(yearsBack, 'y').unix()];
                 var chartData = [];
@@ -730,78 +754,148 @@ function processTrends(data, interval){
                     chartData.push([]);
                 });
                 $.each(stock.ticks, function(i, tick){
-                    if(tick.time >= charts[0] && (type=='trade' || (type=='interest' && tick.time < moment().subtract(7, 'd').unix() ) ) ){
-                        chartData[0].push( tick.close );
+                    if((type == 'interest') || (type == 'trade' && i % nth === 0)){
+                        if(currency != 'EUR' && type=='trade'){
+                            chartData[0].push( toEur(tick.close, currency) );
+                        } else {
+                            chartData[0].push( tick.close );
+                        }
                     }
                 });
 
-                if(type=='interest'){
-                    var alltimeval = chartData[0][0];
-                    var y1val = chartData[0][chartData[0].length - 52] || chartData[0][0];
-                    var m6val = chartData[0][chartData[0].length - 26] || chartData[0][0];
-                    var m3val = chartData[0][chartData[0].length - 13] || chartData[0][0];
-                    var m1val = chartData[0][chartData[0].length - 4] || chartData[0][0];
-                    var w2val = chartData[0][chartData[0].length - 2] || chartData[0][0];
-                    var w1val = chartData[0][chartData[0].length - 1] || chartData[0][0];
-                    var alltimeCustom = (comp - alltimeval) / alltimeval * 100;
-                    var y1changeCustom = (comp - y1val) / y1val * 100;
-                    var m6changeCustom = (comp - m6val) / m6val * 100;
-                    var m3changeCustom = (comp - m3val) / m3val * 100;
-                    var m1changeCustom = (comp - m1val) / m1val * 100;
-                    var w2changeCustom = (comp - w2val) / w2val * 100;
-                    var w1changeCustom = (comp - w1val) / w1val * 100;
+                
+                y5data = [chartData[0].slice(Math.max(chartData[0].length - 260, 0))];
+                y3data = [chartData[0].slice(Math.max(chartData[0].length - 156, 0))];
 
-                    $('#'+id).find('.alltimechange').html(alltimeCustom.toFixed(2));
-                    $('#'+id).find('.y1change').html(y1changeCustom.toFixed(2));
-                    $('#'+id).find('.m6change').html(m6changeCustom.toFixed(2));
-                    $('#'+id).find('.m3change').html(m3changeCustom.toFixed(2));
-                    $('#'+id).find('.m1change').html(m1changeCustom.toFixed(2));
-                    $('#'+id).find('.w2change').html(w2changeCustom.toFixed(2));
-                    $('#'+id).find('.w1change').html(w1changeCustom.toFixed(2));
+                y5dataLeft = [chartData[0].slice(0, chartData[0].length-lenMap[rightChart])];
+                y3dataLeft = [chartData[0].slice(0, chartData[0].length-lenMap[rightChart])];
 
-                    paint($('#'+id).find('.alltimechange'));
-                    paint($('#'+id).find('.y1change'));
-                    paint($('#'+id).find('.m6change'));
-                    paint($('#'+id).find('.m3change'));
-                    paint($('#'+id).find('.m1change'));
-                    paint($('#'+id).find('.w2change'));
-                    paint($('#'+id).find('.w1change'));
+                var dataMap = {
+                    'y3': y3data,
+                    'y5': y5data,
+                };
+    
+                var dataMapLeft = {
+                    'y3': y3dataLeft,
+                    'y5': y5dataLeft,
+                };
 
-                    displayChanges.forEach(function(change, i){
-                        $('#'+id).find('.'+change+'change').removeClass('hidden');
-                    });
+                var yb = 'y'+yearsBack;
+                var leftData = dataMapLeft[yb];
 
-                    var mediani = currency!='EUR' ? toEur(median(chartData[0]), currency) : median(chartData[0]);
-                    $('#'+id).find('.purchase .price.eur').append('<br><span class="dim xs">'+mediani.toFixed(2)+'</span> ');
-                    // $('#'+id).find('.purchase .price.eur').append('<span class="dim xs">↥'+highest.toFixed(2)+'</span> ');
-                    // $('#'+id).find('.purchase .price.eur').append('<span class="dim xs">↧'+lowest.toFixed(2)+'</span>');
+                if(generateCharts && yearsBack > 1){
+                    var begin = false;
+                    if(type=='interest') {
+                        firstPrice = ocurLatest;
+                        makeChart(id, leftData, 'full', i, firstPrice, type, begin, highest, lowest);
+                        
+                    }
+                    if(type=='trade') {
+                        makeChart(id, leftData, 'full', i, firstPrice, type, begin, highest, lowest);   
+                    }
                 }
-            }
 
-            if(generateCharts && ($('#'+id).find('.trend').length || type == 'interest')){
-                if(consoleOutput) console.log('Create', interval, 'chart for', id);
-                var begin = false;
-                if(type=='interest') firstPrice = ocurLatest;
-                makeChart(id, chartData, interval, i, firstPrice, type, begin, highest, lowest);
+            } else {
+
+                // Day ticks
+                charts = type == 'trade' ? [moment(purchaseDate).unix()] : [moment().subtract(yearsBack, 'y').unix()];
+
+                var chartData = [];
+                $.each(charts, function(){
+                    chartData.push([]);
+                });
+                $.each(stock.ticks, function(i, tick){
+                    if((type == 'interest') || (type == 'trade' && i % nth === 0)){
+                        if(currency != 'EUR' && type=='trade'){
+                            chartData[0].push( toEur(tick.close, currency) );
+                        } else {
+                            chartData[0].push( tick.close );
+                        }
+                    }
+                });
+
+                var y1val = chartData[0][chartData[0].length - 52] || chartData[0][0];
+                var m6val = chartData[0][chartData[0].length - 26] || chartData[0][0];
+                var m3val = chartData[0][chartData[0].length - 13] || chartData[0][0];
+                var m1val = chartData[0][chartData[0].length - 4] || chartData[0][0];
+                var w2val = chartData[0][chartData[0].length - 2] || chartData[0][0];
+                var w1val = chartData[0][chartData[0].length - 1] || chartData[0][0];
+
+                var y1changeCustom = (comp - y1val) / y1val * 100;
+                var m6changeCustom = (comp - m6val) / m6val * 100;
+                var m3changeCustom = (comp - m3val) / m3val * 100;
+                var m1changeCustom = (comp - m1val) / m1val * 100;
+                var w2changeCustom = (comp - w2val) / w2val * 100;
+                var w1changeCustom = (comp - w1val) / w1val * 100;
+
+                $('#'+id).find('.y1change').html(y1changeCustom.toFixed(2));
+                $('#'+id).find('.m6change').html(m6changeCustom.toFixed(2));
+                $('#'+id).find('.m3change').html(m3changeCustom.toFixed(2));
+                $('#'+id).find('.m1change').html(m1changeCustom.toFixed(2));
+                $('#'+id).find('.w2change').html(w2changeCustom.toFixed(2));
+                $('#'+id).find('.w1change').html(w1changeCustom.toFixed(2));
+
+                paint($('#'+id).find('.y1change'));
+                paint($('#'+id).find('.m6change'));
+                paint($('#'+id).find('.m3change'));
+                paint($('#'+id).find('.m1change'));
+                paint($('#'+id).find('.w2change'));
+                paint($('#'+id).find('.w1change'));
+
+                displayChanges.forEach(function(change, i){
+                    $('#'+id).find('.'+change+'change').removeClass('hidden');
+                });
+
+                var mediani = currency!='EUR' ? toEur(median(chartData[0]), currency) : median(chartData[0]);
+                $('#'+id).find('.purchase .price.eur').append('<br><span class="dim xs">'+mediani.toFixed(2)+'</span> ');
+
+                var w1data = [chartData[0].slice(Math.max(chartData[0].length - 7, 0))];
+                var w2data = [chartData[0].slice(Math.max(chartData[0].length - 14, 0))];
+                var m1data = [chartData[0].slice(Math.max(chartData[0].length - 30, 0))];
+                var m3data = [chartData[0].slice(Math.max(chartData[0].length - 91, 0))];
+                var m6data = [chartData[0].slice(Math.max(chartData[0].length - 182, 0))];
+                var y1data = [chartData[0]];
+                var y1dataLeft = [chartData[0].slice(0, chartData[0].length-lenMap[rightChart])];
+
+                var dataMap = {
+                    'd3': d3data,
+                    'w1': w1data,
+                    'w2': w2data,
+                    'm1': m1data,
+                    'm3': m3data,
+                    'm6': m6data,
+                    'y1': y1data,
+                };
+    
+                var dataMapLeft = {
+                    'y1': y1dataLeft,
+                    'y3': y3dataLeft,
+                    'y5': y5dataLeft,
+                };
+    
+                if(generateCharts){
+                    var begin = false;
+                    if(type=='interest') {
+                        firstPrice = ocurLatest;
+                        if(yearsBack == 1){
+                            makeChart(id, dataMapLeft['y1'], 'full', i, firstPrice, type, begin, highest, lowest);
+                        }
+                        makeChart(id, dataMap[rightChart], interval, i, firstPrice, type, begin, highest, lowest);
+                    }
+                    if(type=='trade') {
+                        if(yearsBack == 1){
+                            makeChart(id, dataMapLeft['y1'], 'full', i, firstPrice, type, begin, highest, lowest);
+                        }
+                        makeChart(id, dataMap[defaultChart], interval, i, firstPrice, type, begin, highest, lowest);
+                    }
+                }
+
             }
 
         } //if .historical
 
     }); //each
 
-    if(interval == '3d'){
-        if(show3dHistory && !veryCompact){ $('.trend, .trend > div:first-child').removeClass('hidden'); }
-        $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
-        $(container).show();
-        $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
-        if(showCashouts == false){
-            $('.cashed-out').hide();
-        }
-        setTimeout(function(){
-            $(container).show();
-            $('.cashoutd').css('padding-right', $('.stocks .trend:last').width()+'px');
-        }, 500);
-    }
 }
 
 
@@ -823,16 +917,16 @@ function parseBuys(buys){
         if(consoleOutput) console.log('PROCESS STOCKS', mockStocks.result);
 
         processStocks(mockStocks.result);
-        processTrends(mockTrends5y.result, '5y');
-        processTrends(mockTrends3d.result, '3d');
+        processTrends(mockWeekTicks.result, 'weekTicks');
+        processTrends(mockDayTicks.result, 'dayTicks');
+        processTrends(mockMinTicks.result, 'minTicks');
+
         if(consoleOutput) console.log( 'Adjust vertical align', $(container).height(), 'vs.', $(window).height());
         setTimeout(function(){
             if($(container).height() < $(window).height()) $(container).addClass('vmid');
         }, 500);
         if(veryCompact) $('.hr').removeClass('large');
-        if(consoleOutput) console.log('ALL DONE. Show page.');
-        $('.loader').hide();
-        $('.stocks').show();
+        finalize();
 
     } else {
 
@@ -858,12 +952,59 @@ function parseBuys(buys){
         stockChunks.forEach(function(chunk, idx){
             var requestStocks = chunk.join(',');
 
-            // 5y
-            if(consoleOutput) console.log('Send request to get 5y price data on', requestStocks);
+            // Week ticks
+            if(yearsBack > 1 || displayChanges.includes('alltime')) {
+                if(consoleOutput) console.log('Send request to get weekTicks on', requestStocks);
+                var stockTrends = {
+                    "async": false,
+                    "crossDomain": true,
+                    "url": api_weekTicks+requestStocks,
+                    "method": "GET",
+                    "headers": {
+                        "x-rapidapi-key": api_key,
+                        "x-rapidapi-host": rapidapi_host
+                    }
+                };
+                $.ajax(stockTrends).fail(function(response){
+                    $('.loader').hide();
+                    $('.stocks-container .message').html('<div class="err">Bloomberg\'s API responded:</div>'+response.responseJSON.message).show();
+                }).done(function(response) {
+                    if(consoleOutput || printToCopy) console.log('\x1b[35mWEEK TICKS - response from get-price-chart?interval=y5 - Copy this to var mockWeekTicks:', response);
+                    processTrends(response.result, 'weekTicks');
+                });
+            }
+
+            // Min ticks
+            if(defaultChart.includes('3d')) {
+                if(consoleOutput) console.log('Send request to get dayTicks on', requestStocks);
+                if(defaultChart == '3d' || rightChart.includes('')){
+                    if(consoleOutput) console.log('Send request to get 3d price data on', requestStocks);
+                    var stockTrends2 = {
+                        "async": false,
+                        "crossDomain": true,
+                        "url": api_minTicks+requestStocks,
+                        "method": "GET",
+                        "headers": {
+                            "x-rapidapi-key": api_key,
+                            "x-rapidapi-host": rapidapi_host
+                        }
+                    };
+                    $.ajax(stockTrends2).fail(function(response){
+                        $('.loader').hide();
+                        $('.stocks-container .message').html('<div class="err">Bloomberg\'s API responded:</div>'+response.responseJSON.message).show();
+                    }).done(function(response) {
+                        if(consoleOutput || printToCopy) console.log('\x1b[35mMINUTE TICKS - response from get-price-chart?interval=d3... - Copy this to var mockMinTicks:', response);
+                        processTrends(response.result, 'minTicks');
+                    });
+                }
+            }
+
+            // Day ticks
+            if(consoleOutput) console.log('Send request to get dayTicks on', requestStocks);
             var stockTrends = {
                 "async": false,
                 "crossDomain": true,
-                "url": api_history5y+requestStocks,
+                "url": api_dayTicks+requestStocks,
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-key": api_key,
@@ -874,39 +1015,17 @@ function parseBuys(buys){
                 $('.loader').hide();
                 $('.stocks-container .message').html('<div class="err">Bloomberg\'s API responded:</div>'+response.responseJSON.message).show();
             }).done(function(response) {
-                if(consoleOutput || printToCopy) console.log('\x1b[35m5 YEAR TICKS - response from get-price-chart?interval=y5 - Copy this to var mockTrends5y:', response);
-                processTrends(response.result, '5y');
-            });
-
-            // 3d
-            if(consoleOutput) console.log('Send request to get 3d price data on', requestStocks);
-            var stockTrends2 = {
-                "async": false,
-                "crossDomain": true,
-                "url": api_history3d+requestStocks,
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-key": api_key,
-                    "x-rapidapi-host": rapidapi_host
-                }
-            };
-            $.ajax(stockTrends2).fail(function(response){
-                $('.loader').hide();
-                $('.stocks-container .message').html('<div class="err">Bloomberg\'s API responded:</div>'+response.responseJSON.message).show();
-            }).done(function(response) {
-                if(consoleOutput || printToCopy) console.log('\x1b[35m3 DAY TICKS - response from get-price-chart?interval=d3... - Copy this to var mockTrends3d:', response);
-                processTrends(response.result, '3d');
+                if(consoleOutput || printToCopy) console.log('\x1b[35mDAY TICKS - response from get-price-chart?interval=y1 - Copy this to var mockDayTicks:', response);
+                processTrends(response.result, 'dayTicks');
 
                 if (idx === stockChunks.length - 1){ 
                     if(consoleOutput) console.log( 'Adjust vertical align', $(container).height(), 'vs.', $(window).height());
                     if($(container).height() < $(window).height()) $(container).addClass('vmid');
                     if(veryCompact) $('.hr').removeClass('large');
-                    if(consoleOutput) console.log('ALL DONE. Show page.');
-                    $('.loader').hide();
-                    $('.stocks').show();
-                    initClicks();
+                    finalize();
                 }
             });
+
 
         });
 
@@ -922,7 +1041,6 @@ function calcTotals(){
     
     var xpurchaseTotal = totalInvested;
     var liquidationsTotal = totalLiquid + sold;
-    // var liquidationsTotal = sold;
     var xmarketDiff = 0;
 
     if (consoleOutput) console.log('Sales returns total:', liquidationsTotal);
@@ -979,6 +1097,7 @@ function calcTotals(){
 }
 
 function initClicks(){
+    if(consoleOutput) console.log('Initialize element clicks.');
     $('.base').click(function(){
         $(this).removeClass('alarm');
     });
@@ -1007,6 +1126,7 @@ function initClicks(){
 }
 
 function initClickery(el){
+    if(consoleOutput) console.log('-> cycle children of', el);
     $(el).on('click', function(e){
         cycleVisibility($(el));
     });
@@ -1022,7 +1142,6 @@ function cycleVisibility(el){
         curr.addClass('hidden');
         curr.next().removeClass('hidden');
     }
-
 }
 
 function checkUrlParams(){
@@ -1033,26 +1152,21 @@ function checkUrlParams(){
     const zoom = urlParams.get('zoom');
     const brightness = urlParams.get('brightness');
     const cursor = urlParams.get('cursor');
-    $('body').css({
-        'background': bg,
-        'zoom': zoom,
-        'filter': 'brightness('+brightness+')',
-        'cursor': cursor
-    });
-    if(container=='fluid'){
-        // Modity page width by URL param
+    if(consoleOutput) console.log('Apply CSS from URL params ->', 'container:', container, 'bg:', bg, 'zoom:', zoom, 'brightness', brightness, 'cursor:', cursor);
+    if(bg)          $('body').css('background', bg);
+    if(zoom)        $('body').css('zoom', zoom);
+    if(brightness)  $('body').css('filter', 'brightness('+brightness+')');
+    if(cursor)      $('body').css('cursor', cursor);
+    if(container){
+        // Do something with container.
     }
 }
 
 function processTickers(tickers){
-
-    console.log('process', tickers);
-
+    if(consoleOutput) console.log('process ticker');
     Object.keys(tickers).forEach(i => {  
-
-        console.log( i );
-        ticker = tickers[i];
-        
+        ticker = tickers[i]; 
+        if(consoleOutput) console.log('->', i, ticker);
         var tpl = $('.result-template').html();
         tpl = tpl.replace('STOCK', 'res'+i);
         $('.query-ticker .results').append(tpl);
@@ -1062,25 +1176,12 @@ function processTickers(tickers){
         $('#res'+i).find('.country').html(ticker.country);
         i++;
     });
-
-    // tickers.foreach(function(ticker, i){
-    //     var tpl = $('.result-template').html();
-    //     tpl = tpl.replace('STOCK', 'res'+i);
-    //     $('.query-ticker .results').append(tpl);
-    //     $('#res'+i).find('.ticker').html(ticker.tickerName);
-    //     $('#res'+i).find('.name').html(ticker.name);
-    //     $('#res'+i).find('.country').html(ticker.country);
-    //     $('#res'+i).find('.exchange').html(ticker.exchange);
-    // });
-    
     $('.loader').hide();
     
 }
 
 function queryTickers(quote){
-
     $('.loader').show();
-
     var stockInfo= {
         "async": false,
         "crossDomain": true,
@@ -1100,16 +1201,56 @@ function queryTickers(quote){
     });
 }
 
+function finalize() {
+    initClicks();
+    checkUrlParams();
+    if(consoleOutput) console.log('ALL DONE. Show page.');
+    $('.loader').hide();
+
+    if(layoutDirection=='cols' || layoutDirection=='cols-reverse'){
+        $('.stocks-container').css({
+            'max-width': '1200px',
+            'height': 'auto'
+        }).addClass('row');
+        var portfolioEl = '<div class="portfolio col-6 col-left"></div>';
+        var lookoutEl = '<div class="lookout col-6 col-right"></div>';
+        var leftcol = layoutDirection=='cols' ? portfolioEl : lookoutEl;
+        var rightcol = layoutDirection=='cols' ? lookoutEl : portfolioEl;
+        $('.stocks-container').append(leftcol+rightcol);
+        if(layoutDirection=='cols-reverse') $('.portfolio, .lookout').toggleClass('col-left col-right');
+        $('.base.trade, .tops').each(function(){
+            $(this).appendTo('.portfolio');
+        });
+        $('.base.interest').each(function(){
+            $(this).appendTo('.lookout');
+        });
+        $('.stocks-container').find('.stocks, .interests').hide();
+        $('.stocks-container').find('.portfolio, .lookout').show();
+        $('.stocks-container').find('.col-left').css({
+            'padding-right': '30px',
+            'border-right': '1px solid rgba(250,250,250,.1)'
+        });
+        $('.stocks-container').find('.col-right').css({
+            'padding-left': '30px',
+        });
+
+        colsCreated = true;
+    } else {
+        $(container).show();
+    }
+    
+}
+
 let refreshWorker = new Worker('autorefresh.js');
 $(document).ready(function(){
-    if(generateCharts){
-        if(defaultChart=='sincePurchase'){
-            $('.trend').prepend('<div class="charts x5y0 hidden"></div><div class="charts x3d0 hidden"></div>');
-        } else {
-            $('.trend').prepend('<div class="charts x3d0 hidden"></div><div class="charts x5y0 hidden"></div>');
-        }
-    }
+
+    $('.base .trend .charts.alltime').addClass('sincePurchase');
+    $('.base .trend .charts.default').addClass(defaultChart);
+    $('.base.interest .trends.left-chart').addClass('y'+yearsBack);
+    $('.base.interest .trends.right-chart').addClass(rightChart);
+
     initProcess();
+
     if(consoleOutput) console.log('Refresh every', refreshInterval/1000, 'sec');
     refreshWorker.postMessage({refreshInterval, refreshDuring, consoleOutput});
     refreshWorker.onmessage = function(e){
@@ -1129,30 +1270,27 @@ $(document).ready(function(){
     if(bgBox==true){
         $('.stocks').addClass('box');
     }
-
     $(document).keyup(function(e) {
-        if ((e.keyCode == 113 || e.keyCode == 81) && !$('.query-ticker input').is(':focus')){
+        e = e.originalEvent;
+        if(e.key == 'q' && !$('.query-ticker input').is(':focus')){
           $('.query-ticker').toggle();
           setTimeout(function(){
             $('.query-ticker input').focus();
           }, 100);
-          $('.query-ticker input').keydown(function(ee) {
-            if(ee.keyCode == 13){
-                $('.query-ticker button.search').click();
-            }
-            if(ee.keyCode == 27){
-                $('.query-ticker').toggle();
-            }
-          });
-          $('button.close').unbind().click(function(){
-            
-          });
         }
     });
-
+    $('.query-ticker input').keydown(function(ee) {
+        if(ee.code == 'Enter'){
+            $('.query-ticker button.search').click();
+        }
+        if(ee.code == 'Escape'){
+            $('.query-ticker').hide();
+        }
+    });
+    $('button.close').unbind().click(function(){
+        $('.query-ticker').hide();
+    });
     $('.query-ticker button').click(function(){
         queryTickers($('.query-ticker input').val());
-    })
-
-    checkUrlParams();
+    });
 });
