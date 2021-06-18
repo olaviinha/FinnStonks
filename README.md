@@ -5,7 +5,9 @@ of your equity portfolio for daily monitoring as well as following prices of sto
 
 FinnStonks is a hobby project for [my own personal purposes](#motivation) and not really a polished product. It is publicly here only in case anybody finds it useful as is or is interested in developing it further. It is not developed to serve the general public, and probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
 
-In short, it takes your stock purchases, stock sales and interesting companies like this:
+See [CHANGELOG.md](https://github.com/olaviinha/FinnStonks/blob/main/CHANGELOG.md) for most recent changes, that may not be described on this page yet.
+
+In short, FinnStonks takes your stock purchases, stock sales and interesting companies like this:
 ```
 # BUYS
 SAA1V:FH;   2020-02-12;      35;     12.85
