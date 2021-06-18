@@ -4,7 +4,7 @@
 
 - Ticker search feature to find correct (Bloomberg) tickers when adding new stocks to your `stocks.txt`. Press key `Q` on your keyboard to access ticker search.
 - Option to easily change layout direction. Display owned and followed stocks stacked, side by side, or side by side reversed.
-- Generated charts, price histories and their options have been optimized to a more momentum based monitoring, rather than daily based.
+- Generated charts, price histories and their options have been optimized to a more momentum based monitoring, rather than daily based. By default setting this also reduces one API call per pageload/refresh per 10 stocks.
 - API calls have been optimized accordingly to use day ticks by default: consume least API calls by setting all displayed price histories from 1 week to 1 year.
 - Minute ticks (3 day price histories) are currently unavailable due to above changes, but I aim to bring them back in the not so distant future.
 
