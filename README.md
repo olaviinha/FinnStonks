@@ -3,7 +3,7 @@
 FinnStonks Personal Equity Portfolio Monitor provides a web-based, customizable, simple, compact, clean overview of the current state
 of your equity portfolio for daily monitoring as well as following prices of stocks that you are interested in. In spite of being interactive (switch UI content by clicking), it is designed to be a static screen that does not require user action by default.
 
-FinnStonks was made solely for [my own purposes](#motivation) and is here only in case anybody finds it useful as is. It is not developed to serve the general public, and probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
+FinnStonks is a hobby project for [my own personal purposes](#motivation) and not really a polished product. It is publicly here only in case anybody finds it useful as is or is interested in developing it further. It is not developed to serve the general public, and probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
 
 In short, it takes your stock purchases, stock sales and interesting companies like this:
 ```
@@ -97,11 +97,11 @@ rapidApiKey = 'PASTE YOUR RAPIDAPI.COM API KEY HERE';
 
 #### API limitations
 
-At the time of writing this, Bloomberg's API is available for a Freemium plan, allowing 500 monthly API calls free of charge. 
-Each refresh or pageload of FinnStonks consumes **at least 3 API calls** to fetch the current market information, 3 day price history and 5 year price history. If your page displays more than 10 companies, price history data will be fetched in chunks of 10, which will increase the number of API calls accordingly.
+At the time of writing this, Bloomberg's API is available for a Freemium plan, allowing 500 monthly API calls free of charge. If you want to do more detailed monitoring, a paid plans is required.
 
-If you have a maximum of ten companies on your page and you are on the Freemium plan of Bloomberg's API, **this means you can refresh FinnStonks about 5 times a day**, roughly once every 5 hours if open 24/7 with a refresh interval. You can optimize this as you please by using the `refreshInterval` (refresh every n hours) and `refreshDuring` (hours of day between which refresh interval occurs) settings. If your copy of FinnStonks is open on multiple devices (or e.g. more than one person has access to it), it will naturally reflect on the number of consumed API calls.
+FinnStonks optimizes API calls and consumption is highly dependant on your settings. 2-4 API calls are consumed per pageload/refresh per 10 different stocks you have in `stocks.txt`. To consume least API calls (1 per 10 stocks), set all options regarding price history and chart generation to between 1 week and 1 year (`w1`, `w2`, `m1`, `m3`, `m6`, `y1`). Setting any of them to 3 days (`d3`) will consume additional API call per pageload/refresh per 10 stocks, and setting any of them to 3 years or 5 years (`yearsBack` >= 3) will consume additional API call per pageload/refresh per 10 stocks.
 
+This means you can refresh FinnStonks about 8 times a day (once every every 3 hours) if your list contains 10 different stocks or less and you have your options set to consume least API calls (1 week - 1 year). If you have 11 or more different stocks in your list, half these numbers.
 
 ### Your trading data
 
@@ -202,13 +202,13 @@ Most of the UI is configurable simply by clicking on things.
   - current total market value.
   
 **7. Click on the last column to toggle between:** 
-  - price chart from purchase date to latest. (Default)
-  - price chart from 3 days ago to latest. (You can set this as default in settings)
-  - price changed *per day from previous day* for the last 3 days, change in percentage.
-  - price changed *per day from previous day* for the last 3 days, change in euros.
+  - Default price chart. (Default)
+  - Secondary price chart (history from `yearsBack` year(s) ago).
+  - price changed between now and each of `displayChanges` option.
   
 In the price charts, horizontal grey line indicates the price you paid.
-  
+
+Press `Q` key on your keyboard and use the search field to find the correct tickers to add new stocks to `stocks.txt`.
 
 ### Motivation
 There are countless stock market monitors out there that enable you to follow stock prices of your choosing. However, apart from the
