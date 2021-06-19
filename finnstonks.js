@@ -23,7 +23,7 @@ var effectiveDate = 'first';
 var truncateTo = 10;
 
 // Refresh every n minutes. (5 hours = 300 minutes)
-var refreshInterval = 20;
+var refreshInterval = 30;
 
 // ...but only between these hours.
 var refreshDuring = [16, 23];
@@ -84,7 +84,7 @@ var nth = 1;
 // a) 'cols' = portfolio and followed side by side in that order.
 // b) 'cols-reverse' = followed and portfolio side by side in that order.
 // b) 'rows' = portfolio and followed stacked.
-var layoutDirection = 'rows';
+var layoutDirection = 'cols-reverse';
 
 // Color scheme, etc.
 // a) 'light' = darker texts, for light backgrounds
@@ -142,9 +142,8 @@ var api_dayTicks = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/m
 var api_minTicks = 'https://bloomberg-market-and-financial-news.p.rapidapi.com/market/get-price-chart?interval=d3&id=';
 
 // var rates, rate, usd, eur;
-var rates;
-var buys = [];
-var sells = [];
+var rates, y3data, y3dataLeft, y5data, y5dataLeft, stockContainerTpl, interestContainerTpl;
+var buys = sells = [];
 var includeSales = true;
 var currency = {
     async: false,
@@ -160,7 +159,11 @@ var alarmLimit = -99;
 var interestsContainer = '.interests';
 refreshInterval = 1000 * 60 * refreshInterval;
 
-if(devInterval == true) refreshInterval = 15000;
+
+if(devInterval == true) {
+    refreshInterval = 15000;
+    refreshDuring = [00, 24];
+}
 if(mockData && consoleOutput) console.log('Using refresh interval of 15 seconds.')
 if(mockData) consoleOutput = true;
 if(mockData && consoleOutput){ console.log('!!! USING MOCK DATA !!!'); console.log('MOCKED STOCK TRADE EVENTS:', mockStocks); console.log('MOCKED 5 YEAR TICKS', mockTrends5y); console.log('MOCKED 3 DAY TICKS', mockTrends3d); }
@@ -193,9 +196,10 @@ function addRows(detailsList, element=container){
     detailsList.forEach(function(details, i){
         var symbol = details.symbol.split(':')[0];
         var id = symbol;
-        var tpl = element==container ? $('.template').html() : $('.interests-template').html();
+        var tpl = element==container ? stockContainerTpl : interestContainerTpl;
         tpl = tpl.replace('STOCK', symbol);
-        $(container).append(tpl);
+        // $(container).append(tpl);
+        $(element).append(tpl);
         if(details.price){
 
             var withReturns = details.currentTotal + (details.salesTotal - details.purchasesTotal);
@@ -223,8 +227,9 @@ function addRows(detailsList, element=container){
             $('#'+id).find('.invested-after-sales').html(details.balance.toFixed(2));
             paintReverse($('#'+id).find('.invested-after-sales'));
         }
-
-        if(!details.price) $('#'+id).attr('data-type', 'interest');
+        if(!details.price) {
+            $('#'+id).attr('data-type', 'interest');
+        }
     });
 }
 
@@ -339,10 +344,22 @@ function parseInterests(data){
 }
 
 function initProcess(){
-    $(container).html('').hide();
-    $(interestsContainer).html('').hide();
-    $('.portfolio').html('');
-    $('.lookout').html('');
+    if(consoleOutput) console.log('--------------------------------------------------------------');
+    if(consoleOutput) console.log('                      FIRE STONK STONKS');
+    if(consoleOutput) console.log('--------------------------------------------------------------');
+
+    totalLiquid = totalInvested = totalReturns = 0;
+    y3data = y3dataLeft = y5data = y5dataLeft = null;
+    buys = sells = [];
+    includeSales = true;
+    colsCreated = false;
+
+    // $('.template').remove();
+    // $('.interests-template').remove();
+
+    $(container).html('');
+    $(interestsContainer).html('');
+    
     if(mockData){
         var finalList = parseStocks(mockEvents);
         addRows(finalList);
@@ -519,6 +536,7 @@ function paintReverse(el, comp, base){
 }
 
 function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest, lowest){
+
     var bgc = 'rgba(255,255,255,1)';
     var tickSettings;
     if(type=='interest' && syncScale){
@@ -550,10 +568,9 @@ function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest,
         if (chartGen) chartGen.destroy();
         var targetEl = type=='trade' ? defaultChart : rightChart;
         if(interval=='full') targetEl = type=='trade' ? 'charts.alltime' : 'left-chart';
-        
-        $('#'+id).find('.'+targetEl).empty().append('<canvas id="'+id+interval+i+'" data-high="'+highest+'" data-low="'+lowest+'" data-hline="'+firstPrice+'"></canvas>');
+        var canvas = '<canvas id="'+id+interval+i+'" data-high="'+highest+'" data-low="'+lowest+'" data-hline="'+firstPrice+'"></canvas>';
+        $('#'+id).find('.'+targetEl).empty().append(canvas);
         var ctx = document.getElementById(id+interval+i).getContext('2d');
-
         var chartGen = new Chart(ctx, {
             type: 'line',
             data: {
@@ -657,8 +674,6 @@ const median = arr => {
       nums = [...arr].sort((a, b) => a - b);
     return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
 };
-
-var y3data, y3dataLeft, y5data, y5dataLeft;
 
 function processTrends(data, interval){
 
@@ -799,7 +814,6 @@ function processTrends(data, interval){
 
                 // Day ticks
                 charts = type == 'trade' ? [moment(purchaseDate).unix()] : [moment().subtract(yearsBack, 'y').unix()];
-
                 var chartData = [];
                 $.each(charts, function(){
                     chartData.push([]);
@@ -897,7 +911,6 @@ function processTrends(data, interval){
     }); //each
 
 }
-
 
 function parseBuys(buys){
     stocks = [];
@@ -1202,10 +1215,9 @@ function queryTickers(quote){
 }
 
 function finalize() {
-    initClicks();
+    
     checkUrlParams();
     if(consoleOutput) console.log('ALL DONE. Show page.');
-    $('.loader').hide();
 
     if(layoutDirection=='cols' || layoutDirection=='cols-reverse'){
         $('.stocks-container').css({
@@ -1216,6 +1228,7 @@ function finalize() {
         var lookoutEl = '<div class="lookout col-6 col-right"></div>';
         var leftcol = layoutDirection=='cols' ? portfolioEl : lookoutEl;
         var rightcol = layoutDirection=='cols' ? lookoutEl : portfolioEl;
+        $('.portfolio, .lookout').remove();
         $('.stocks-container').append(leftcol+rightcol);
         if(layoutDirection=='cols-reverse') $('.portfolio, .lookout').toggleClass('col-left col-right');
         $('.base.trade, .tops').each(function(){
@@ -1238,19 +1251,26 @@ function finalize() {
     } else {
         $(container).show();
     }
+    $('.loader').hide();
+    initClicks();
     
 }
 
 let refreshWorker = new Worker('autorefresh.js');
 $(document).ready(function(){
 
+    // Prep
     $('.base .trend .charts.alltime').addClass('sincePurchase');
     $('.base .trend .charts.default').addClass(defaultChart);
     $('.base.interest .trends.left-chart').addClass('y'+yearsBack);
     $('.base.interest .trends.right-chart').addClass(rightChart);
+    stockContainerTpl = $('.template').clone().html();
+    interestContainerTpl = $('.interests-template').clone().html();
 
+    // Init
     initProcess();
 
+    // General
     if(consoleOutput) console.log('Refresh every', refreshInterval/1000, 'sec');
     refreshWorker.postMessage({refreshInterval, refreshDuring, consoleOutput});
     refreshWorker.onmessage = function(e){
