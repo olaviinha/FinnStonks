@@ -1,4 +1,5 @@
 var refreshInterval, refreshDuring, fetchLoop, consoleOutput;
+
 onmessage = function(e) {
     refreshInterval = e.data.refreshInterval;
     refreshDuring = e.data.refreshDuring;
@@ -7,13 +8,17 @@ onmessage = function(e) {
     fetchLoop = setInterval(function(){
         var d = new Date();
         var n = d.getHours();
-    
-        if(consoleOutput) console.log('Current time:', d);
-        if(consoleOutput) console.log('Check if', n, '>=', refreshDuring[0], 'and', n, '<=', refreshDuring[1]);
+        var doUpdate = false;
+
+        if(consoleOutput) console.log('Checking if current time ', d, 'is between', refreshDuring[0], 'and', refreshDuring[1]);
         if(n >= refreshDuring[0] && n <= refreshDuring[1]){
-            if(consoleOutput) console.log('Refresh view');
+            if(consoleOutput) console.log('And it is. Refreshing view at ', d);
+            doUpdate = true;
             postMessage('refresh');
+        } else {
+            if(consoleOutput) console.log('It was not. Skip refresh.');
         }
+
     }, refreshInterval);
 
 }
