@@ -197,6 +197,7 @@ function addRows(detailsList, element=container){
         var symbol = details.symbol.split(':')[0];
         var id = symbol;
         var tpl = element==container ? stockContainerTpl : interestContainerTpl;
+        var effectivePrice = details.avgPrice || details.price;
         tpl = tpl.replace('STOCK', symbol);
         // $(container).append(tpl);
         $(element).append(tpl);
@@ -222,7 +223,7 @@ function addRows(detailsList, element=container){
             $('#'+id).attr('data-return', salesReturn.toFixed(2));
 
             $('#'+id).find('.date').html(details.date);
-            $('#'+id).find('.purchase .pcs').html(details.price +' &times; <span class="highlight pcnr">'+details.pcs)+'</span>';
+            $('#'+id).find('.purchase .pcs').html(effectivePrice.toFixed(2) +' &times; <span class="highlight pcnr">'+details.pcs)+'</span>';
             $('#'+id).find('.invested').html(details.currentTotal.toFixed(2));
             $('#'+id).find('.invested-after-sales').html(details.balance.toFixed(2));
             paintReverse($('#'+id).find('.invested-after-sales'));
@@ -234,7 +235,6 @@ function addRows(detailsList, element=container){
 }
 
 function filterList(arr){
-
     var arrDetails = [];
     arr.forEach(function(line, i){
         var itm = line.split(';');
@@ -247,8 +247,10 @@ function filterList(arr){
                 pcs: Number(itm[2].trim()),
                 price: Number(itm[3].trim()),
                 currency: 'EUR',
-                purchasesTotal: Number(itm[2]) * Number(itm[3].trim()),
+                purchaseEvents: 1,
                 purchasesPcs: Number(itm[2].trim()),
+                purchasePrices: [Number(itm[3].trim())],
+                purchasesTotal: Number(itm[2]) * Number(itm[3].trim()),
                 salesTotal: 0,
                 salesPcs: 0,
                 salesReturn: 0,
@@ -259,10 +261,13 @@ function filterList(arr){
             arrDetails.forEach(function(bw, i){
                 if(bw.symbol == details.symbol){
                     arrDetails[i].pcs += details.pcs;
+                    arrDetails[i].purchaseEvents += 1;
                     arrDetails[i].purchasesPcs += details.purchasesPcs;
+                    arrDetails[i].purchasePrices.push(details.price);
                     arrDetails[i].purchasesTotal += details.purchasesTotal;
                     arrDetails[i].currentTotal += details.currentTotal;
                     arrDetails[i].balance += details.balance;
+                    arrDetails[i].avgPrice = arrDetails[i].purchasePrices.reduce( ( p, c ) => p + c, 0 ) / arrDetails[i].purchasePrices.length;
                     if(effectiveDate=='last'){
                         arrDetails[i].date = details.date;
                     }
@@ -274,6 +279,7 @@ function filterList(arr){
             }
         }
     });
+    if(consoleOutput) console.log('filtered list', arrDetails);
     return arrDetails;
 }
 
@@ -308,7 +314,11 @@ function parseStocks(data){
 
     if(consoleOutput) console.log('Calculate investments & cashouts before API calls.');
     finalList.forEach(function(stock, i){
-        totalInvested += stock.pcs * stock.price;
+        console.log( stock );
+
+        // totalInvested += stock.pcs * (stock.avgPrice || stock.price);
+        totalInvested += stock.currentTotal;
+        
         if(includeCashouts == true && stock.pcs == 0){
             totalLiquid += stock.balance * -1;
         }
@@ -353,9 +363,6 @@ function initProcess(){
     buys = sells = [];
     includeSales = true;
     colsCreated = false;
-
-    // $('.template').remove();
-    // $('.interests-template').remove();
 
     $(container).html('');
     $(interestsContainer).html('');
@@ -676,10 +683,7 @@ const median = arr => {
 };
 
 function processTrends(data, interval){
-
     if(consoleOutput) console.log('PROCESS', interval, 'CHART DATA:', data);
-
-
     $.each(data, function(i, stock) {
 
         if(consoleOutput) console.log('->', i, stock);
@@ -1048,7 +1052,7 @@ function parseBuys(buys){
 function calcTotals(){
 
     var sold = 0;
-    $('.trade').each(function(){
+    $(container).find('.trade').each(function(){
         sold += Number($(this).data('return'));
     });
     
@@ -1058,7 +1062,7 @@ function calcTotals(){
 
     if (consoleOutput) console.log('Sales returns total:', liquidationsTotal);
 
-    $('.market .price.eur').each(function(){
+    $(container).find('.market .first .price.eur').each(function(){
         xmarketDiff += Number($(this).html());
     });
 
@@ -1069,9 +1073,7 @@ function calcTotals(){
     var xpurchaseTotalWithSales = xpurchaseTotal-liquidationsTotal;
 
     if( showTotalsTop == true ){
-        if( $(container).find('.tops').length ){
-            $(container).find('.tops').remove();
-        }
+        $('.tops').remove();
         $(container).prepend('<div class="tops values"><div class="paid"><div class="eur"></div><div class="eur-excl-sales hidden"></div></div><div class="difference"><div class="percent"></div><div class="eur hidden"></div><div class="eur-with-sales hidden"></div></div><div class="pvalue"><div class="value hidden"></div><div class="value-with-liquid hidden"></div><div class="value-only-liquid hidden"></div></div></div>');
         $('.tops.values .paid .eur').html(xpurchaseTotal.toFixed(2));
         if(xpurchaseTotalWithSales <= 0){
@@ -1094,9 +1096,7 @@ function calcTotals(){
         paintReverse($('.tops.values .paid .eur-excl-sales'));
     }
     if( showTotalsBottom == true){
-        if( $(container).find('.totale').length ){
-            $(container).find('.totale').remove();
-        }
+        $('.totale').remove();
         $(container).append('<div id="totale" class="base"><div class="stock"></div><div class="purchase"></div><div class="market"></div><div class="percents"></div></div>');
         if(show3dHistory){
             $('#totale').append('<div class="trend"></div>');
@@ -1231,12 +1231,14 @@ function finalize() {
         $('.portfolio, .lookout').remove();
         $('.stocks-container').append(leftcol+rightcol);
         if(layoutDirection=='cols-reverse') $('.portfolio, .lookout').toggleClass('col-left col-right');
-        $('.base.trade, .tops').each(function(){
+
+        $(container).find('.base.trade, .tops').each(function(){
             $(this).appendTo('.portfolio');
         });
-        $('.base.interest').each(function(){
+        $(interestsContainer).find('.base.interest').each(function(){
             $(this).appendTo('.lookout');
         });
+
         $('.stocks-container').find('.stocks, .interests').hide();
         $('.stocks-container').find('.portfolio, .lookout').show();
         $('.stocks-container').find('.col-left').css({
