@@ -1,5 +1,9 @@
 # Change log
 
+## 2021-07-04
+- Stock purchase price per pc now displays average price per pc of all purchases instead of first purchase price per pc.
+- Fixed total calculations.
+
 ## 2021-06-17
 
 - Ticker search feature to find correct (Bloomberg) tickers when adding new stocks to your `stocks.txt`. Press key `Q` on your keyboard to access ticker search.
