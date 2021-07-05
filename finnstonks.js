@@ -209,6 +209,7 @@ function addRows(detailsList, element=container){
             if(salesReturn < 0) salesReturn = 0;
 
             $('#'+id).attr('data-first-price', details.price); 
+            $('#'+id).attr('data-avg-price', details.avgPrice);
             $('#'+id).attr('data-type', 'trade');
             $('#'+id).addClass('trade');
             $('#'+id).attr('data-date', details.date);
@@ -702,6 +703,7 @@ function processTrends(data, interval){
             var type = $('#'+id).data('type');
             var purchaseDate = $('#'+id).data('date');
             var firstPrice = $('#'+id).data('first-price');
+            var avgPrice = $('#'+id).data('avg-price');
             var now3dago = moment().subtract(3, 'days').unix();
 
             if(consoleOutput) console.log('Collect', interval, 'chart data for', id);
@@ -810,7 +812,7 @@ function processTrends(data, interval){
                         
                     }
                     if(type=='trade') {
-                        makeChart(id, leftData, 'full', i, firstPrice, type, begin, highest, lowest);   
+                        makeChart(id, leftData, 'full', i, avgPrice, type, begin, highest, lowest);   
                     }
                 }
 
@@ -902,9 +904,9 @@ function processTrends(data, interval){
                     }
                     if(type=='trade') {
                         if(yearsBack == 1){
-                            makeChart(id, dataMapLeft['y1'], 'full', i, firstPrice, type, begin, highest, lowest);
+                            makeChart(id, dataMapLeft['y1'], 'full', i, avgPrice, type, begin, highest, lowest);
                         }
-                        makeChart(id, dataMap[defaultChart], interval, i, firstPrice, type, begin, highest, lowest);
+                        makeChart(id, dataMap[defaultChart], interval, i, avgPrice, type, begin, highest, lowest);
                     }
                 }
 
