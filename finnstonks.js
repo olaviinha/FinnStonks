@@ -315,11 +315,7 @@ function parseStocks(data){
 
     if(consoleOutput) console.log('Calculate investments & cashouts before API calls.');
     finalList.forEach(function(stock, i){
-        console.log( stock );
-
-        // totalInvested += stock.pcs * (stock.avgPrice || stock.price);
         totalInvested += stock.currentTotal;
-        
         if(includeCashouts == true && stock.pcs == 0){
             totalLiquid += stock.balance * -1;
         }
@@ -543,7 +539,7 @@ function paintReverse(el, comp, base){
     }
 }
 
-function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest, lowest){
+function makeChart(id, chartData, interval, i, price, type, begin, highest, lowest){
 
     var bgc = 'rgba(255,255,255,1)';
     var tickSettings;
@@ -576,7 +572,7 @@ function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest,
         if (chartGen) chartGen.destroy();
         var targetEl = type=='trade' ? defaultChart : rightChart;
         if(interval=='full') targetEl = type=='trade' ? 'charts.alltime' : 'left-chart';
-        var canvas = '<canvas id="'+id+interval+i+'" data-high="'+highest+'" data-low="'+lowest+'" data-hline="'+firstPrice+'"></canvas>';
+        var canvas = '<canvas id="'+id+interval+i+'" data-high="'+highest+'" data-low="'+lowest+'" data-hline="'+price+'"></canvas>';
         $('#'+id).find('.'+targetEl).empty().append(canvas);
         var ctx = document.getElementById(id+interval+i).getContext('2d');
         var chartGen = new Chart(ctx, {
@@ -597,13 +593,13 @@ function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest,
                             neg = true;
                         }
                         if(colorDownhillTicks && type == 'trade'){
-                            return neg || value < firstPrice ? clNg : clPs;
+                            return neg || value < price ? clNg : clPs;
                         }
                         if(type == 'interest'){
-                            return neg || value < firstPrice ? clNg : clPs;
+                            return neg || value < price ? clNg : clPs;
                             // return neg ? clNg : clPs;
                         }
-                        return value < firstPrice ? clNg : clPs;
+                        return value < price ? clNg : clPs;
                     }
                 }]
             },
@@ -646,7 +642,7 @@ function makeChart(id, chartData, interval, i, firstPrice, type, begin, highest,
                         type: 'line',
                         mode: 'horizontal',
                         scaleID: 'y-axis-0',
-                        value: firstPrice,
+                        value: price,
                         borderColor: clBs,
                         borderWidth: .5,
                         label: {
@@ -806,13 +802,15 @@ function processTrends(data, interval){
 
                 if(generateCharts && yearsBack > 1){
                     var begin = false;
+                    
                     if(type=='interest') {
                         firstPrice = ocurLatest;
                         makeChart(id, leftData, 'full', i, firstPrice, type, begin, highest, lowest);
                         
                     }
                     if(type=='trade') {
-                        makeChart(id, leftData, 'full', i, avgPrice, type, begin, highest, lowest);   
+                        var usePrice = avgPrice || firstPrice;
+                        makeChart(id, leftData, 'full', i, usePrice, type, begin, highest, lowest);   
                     }
                 }
 
@@ -903,10 +901,11 @@ function processTrends(data, interval){
                         makeChart(id, dataMap[rightChart], interval, i, firstPrice, type, begin, highest, lowest);
                     }
                     if(type=='trade') {
+                        var usePrice = avgPrice || firstPrice;
                         if(yearsBack == 1){
-                            makeChart(id, dataMapLeft['y1'], 'full', i, avgPrice, type, begin, highest, lowest);
+                            makeChart(id, dataMapLeft['y1'], 'full', i, usePrice, type, begin, highest, lowest);
                         }
-                        makeChart(id, dataMap[defaultChart], interval, i, avgPrice, type, begin, highest, lowest);
+                        makeChart(id, dataMap[defaultChart], interval, i, usePrice, type, begin, highest, lowest);
                     }
                 }
 
