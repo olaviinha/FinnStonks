@@ -2,6 +2,7 @@
 
 ## 2021-07-04
 - Stock purchase price per pc now displays average price per pc of all purchases instead of first purchase price per pc.
+- Purchase price in chart (of owned stock) now displays average purchase price instead of first purchase price.
 - Fixed total calculations.
 
 ## 2021-06-17
