@@ -694,7 +694,9 @@ function processTrends(data, interval){
             var lowest = Number(stock.low);
             var ocurLatest = latest;
             var currency = $('#'+id).data('currency');
-            var comp = currency == 'USD' ? ocurLatest : latest;
+            // var comp = currency == 'USD' ? ocurLatest : latest;
+            latest = currency != 'EUR' ? toEur(latest, currency) : latest;
+            ocurLatest = comp = latest;
 
             var type = $('#'+id).data('type');
             var purchaseDate = $('#'+id).data('date');
@@ -711,7 +713,7 @@ function processTrends(data, interval){
                 'm1': 30,
                 'm3': 91,
                 'm6': 182,
-                'y1': 260,
+                'y1': 365,
                 'y3': 156,
                 'y5': 260,
             }
@@ -772,7 +774,7 @@ function processTrends(data, interval){
                 });
                 $.each(stock.ticks, function(i, tick){
                     if((type == 'interest') || (type == 'trade' && i % nth === 0)){
-                        if(currency != 'EUR' && type=='trade'){
+                        if(currency != 'EUR'){
                             chartData[0].push( toEur(tick.close, currency) );
                         } else {
                             chartData[0].push( tick.close );
@@ -832,12 +834,12 @@ function processTrends(data, interval){
                     }
                 });
 
-                var y1val = chartData[0][chartData[0].length - 52] || chartData[0][0];
-                var m6val = chartData[0][chartData[0].length - 26] || chartData[0][0];
-                var m3val = chartData[0][chartData[0].length - 13] || chartData[0][0];
-                var m1val = chartData[0][chartData[0].length - 4] || chartData[0][0];
-                var w2val = chartData[0][chartData[0].length - 2] || chartData[0][0];
-                var w1val = chartData[0][chartData[0].length - 1] || chartData[0][0];
+                var y1val = chartData[0][chartData[0].length - 260] || chartData[0][0];
+                var m6val = chartData[0][chartData[0].length - 128] || chartData[0][0];
+                var m3val = chartData[0][chartData[0].length - 63] || chartData[0][0];
+                var m1val = chartData[0][chartData[0].length - 21] || chartData[0][0];
+                var w2val = chartData[0][chartData[0].length - 10] || chartData[0][0];
+                var w1val = chartData[0][chartData[0].length - 5] || chartData[0][0];
 
                 var y1changeCustom = (comp - y1val) / y1val * 100;
                 var m6changeCustom = (comp - m6val) / m6val * 100;
@@ -994,7 +996,7 @@ function parseBuys(buys){
 
             // Min ticks
             if(defaultChart.includes('3d')) {
-                if(consoleOutput) console.log('Send request to get dayTicks on', requestStocks);
+                if(consoleOutput) console.log('Send request to get minTicks on', requestStocks);
                 if(defaultChart == '3d' || rightChart.includes('')){
                     if(consoleOutput) console.log('Send request to get 3d price data on', requestStocks);
                     var stockTrends2 = {
