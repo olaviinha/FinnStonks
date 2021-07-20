@@ -1,5 +1,8 @@
 # Change log
 
+## 2021-07-20
+- Fixed currencies in lookout.
+
 ## 2021-07-08
 - Fixed calculations regarding price changes of followed stocks.
 
