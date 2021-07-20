@@ -841,6 +841,15 @@ function processTrends(data, interval){
                 var w2val = chartData[0][chartData[0].length - 10] || chartData[0][0];
                 var w1val = chartData[0][chartData[0].length - 5] || chartData[0][0];
 
+                if(currency != 'EUR'){
+                    y1val = toEur(y1val, currency);
+                    m6val = toEur(m6val, currency);
+                    m3val = toEur(m3val, currency);
+                    m1val = toEur(m1val, currency);
+                    w2val = toEur(w2val, currency);
+                    w1val = toEur(w1val, currency);
+                }
+
                 var y1changeCustom = (comp - y1val) / y1val * 100;
                 var m6changeCustom = (comp - m6val) / m6val * 100;
                 var m3changeCustom = (comp - m3val) / m3val * 100;
@@ -848,12 +857,12 @@ function processTrends(data, interval){
                 var w2changeCustom = (comp - w2val) / w2val * 100;
                 var w1changeCustom = (comp - w1val) / w1val * 100;
 
-                $('#'+id).find('.y1change').html(y1changeCustom.toFixed(2));
-                $('#'+id).find('.m6change').html(m6changeCustom.toFixed(2));
-                $('#'+id).find('.m3change').html(m3changeCustom.toFixed(2));
-                $('#'+id).find('.m1change').html(m1changeCustom.toFixed(2));
-                $('#'+id).find('.w2change').html(w2changeCustom.toFixed(2));
-                $('#'+id).find('.w1change').html(w1changeCustom.toFixed(2));
+                $('#'+id).find('.y1change').html(y1changeCustom.toFixed(2)).attr('data-from', y1val);
+                $('#'+id).find('.m6change').html(m6changeCustom.toFixed(2)).attr('data-from', m6val);;
+                $('#'+id).find('.m3change').html(m3changeCustom.toFixed(2)).attr('data-from', m3val);;
+                $('#'+id).find('.m1change').html(m1changeCustom.toFixed(2)).attr('data-from', m1val);;
+                $('#'+id).find('.w2change').html(w2changeCustom.toFixed(2)).attr('data-from', w2val);;
+                $('#'+id).find('.w1change').html(w1changeCustom.toFixed(2)).attr('data-from', w1val);;
 
                 paint($('#'+id).find('.y1change'));
                 paint($('#'+id).find('.m6change'));
