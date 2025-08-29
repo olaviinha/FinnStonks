@@ -1,7 +1,12 @@
+❗️ This repository is not maintained since 2021
+
+
 # FinnStonks Personal Equity Portfolio Monitor
 
 FinnStonks Personal Equity Portfolio Monitor provides a web-based, customizable, simple, compact, clean overview of the current state
-of your equity portfolio for daily monitoring as well as following prices of stocks that you are interested in. In spite of being interactive (switch UI content by clicking), it is designed to be a static screen that does not require user action by default.
+of your equity portfolio for daily monitoring as well as following prices of stocks that you are interested in as long ast it work (2021). 
+
+In spite of being interactive (switch UI content by clicking), it is designed to be a static screen that does not require user action by default.
 
 FinnStonks is a hobby project for [my own personal purposes](#motivation) and not really a polished product. It is publicly here only in case anybody finds it useful as is or is interested in developing it further. It is not developed to serve the general public, and probably best suited for _European sunday micro-investor hobbyists_ alike, who don't do trading on regular basis with large capitals, but are still interested in keeping an eye on their assets on a daily or weekly basis. 
 
